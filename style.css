@@ -1,0 +1,200 @@
+
+/* 
+	author:	alim karim
+	
+	desc:	stylesheet to manage the TNG portal
+			site
+	
+*/
+
+/* divs */
+#container {
+	width: 900px;
+	margin: 0 auto;
+}
+#leftcol {
+	width: 100px;
+	float: left;
+	border: thin dotted #000000;
+}
+#content {
+	width: 680px;
+	float: left;
+	border: thin dotted #000000;
+}
+#rightcol {
+	width: 100px;
+	float:right;
+	border: thin dotted #000000;
+}
+/* end divs*/
+
+body{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-size: 11px;	
+}
+
+br{
+	clear: left;
+}
+
+/*
+	header label
+*/
+.lbl_header{
+	font-size: 12px;
+	font-weight: bold;
+	background-color: #339966;
+	margin-bottom: 10px;
+	margin-bottom: 10px;
+	width: 660px;
+	float:left;
+}
+
+/*
+	header label for entire page
+*/
+.lbl_page_header{
+	font-size: 20px;
+	font-weight: bold;
+	background-color: #339966;
+	margin-bottom: 10px;
+	margin-bottom: 10px;
+	width: 660px;
+	float:left;
+	text-align: center;
+}
+
+/*
+	regular labels for the refferral form
+*/
+.lbl_regular{
+	font-size: 11px;
+	font-weight: normal;
+	background-color: #FFFFFF;
+	border: none;
+	width: 200px;
+	float: left;
+	text-align: left;
+	margin-bottom: 5px;
+}
+
+/*
+	other general labels
+*/
+.lbl_general{
+	font-size: 12px;
+	font-weight: normal;
+	background-color: #FFFFFF;
+	border: none;
+	width: 100px;
+	float: left;
+	text-align: left;
+	margin-bottom: 2px;
+}
+
+/*
+	wide labels - for paragraphs
+	of text
+*/
+.lbl_wide{
+	font-size: 12px;
+	font-weight: normal;
+	background-color: #FFFFFF;
+	border: none;
+	width: 600px;
+	float: left;
+	text-align: left;
+	margin-bottom: 2px;
+	margin-right: 10px;
+}
+
+/*
+	text to be held in left or right
+	divs
+*/
+.lbl_div{
+	font-size: 11px;
+	font-weight: normal;
+	background-color: #FFFFFF;
+	border: none;
+	width: 90px;
+	float: left;
+	text-align: left;
+	margin-bottom: 2px;
+}
+
+
+/*
+	common text area properties
+*/
+.txt_area_section_a, .txt_area_section_b, .txt_area_file_description{
+	font-size: 11px;
+	background-color: #CCCCCC;
+	border: thin dotted #000000;
+	width: 450px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	margin-right: 0px;
+}
+
+/*
+	referral form section A text areas
+*/
+.txt_area_section_a{
+	height: 15px;
+}
+
+/* 
+	referral form section B text areas 
+*/
+.txt_area_section_b{
+	height: 40px;
+}
+
+/* 
+	referral form description boxes
+	for file submissions
+*/
+.txt_area_file_description{
+	height: 40px;
+	float: left;
+	width: 450px;
+}
+
+.input_regular{
+	font-size: 11px;
+	font-style: normal;
+	float: left;
+	width: 200px;
+	background-color: #FFFFFF;
+	border: thin dotted #000000;;
+	margin-top: 5px;
+	margin-bottom: 2px;
+	margin-left: 5px;
+	margin-right: 0px;
+}
+	
+.input_file{
+	font-size: 11px;
+	font-style: normal;
+	background-color: #CCCCCC;
+	float: right;
+}
+
+.button {
+	font-size: 11px;
+	background-color: #CCCCCC;
+	border-top-width: double;
+	border-right-width: double;
+	border-bottom-width: double;
+	border-left-width: double;
+	border-top-style: groove;
+	border-right-style: groove;
+	border-bottom-style: groove;
+	border-left-style: groove;
+	margin-top: 5px;
+	margin-left: 2px;
+}	

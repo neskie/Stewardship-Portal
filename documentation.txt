@@ -1,0 +1,124 @@
+
+author:			alim karim
+description:	brief documentation behind the TNG portal
+				design
+				
+				
+1.	applications/libraries used
+--------------------------------
+
+name:				purpose:
+php					dynamic web, db interaction
+salbot, expat		xslt processor and xml parser
+phpogr				spatial data transformations
+
+
+2. database backend
+---------------------
+
+see erd.
+
+3. class design
+----------------
+
+five major classes have been implemented at this stage. these are:
+
+	i. class_dbconn
+	
+		to manage connections to the database and to centralize 
+		database configuration storage
+	
+	ii. class_login
+	
+		to manage user logins. holds user name, id, and associated
+		permission information
+		
+	iii. class_form
+	
+		abstraction of a form that can be stored in the db and 
+		rendered on the web.
+		class stores items such as form id, name, list of 
+		fields on the form, etc.
+	
+	iv. class_field
+	
+		abstraction of a field on a form. stores information 
+		such as field id, css class that should be applied
+		to the field when it is rendered as html, etc.
+	
+	v. class_spatial_layer
+	
+		manages creation, validation and transformation of a 
+		shapefile into PostGIS compatible geometries.
+		uses ogr to validate a shapefile schema against a 
+		predefined schema in the db.
+		the current design splits the geometries and attributes
+		into two tables. this class handles the splitting.
+		it deals with concurrency issues that may arise
+		between the time that ogr creates a geometry within
+		the database and the time the php queries for the
+		id of the newly created geometry.
+
+4. form rendering
+-------------------
+
+this is done using xslt. the form class has a method that can
+generate an xml representation of the form and its fields.
+the salbot xslt processor can then be called with a xslt style 
+sheet then to transform the given xml into html suitable
+to be rendered on a web page.
+
+each of the fields have a "css_class" element stored in the
+db which dictates which css class will be applied to the
+field when it is displayed on a web page.
+
+each html element produced contains as part of its "name"
+attribute, its id as it appears in the db.
+
+5. form data collection
+-------------------------
+
+since each html element has its id embedded in its "name"
+attribute, it becomes easy to parse that out and insert both
+the id and the value entered for that field as a record into
+the field submission table in the db.
+
+files are dealt with separately
+
+6. file uploads
+----------------
+
+files fall into two categories: spatial and non spatial.
+
+	i. non spatial
+		
+			these are just uploaded to a directory on the server.
+			each file is prefixed with a random string to avoid
+			overwriting of files sharing the same name.
+			
+			a link within the db is created to associate a form
+			submission with a list of non spatial files and their
+			names and attributes
+			
+	ii. spatial
+		
+			each form has links to indicate where spatial data
+			should be stored.
+			
+			the current design stores all geometries into 3 
+			main tables, designated by geometry type - points,
+			lines and polygons.
+			
+			each spatial table can be linked to multiple attribute
+			tables, whose schemas are defined and stored in the
+			database.
+			
+			the spatial layer class queries this information
+			using the form id and the type of geometry being
+			uploaded and then stores the geometries and attributes
+			separately in the tables that the form is linked to
+
+
+
+
+
