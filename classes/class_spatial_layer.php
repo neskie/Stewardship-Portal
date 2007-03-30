@@ -35,7 +35,6 @@ class SpatialLayer{
 	var $attr_table_id; 
 	var $attr_table_name; 
 	var $attr_table_schema;
-	var $view_name; /* name of the view to be used when querying the layer - stored when layer record is created */
 	
 	//
 	/// constructor
@@ -130,7 +129,6 @@ class SpatialLayer{
 			for($i = 0; $i < $n_src_attributes; $i++){
 				$field_defn = OGR_FD_GetFieldDefn($src_feature_defn, $i);
 				$f_name = strtolower(OGR_Fld_GetNameRef($field_defn));
-				//echo "<h1>"  .$f_name . "</h1><br>";
 				if(!array_key_exists($f_name, $this->attr_table_schema)){
 					$schema_match = false;
 					break;
@@ -213,7 +211,7 @@ class SpatialLayer{
 					// is one of: polygon, linestring, point.
 		
 		$this->dbconn->connect();
-
+		
 		$result = pg_query($this->dbconn->conn, $sql_str);
 		
 		if(!$result){
@@ -263,12 +261,12 @@ class SpatialLayer{
 					. "WHERE "
 						. "tng_form_submission.form_submission_id = " . $form_submission_id . " "
 						. "AND "
-						. "tng_spatial_data.geometry_type = '" . $geom_type . "'";
+						. "tng_spatial_data.geometry_type LIKE '%" . $geom_type . "%'";
 		
 		$this->dbconn->connect();
-
+		
 		$result = pg_query($this->dbconn->conn, $sql_str);
-
+		
 		if(!$result){
 			echo "An error occurred while executing the query " . pg_last_error($this->dbconn->conn);
 			$this->dbconn->disconnect();
@@ -310,8 +308,7 @@ class SpatialLayer{
 		$success = false;
 		// query for the attribute table name
 		$sql_str = "SELECT "
-		      		. "attr_table_name, "
-					. "view_name "
+		      		. "attr_table_name "
 				."FROM "
 		    		. "tng_spatial_attribute_table "
 				. "WHERE "
@@ -326,7 +323,6 @@ class SpatialLayer{
 			$this->dbconn->disconnect();
 		}else{ 
 			$this->attr_table_name = pg_fetch_result($result, 0, 0);
-			$this->view_name = pg_fetch_result($result, 0, 1);
 			$this->dbconn->disconnect();
 			// now query for the attributes themselves
 			$sql_str = "SELECT "
@@ -507,13 +503,13 @@ class SpatialLayer{
 						. "( " 
 							. "form_submission_id, " 
 							. "layer_name, "
-							. "view_name " 
+							. "attr_table_id " 
 						. ") "
 						. "VALUES "
 						. "( "
 							. $form_submission_id 		. ", "
 							. "'" . $layer_name 		. "', "
-							. "'" . $this->view_name	. "'"
+							. $this->attr_table_id		. " "
 						. "); "
 						. "SELECT " 
 							. "MAX(layer_id) "
@@ -560,7 +556,7 @@ class SpatialLayer{
 										. "46, "
 										. "139, "
 										. "87"
-									.");"
+									.");";
 				
 				$this->dbconn->connect();
 

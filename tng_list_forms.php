@@ -11,7 +11,8 @@ desc:	webpage to display a list of forms that that user
 // includes
 // include file which has all the php code associated
 // with this page.
-include('tng_list_forms_code.php');
+include_once('tng_list_forms_code.php');
+
 ini_set("display_errors", 1);
 ini_set("error_log", '/tmp/tng_dev_errors.txt');
 ?>
@@ -19,7 +20,14 @@ ini_set("error_log", '/tmp/tng_dev_errors.txt');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Untitled Document</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<title>Select Action</title>
+<script language="javascript">
+function submit_form(action_value){
+	document.getElementById('form_action').value = action_value;
+	document.forms[0].submit();
+}
+</script>
 </head>
 <body>
 	<form id="tng_list_forms" method="POST" action="tng_list_forms.php">
@@ -35,9 +43,13 @@ ini_set("error_log", '/tmp/tng_dev_errors.txt');
 				}
 			?>
 		</select>
-		<input type="submit" value="Display Form"/>
+		<input type="button" class="button" value="Display Form" onClick="javascript:submit_form('fill_form');"/>
+		<br>
 		<hr>
 		<a href="tng_display_submissions.php"> View submissions </a>
+		<hr>
+		<input type="button" class="button"  value="Launch Fist" onClick="javascript:submit_form('launch_fist');"/>
+		<input type="hidden" id="form_action" name="form_action"/>
 	</form>
 </body>
 </html>

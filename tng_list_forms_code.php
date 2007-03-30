@@ -8,6 +8,7 @@ desc:	contains the php code behind the tng_list_forms.php page
 ---------------------------------------------------------------*/
 
 include_once('classes/class_login.php');
+include_once('classes/class_fist_conf_file_generator.php');
 
 session_start();
 // globals in this page
@@ -23,18 +24,27 @@ $form_list_size = 0;
 if(!isset($_SESSION['obj_login'])){
 	echo "login session variable not set";
 	header("Location: tng_login.php");
-}else if(!isset($_POST['form_id'])){ // first time form is being loaded
+}else if(!isset($_POST['form_action'])){ // first time form is being loaded
 	// retrieve login object
 	$login = $_SESSION['obj_login'];
 	// call function to fill array with
 	// names and ids of forms in the db
 	fetch_form_list($login->uid);
 }else{ // post back 
-	// set session variable and redirect
-	// to display form page.
-	$_SESSION['form_id'] = $_POST['form_id'];
-	$_SESSION['readonly'] = 'false';
-	header("Location: tng_display_form.php");
+	if($_POST['form_action'] == "launch_fist"){
+		$mapfile = "/home/karima/public_html/fist/sites/example_world/mapfiles/example_lin.map";
+		$output_dir = "/tmp/";
+		$login = $_SESSION['obj_login'];
+		$fist_file_gen =& new Fist_Conf_File_Generator($login->uid, $mapfile, $output_dir);
+		$fist_file_gen->get_viewable_layers();
+		$fist_file_gen->generate_map_file();
+	}else if($_POST['form_action'] == "fill_form"){
+		// set session variable and redirect
+		// to display form page.
+		$_SESSION['form_id'] = $_POST['form_id'];
+		$_SESSION['readonly'] = 'false';
+		header("Location: tng_display_form.php");
+	}
 }
 
 ///

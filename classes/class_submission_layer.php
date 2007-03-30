@@ -11,11 +11,15 @@ notes:
 ---------------------------------------------------------------*/
 
 include_once('class_dbconn.php');
+include_once('class_submission_layer_class.php');
 
 class Submission_Layer{
 	var $layer_id;
 	var $layer_name;
 	var $view_name;
+	var $geom_pk_col_name;
+	var $geom_type;
+	var $layer_proj;
 	var $layer_classes;
 	var $dbconn;
 	var $ogr_bin; /* path to ogr2ogr executable */
@@ -40,12 +44,19 @@ class Submission_Layer{
 	///
 	function get_layer_attributes(){
 		$sql_str = "SELECT "
-					. "layer_name, "
-					. "view_name "
+					. "tng_spatial_layer.layer_name, "
+					. "tng_spatial_attribute_table.view_name, "
+					. "tng_spatial_data.pk_col_name, "
+					. "tng_spatial_data.geometry_type, "
+					. "tng_spatial_layer.proj_string "
 				. "FROM "
 					. "tng_spatial_layer "
+					. "INNER JOIN tng_spatial_attribute_table " 
+									. "ON tng_spatial_layer.attr_table_id = tng_spatial_attribute_table.attr_table_id "
+					. "INNER JOIN tng_spatial_data " 
+									."ON tng_spatial_attribute_table.spatial_table_id =  tng_spatial_data.spatial_table_id "
 				. "WHERE "
-					. "layer_id = " . $this->layer_id;
+					. "tng_spatial_layer.layer_id = " . $this->layer_id;
 		
 		$this->dbconn->connect();
 				
@@ -61,6 +72,9 @@ class Submission_Layer{
 		// store layer attributes
 		$this->layer_name = pg_fetch_result($result, 0, 0);
 		$this->view_name = pg_fetch_result($result, 0, 1);
+		$this->geom_pk_col_name = pg_fetch_result($result, 0, 2);
+		$this->geom_type = pg_fetch_result($result, 0, 3);
+		$this->layer_proj= pg_fetch_result($result, 0, 4);
 		
 		$this->dbconn->disconnect();
 		

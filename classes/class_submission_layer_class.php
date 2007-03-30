@@ -30,7 +30,7 @@ class Submission_Layer_Class{
 	///
 	function Submission_Layer_Class($class_id){
 		$this->class_id = $class_id;
-		$this->dbconn = new DBConn();
+		$this->dbconn =& new DBConn();
 		if($this->dbconn == NULL)
 			die('Could not create connection object');
 		if(!$this->get_class_attributes())

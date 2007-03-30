@@ -23,9 +23,10 @@ class Fist_Conf_File_Generator{
 	var $dbconn;
 	var $uid;
 	var $default_map_file;
-	var $dest_dir;
 	var $viewable_layers; // array containing Submission_Layer objects
-	var $rnd_prefix; // unique string prefix for generated files 
+	var $output_mapfile;
+	var $output_layerconf;
+	var $output_mapservconf; 
 	
 	///
 	/// constructor
@@ -41,7 +42,11 @@ class Fist_Conf_File_Generator{
 		$this->uid = $uid;
 		$this->dest_dir = $dest_dir;
 		$this->default_map_file = $default_map_file;
-		$this->rnd_prefix = uniqid(true) ;
+		$rnd_prefix = uniqid(true) ;
+		// set output file names & paths
+		$this->output_mapfile = $dest_dir . $rnd_prefix . "_" . basename($default_map_file);
+		$this->output_layerconf = $dest_dir . $rnd_prefix . "_layer-config.xml";
+		$this->output_layerconf = $dest_dir . $rnd_prefix . "_map-service-config.xml";
 	}
 	
 	///
@@ -51,12 +56,12 @@ class Fist_Conf_File_Generator{
 	///
 	function get_viewable_layers(){
 		$sql_str = "SELECT "
-						. "layer_id "
+						. "tng_spatial_layer.layer_id "
 					. "FROM "
 						. "tng_spatial_layer "
 						. "INNER JOIN tng_layer_permission ON tng_spatial_layer.layer_id = tng_layer_permission.layer_id "
 					. "WHERE "
-						. "tng_layer_permission.uid = " . $uid;
+						. "tng_layer_permission.uid = " . $this->uid;
 		$this->dbconn->connect();
 
 		$result = pg_query($this->dbconn->conn, $sql_str);
@@ -109,21 +114,81 @@ class Fist_Conf_File_Generator{
 			$layer = ms_newLayerObj($map);
 			$layer->set("name", $this->viewable_layers[$i]->layer_name);
 			$layer->set("status", MS_OFF);
+			$this->set_ms_layer_type($layer, $this->viewable_layers[$i]);
 			$layer->set("connectiontype", MS_POSTGIS);
 			$layer->set("connection", $this->dbconn->conn_str);
+			$this->set_ms_data_string($layer, $this->viewable_layers[$i]);
+			$layer->setProjection($this->viewable_layers[$i]->layer_proj);
 			// generate classes that this
 			// layer contains
 			$n_classes = count($this->viewable_layers[$i]->layer_classes);
 			for($j = 0; $j < $n_classes; $j++){
 				$class = ms_newClassObj($layer);
-				$class->set("name", viewable_layers[$i]->layer_classes[$j]->class_name);
-				$class->setExpression(viewable_layers[$i]->layer_classes[$j]->class_expr);
+				$class->set("name", $this->viewable_layers[$i]->layer_classes[$j]->class_name);
+				$class->setExpression($this->viewable_layers[$i]->layer_classes[$j]->class_expr);
 				$style = ms_newStyleObj($class);
+				$style->color->setRGB($this->viewable_layers[$i]->layer_classes[$j]->class_color_r,
+										$this->viewable_layers[$i]->layer_classes[$j]->class_color_g,
+										$this->viewable_layers[$i]->layer_classes[$j]->class_color_b);
 				
 			}
 			
 		}
+		
+		if($map->save($this->output_mapfile) == MS_FAILURE)
+			echo "mapfile could not be saved";
 			
+	}
+	
+	///
+	/// set__ms_layer_type()
+	/// set the mapserver layer
+	/// type based on the db
+	/// layer
+	///
+	function set_ms_layer_type(&$ms_layer, $db_layer){
+		switch ($db_layer->geom_type){
+			// point
+			case "point":
+			case "multipoint":
+				$ms_layer->set("type", MS_LAYER_POINT);
+				break;
+			// line	
+			case "line":
+			case "linestring":
+			case "multilinestring":
+				$ms_layer->set("type", MS_LAYER_LINE);
+				break;
+			// polygon
+			case "polygon":
+			case "multipolygon":
+				$ms_layer->set("type", MS_LAYER_POLYGON);
+				break;
+			// default
+			default:
+				$ms_layer->set("type", MS_LAYER_POLYGON);
+		}
+	}
+	
+	///
+	/// set_ms_data_string()
+	/// construct a data string for
+	/// the mapserver layer.
+	///
+	function set_ms_data_string(&$ms_layer, $db_layer){
+		$data_str = "the_geom from "
+						. "(" 
+							. "SELECT " 
+								. "the_geom, "
+								.  $db_layer->geom_pk_col_name
+							. " FROM " 
+								. $db_layer->view_name . " "
+							. "WHERE " 
+								. "layer_id = " .$db_layer->layer_id . " "
+						. ") "
+						. "AS foo USING UNIQUE " .$db_layer->geom_pk_col_name . " "
+						. "USING SRID=-1";
+		$ms_layer->set("data", $data_str);
 	}
 	
 	///
