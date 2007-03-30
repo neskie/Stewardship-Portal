@@ -135,9 +135,12 @@ class Fist_Conf_File_Generator{
 			
 		}
 		
-		if($map->save($this->output_mapfile) == MS_FAILURE)
+		if($map->save($this->output_mapfile) == MS_FAILURE){
 			echo "mapfile could not be saved";
-			
+			return NULL;
+		}
+		
+		return $this->output_mapfile;	
 	}
 	
 	///
