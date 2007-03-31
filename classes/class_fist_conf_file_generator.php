@@ -23,6 +23,7 @@ class Fist_Conf_File_Generator{
 	var $dbconn;
 	var $uid;
 	var $default_map_file;
+	var $default_layerconf_file;
 	var $viewable_layers; // array containing Submission_Layer objects
 	var $output_mapfile;
 	var $output_layerconf;
@@ -33,7 +34,7 @@ class Fist_Conf_File_Generator{
 	/// instantiate dbconn object
 	/// set member variables
 	///
-	function Fist_Conf_File_Generator($uid, $default_map_file, $dest_dir){
+	function Fist_Conf_File_Generator($uid, $default_map_file, $default_layerconf_file, $dest_dir){
 		$this->dbconn =& new DBConn();
 		if($this->dbconn == NULL)
 			die('Could not create connection object - class_login.php:23');
@@ -42,6 +43,7 @@ class Fist_Conf_File_Generator{
 		$this->uid = $uid;
 		$this->dest_dir = $dest_dir;
 		$this->default_map_file = $default_map_file;
+		$this->default_layerconf_file = $default_layerconf_file;
 		$rnd_prefix = uniqid(true) ;
 		// set output file names & paths
 		$this->output_mapfile = $dest_dir . $rnd_prefix . "_" . basename($default_map_file);
@@ -201,9 +203,91 @@ class Fist_Conf_File_Generator{
 	/// config file.
 	/// layers are added as they appear
 	/// in the viewable layers array
+	/// the schema for a layer is:
 	///
+    /// <layer>
+	///	<visible>true</visible>
+	///	<name>tus_line</name>
+	///	<alias>tus line</alias>
+	///	<max-scale>100000000</max-scale>
+	///	<min-scale>1</min-scale>
+	///	<context>
+	///		<modes>
+	///			<mode>select</mode>
+	///		</modes>
+	///	</context>
+	/// </layer>
+	///
+	/// the schema for a folder is:
+	///	<folder-layer>
+	///		<name> abcd </name>
+	/// </folder-layer>
+	///	
 	function generate_layerconf_file(){
+		$dom;
+		if(!$dom = domxml_open_file($this->default_layerconf_file)){
+			echo "Could not open xml file:  " . $this->default_layerconf_file;
+			return NULL; 
+		}
 		
+		// get all <layers> elements
+		$all_layers = $dom->get_elements_by_tagname("layers");
+		$all_folders = $dom->get_elements_by_tagname("folders");
+		// currently there should only be one 
+		// of each of <layers> and <folders> elements
+		$layers = $all_layers[0];
+		$folders = $all_folders[0];
+
+		// create <folder> to hold the new layers
+		$visible_layers_folder = $this->create_dom_node($dom, $folders, "folder");
+		// create <name> Visible Layers </name>
+		$this->create_dom_node($dom, $visible_layers_folder, "name", "Visible Layers");
+		// create <folder-layers>
+		$folder_layers = $this->create_dom_node($dom, $visible_layers_folder, "folder-layers");
+		
+		// now that the folder has been created to hold the
+		// new layer, loop through all viewable layers
+		// and create a <layer> object for each, along with
+		// a <folder-layer> for each.
+		$n_layers = count($this->viewable_layers);
+		for($i = 0; $i < $n_layers; $i++){
+			// create <layer>
+			$new_layer = $this->create_dom_node($dom, $layers, "layer");
+			// create <visible>true</visible>
+			$this->create_dom_node($dom, $new_layer, "visible", "true");
+			// create <name>tus_line</name>
+			$this->create_dom_node($dom, $new_layer, "name", $this->viewable_layers[$i]->layer_name);
+			// create 	<alias>tus line</alias>
+			$this->create_dom_node($dom, $new_layer, "alias", $this->viewable_layers[$i]->layer_name);
+			// create <max-scale>100000000</max-scale>
+			$this->create_dom_node($dom, $new_layer, "max-scale", "100000000");
+			// create <min-scale>1 </max-scale>
+			$this->create_dom_node($dom, $new_layer, "min-scale", "1");
+			// create <context>
+			$context = $this->create_dom_node($dom, $new_layer, "context");
+			// create <modes>
+			$modes = $this->create_dom_node($dom, $context, "modes");
+			// create <mode>
+			$this->create_dom_node($dom, $modes, "mode", "select");
+			// the <layer> element is now complete.
+			// generate <folder-layer> elements
+			$folder_layer = $this->create_dom_node($dom, $folder_layers, "folder-layer");
+			// create <name>tus line</name> 	
+			$this->create_dom_node($dom, $folder_layer, "name", $this->viewable_layers[$i]->layer_name);			
+		}
+		
+		$dom->dump_file("/tmp/test.xml", false, false);
+		
+	}
+	
+	function create_dom_node(&$dom, &$parent_node, $node_name, $node_value = NULL){
+		$node = $dom->create_element($node_name);
+		$new_node = $parent_node->append_child($node);
+		if($node_value != NULL){
+			$txt_node = $dom->create_text_node($node_value);
+			$new_node->append_child($txt_node);
+		}
+		return $new_node;
 	}
 	
 	///

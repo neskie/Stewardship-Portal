@@ -101,10 +101,14 @@ if(isset($_SESSION['form_id'])){
 		$login = $_SESSION['obj_login'];
 		collect_form_data($form);
 		// try to save the form
-		if($form->save_form($login->uid))
+		if($form->save_form($login->uid)){
+			unset($_SESSION['form_id']);
 			header("Location: tng_form_saved.html");
-		else
+		}
+		else{
+			unset($_SESSION['form_id']);
 			header("Location: tng_form_not_saved.html");
+		}
 	}
 }
 

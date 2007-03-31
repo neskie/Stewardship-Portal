@@ -32,12 +32,14 @@ if(!isset($_SESSION['obj_login'])){
 	fetch_form_list($login->uid);
 }else{ // post back 
 	if($_POST['form_action'] == "launch_fist"){
-		$mapfile = "/home/karima/public_html/fist/sites/example_world/mapfiles/example_lin.map";
+		$mapfile = "/home/karima/public_html/fist/sites/example_world/mapfiles/example_default.map";
+		$layerconf_file = "/home/karima/public_html/fist/sites/example_world/config/layer-config.xml.bak";
 		$output_dir = "/tmp/";
 		$login = $_SESSION['obj_login'];
-		$fist_file_gen =& new Fist_Conf_File_Generator($login->uid, $mapfile, $output_dir);
+		$fist_file_gen =& new Fist_Conf_File_Generator($login->uid, $mapfile, $layerconf_file, $output_dir);
 		$fist_file_gen->get_viewable_layers();
 		$fist_file_gen->generate_map_file();
+		$fist_file_gen->generate_layerconf_file();
 	}else if($_POST['form_action'] == "fill_form"){
 		// set session variable and redirect
 		// to display form page.

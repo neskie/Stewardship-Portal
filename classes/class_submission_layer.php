@@ -91,7 +91,7 @@ class Submission_Layer{
 	///
 	function convert_to_shapefile(){
 		$output_dir = "/tmp/";
-		$basename = substr($this->layer_name, 0, strpos($this->layer_name, ".shp"));
+		$basename = $this->layer_name;
 		$shapefile =  $basename . ".shp" ;
 		$zipfile = $basename . ".zip" ;
 		
@@ -102,7 +102,9 @@ class Submission_Layer{
 		// 		-sql "select * from vi_process1_poly1 where layer_id = 66" 
 		//		/tmp/tng_port.shp 
 		//		PG:'host=ninkasi dbname=tng_dev user=tng_readwrite password=tng_readwrite'
-		$exec_str = $this->ogr_bin . " "
+		$exec_str = "cd /tmp/; "
+					. "rm " . $basename . ".*; "
+					. $this->ogr_bin . " "
 					. "-f \"ESRI Shapefile\" "
 					. "-sql \"SELECT * FROM " . $this->view_name . " WHERE layer_id = " . $this->layer_id . "\" "
 					. $output_dir . $shapefile . " "

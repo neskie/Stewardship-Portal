@@ -376,7 +376,9 @@ class SpatialLayer{
 		// create layer record so that all 
 		// these geometries can be linked to 
 		// one layer
-		$layer_id = $this->create_layer_record($this->submission_id, basename($this->shp_name));
+		$basename = basename($this->shp_name);
+		$layer_name = substr($basename, strpos($basename, "_") + 1, strpos($basename, ".shp") - strpos($basename,"_") - 1);
+		$layer_id = $this->create_layer_record($this->submission_id, $layer_name);
 		if($layer_id != -1){
 			// loop through source layer, copy
 			// each feature to the destination
