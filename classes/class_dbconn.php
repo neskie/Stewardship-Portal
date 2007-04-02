@@ -9,6 +9,7 @@ desc:	to manage connections to the db
 
 class DBConn{
 	var $conn_str;
+	var $mapserver_conn_str;
 	var $conn;
 	
 	///
@@ -17,6 +18,7 @@ class DBConn{
 	///
 	function DBConn(){
 		$this->conn_str = "host=142.207.144.71 dbname=tng_dev user=tng_readwrite password=tng_readwrite";
+		$this->mapserver_conn_str = "host=142.207.144.71 dbname=tng_dev user=tng_readonly password=tng_readonly";
 	}
 	
 	///

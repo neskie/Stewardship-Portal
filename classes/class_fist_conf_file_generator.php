@@ -24,6 +24,8 @@ class Fist_Conf_File_Generator{
 	var $uid;
 	var $default_map_file;
 	var $default_layerconf_file;
+	var $default_mapservconf_file;
+	var $mapservice_name;
 	var $viewable_layers; // array containing Submission_Layer objects
 	var $output_mapfile;
 	var $output_layerconf;
@@ -34,7 +36,12 @@ class Fist_Conf_File_Generator{
 	/// instantiate dbconn object
 	/// set member variables
 	///
-	function Fist_Conf_File_Generator($uid, $default_map_file, $default_layerconf_file, $dest_dir){
+	function Fist_Conf_File_Generator($uid, 
+									$default_map_file, 
+									$default_layerconf_file, 
+									$default_mapservconf_file,
+									$mapservice_name, 
+									$dest_dir){
 		$this->dbconn =& new DBConn();
 		if($this->dbconn == NULL)
 			die('Could not create connection object - class_login.php:23');
@@ -44,11 +51,13 @@ class Fist_Conf_File_Generator{
 		$this->dest_dir = $dest_dir;
 		$this->default_map_file = $default_map_file;
 		$this->default_layerconf_file = $default_layerconf_file;
+		$this->default_mapservconf_file = $default_mapservconf_file;
+		$this->mapservice_name = $mapservice_name;
 		$rnd_prefix = uniqid(true) ;
 		// set output file names & paths
 		$this->output_mapfile = $dest_dir . $rnd_prefix . "_" . basename($default_map_file);
 		$this->output_layerconf = $dest_dir . $rnd_prefix . "_layer-config.xml";
-		$this->output_layerconf = $dest_dir . $rnd_prefix . "_map-service-config.xml";
+		$this->output_mapservconf = $dest_dir . $rnd_prefix . "_map-service-config.xml";
 	}
 	
 	///
@@ -87,13 +96,13 @@ class Fist_Conf_File_Generator{
 			// get the mapserver classes that this
 			// layer has
 			if(!$this->viewable_layers[$i]->get_layer_classes()){
-					echo "could not create layer object";
+					echo "could get layer classes";
 					$this->dbconn->disconnect();
 					return false;
 			}
 		}
 		
-		$this->dbconn->disconnect();
+		//$this->dbconn->disconnect();
 		
 		return true;				
 	}
@@ -118,7 +127,7 @@ class Fist_Conf_File_Generator{
 			$layer->set("status", MS_OFF);
 			$this->set_ms_layer_type($layer, $this->viewable_layers[$i]);
 			$layer->set("connectiontype", MS_POSTGIS);
-			$layer->set("connection", $this->dbconn->conn_str);
+			$layer->set("connection", $this->dbconn->mapserver_conn_str);
 			$this->set_ms_data_string($layer, $this->viewable_layers[$i]);
 			$layer->setProjection($this->viewable_layers[$i]->layer_proj);
 			// generate classes that this
@@ -276,10 +285,108 @@ class Fist_Conf_File_Generator{
 			$this->create_dom_node($dom, $folder_layer, "name", $this->viewable_layers[$i]->layer_name);			
 		}
 		
-		$dom->dump_file("/tmp/test.xml", false, false);
-		
+		$dom->dump_file($this->output_layerconf, false, false);
+		return $this->output_layerconf;
 	}
 	
+	///
+	/// generate_mapservice_conf_file()
+	/// generate the xml needed by the
+	/// fist for the mapservice config
+	/// file.
+	///
+	function generate_mapservice_conf_file(){
+		$dom;
+		if(!$dom = domxml_open_file($this->default_mapservconf_file)){
+			echo "Could not open xml file:  " . $this->default_mapservconf_file;
+			return NULL; 
+		}
+		$mapservice = $this->find_mapservice($dom);
+		// map service not found
+		if($mapservice == NULL){
+			echo "could not find map-service named: " . $mapservice_name ;
+			return NULL;
+		}
+		
+		$children = $mapservice->child_nodes();
+		$n_children = count($children);
+		
+		// loop through to find <map-file>
+		// and <layer-config> element
+		for($i = 0; $i < $n_children; $i++){
+			switch ($children[$i]->tagname){
+				case "map-file":
+					$this->change_node_content($dom, $children[$i], $this->output_mapfile);
+					break;
+				
+				case "layer-config-file":
+					$this->change_node_content($dom, $children[$i], $this->output_layerconf);
+					break;
+			}
+		}
+		
+		$dom->dump_file($this->output_mapservconf, false, false);
+		return $this->output_mapservconf;
+	}
+	
+	///
+	/// find_mapservice()
+	/// locate the mapservice element
+	/// that we are interested in
+	/// within the dom
+	///
+	function find_mapservice($dom){
+		$mapservice = NULL;
+		// get all <map-service> elements
+		$mapservices = $dom->get_elements_by_tagname("map-service");
+		$n_services = count($mapservices);
+		// loop through all the services and find
+		// the one whose name matches the mapservice
+		// name that was passed into the constructor
+		for($i = 0; $i < $n_services; $i++){
+			// get all the child nodes of
+			// a <map-service> node
+			$children = $mapservices[$i]->child_nodes();
+			$n_children = count($children);
+			$child_found = false;
+			// go through the children and
+			// find a <name> node
+			for($j = 0; $j < $n_children; $j++){
+				if($children[$j]->tagname == "name"){
+					// check if the <name> value 
+					// matches the name that was passed
+					// in to the constructor. to get the
+					// <name> value, we get the child node
+					// of <name>, which should be a text node.
+					$name_value = $children[$j]->child_nodes();
+					$name_value = $name_value[0];
+					if($name_value->get_content() == $this->mapservice_name){
+						$child_found = true;
+						break;
+					}
+				}
+			}
+			// if the <map-service> we are looking for 
+			// is found, terminate the loop
+			if($child_found){
+				$mapservice = $mapservices[$i];
+				break;
+			}
+		}		
+		return $mapservice;
+	}
+	
+	///
+	/// create_dom_node
+	/// create a node in the dom object
+	/// that is passed. the parent of the 
+	/// new node is set to the $parent_node
+	/// argument. if a node value is passed
+	/// in, a text node is created as a child
+	/// of the new node and the value of the
+	/// text node is set to the $node_value 
+	/// argument. 
+	///
 	function create_dom_node(&$dom, &$parent_node, $node_name, $node_value = NULL){
 		$node = $dom->create_element($node_name);
 		$new_node = $parent_node->append_child($node);
@@ -291,16 +398,22 @@ class Fist_Conf_File_Generator{
 	}
 	
 	///
-	/// generate_mapservice_conf_file()
-	/// generate the xml needed by the
-	/// fist for the mapservice config
-	/// file.
-	/// args passed in are the name of the
-	/// mapfile and the name of the
-	/// layer config file
+	/// change_elt_content()
+	/// change the text content of a node
+	/// within the dom to the new value that
+	/// is passed in
 	///
-	function generate_mapservice_conf_file($mapfile_name, $layerconf_name){
-		
+	function change_node_content(&$dom, &$node, $new_txt_content){
+		// to accomplish changing the content
+		// of a node, we delete the child
+		// text node of the node passed in and
+		// add a new text node with the given value
+		$txt_node = $node->child_nodes();
+		$txt_node = $txt_node[0];
+		$node->remove_child($txt_node);
+		// now create the new node
+		$new_txt = $dom->create_text_node($new_txt_content);
+		$node->append_child($new_txt);
 	}
 }
 ?>

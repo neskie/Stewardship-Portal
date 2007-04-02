@@ -21,31 +21,73 @@ $form_list_size = 0;
 /// only proceed if login object
 /// is valid
 ///
+
 if(!isset($_SESSION['obj_login'])){
 	echo "login session variable not set";
 	header("Location: tng_login.php");
-}else if(!isset($_POST['form_action'])){ // first time form is being loaded
-	// retrieve login object
-	$login = $_SESSION['obj_login'];
-	// call function to fill array with
-	// names and ids of forms in the db
-	fetch_form_list($login->uid);
-}else{ // post back 
-	if($_POST['form_action'] == "launch_fist"){
-		$mapfile = "/home/karima/public_html/fist/sites/example_world/mapfiles/example_default.map";
-		$layerconf_file = "/home/karima/public_html/fist/sites/example_world/config/layer-config.xml.bak";
-		$output_dir = "/tmp/";
+}
+else{
+	//else if(!isset($_POST['form_action'])){ // first time form is being loaded
+		// retrieve login object
 		$login = $_SESSION['obj_login'];
-		$fist_file_gen =& new Fist_Conf_File_Generator($login->uid, $mapfile, $layerconf_file, $output_dir);
-		$fist_file_gen->get_viewable_layers();
-		$fist_file_gen->generate_map_file();
-		$fist_file_gen->generate_layerconf_file();
-	}else if($_POST['form_action'] == "fill_form"){
-		// set session variable and redirect
-		// to display form page.
-		$_SESSION['form_id'] = $_POST['form_id'];
-		$_SESSION['readonly'] = 'false';
-		header("Location: tng_display_form.php");
+		// call function to fill array with
+		// names and ids of forms in the db
+		fetch_form_list($login->uid);
+	//}
+	
+	if(isset($_POST['form_action'])){ // post back 
+		if($_POST['form_action'] == "launch_fist"){
+			$mapfile = "/home/karima/public_html/fist/sites/example_world/mapfiles/example_default.map";
+			$layerconf_file = "/home/karima/public_html/fist/sites/example_world/config/layer-config.xml.bak";
+			$mapservconf_file = "/home/karima/public_html/fist/config/map-service-config.xml";
+			$output_dir = "/tmp/";
+			$login = $_SESSION['obj_login'];
+			$fist_file_gen =& new Fist_Conf_File_Generator($login->uid, 
+														$mapfile, 
+														$layerconf_file,
+														$mapservconf_file,
+														"example_world_lin", 
+														$output_dir);
+			// get viewable layers
+			if(!$fist_file_gen->get_viewable_layers()){
+				echo "could not get viewable layers";
+				return;
+			}
+			// generate mapfile
+			if($fist_file_gen->generate_map_file() == NULL){
+				echo "could not generate map file";
+				return;
+			}
+			// generate layer-config.xml
+			if($fist_file_gen->generate_layerconf_file() == NULL){
+				echo "could not generate layer config file";
+				return;
+			}
+			// generate mapservice-confix.xml
+			$mapserv_conf_new;
+			if(($mapserv_conf_new = $fist_file_gen->generate_mapservice_conf_file()) == NULL){
+				echo "could not generate mapservice config file";
+				return;
+			}
+			// set session variable so that the fist 
+			// can see the file path
+			$_SESSION['fist_extern_mapserv_config'] = $mapserv_conf_new;
+		
+			// echo javascript out to open the fist in
+			// a new window
+			$js_str = "<script language='javascript'> "
+					. "window.open('http://142.207.69.203/~karima/fist/htdocs/fistMain.php?site=example_world_lin'); "
+					. "</script>";
+		
+			echo $js_str;
+			
+		}else if($_POST['form_action'] == "fill_form"){
+			// set session variable and redirect
+			// to display form page.
+			$_SESSION['form_id'] = $_POST['form_id'];
+			$_SESSION['readonly'] = 'false';
+			header("Location: tng_display_form.php");
+		}
 	}
 }
 
