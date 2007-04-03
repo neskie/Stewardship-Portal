@@ -15,17 +15,20 @@
 #leftcol {
 	width: 100px;
 	float: left;
-	border: thin dotted #000000;
+	border: groove;
+	border-width:thin;
 }
 #content {
 	width: 680px;
 	float: left;
-	border: thin dotted #000000;
+	border: groove;
+	border-width:thin;
 }
 #rightcol {
 	width: 100px;
 	float:right;
-	border: thin dotted #000000;
+	border: groove;
+	border-width:thin;
 }
 /* end divs*/
 
@@ -132,7 +135,8 @@ br{
 .txt_area_section_a, .txt_area_section_b, .txt_area_file_description{
 	font-size: 11px;
 	background-color: #CCCCCC;
-	border: thin dotted #000000;
+	border: groove;
+	border-width:thin;
 	width: 450px;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -170,7 +174,8 @@ br{
 	float: left;
 	width: 200px;
 	background-color: #FFFFFF;
-	border: thin dotted #000000;;
+	border: groove;
+	border-width:thin;
 	margin-top: 5px;
 	margin-bottom: 2px;
 	margin-left: 5px;

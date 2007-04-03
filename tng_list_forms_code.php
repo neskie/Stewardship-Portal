@@ -36,7 +36,9 @@ else{
 	//}
 	
 	if(isset($_POST['form_action'])){ // post back 
-		if($_POST['form_action'] == "launch_fist"){
+		$form_action = $_POST['form_action'];
+			
+		if($form_action == "launch_fist"){
 			$mapfile = "/home/karima/public_html/fist/sites/example_world/mapfiles/example_default.map";
 			$layerconf_file = "/home/karima/public_html/fist/sites/example_world/config/layer-config.xml.bak";
 			$mapservconf_file = "/home/karima/public_html/fist/config/map-service-config.xml";
@@ -72,7 +74,7 @@ else{
 			// set session variable so that the fist 
 			// can see the file path
 			$_SESSION['fist_extern_mapserv_config'] = $mapserv_conf_new;
-		
+			
 			// echo javascript out to open the fist in
 			// a new window
 			$js_str = "<script language='javascript'> "
@@ -81,12 +83,13 @@ else{
 		
 			echo $js_str;
 			
-		}else if($_POST['form_action'] == "fill_form"){
+		}else if($form_action == "fill_form"){
 			// set session variable and redirect
 			// to display form page.
 			$_SESSION['form_id'] = $_POST['form_id'];
 			$_SESSION['readonly'] = 'false';
-			header("Location: tng_display_form.php");
+			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_display_form.php'>";    
+			exit();
 		}
 	}
 }

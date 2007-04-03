@@ -6,9 +6,11 @@ file:	tng_display_form.php
 
 desc:	webpage to render a form that the user can fill out
 ---------------------------------------------------------------*/
+header('Pragma: no-cache'); 
+header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 include('tng_display_form_code.php');
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -70,8 +72,11 @@ function add_file_input(){
 function submit_form(){
 	if(validate_files() == false)
 		alert('You are missing a .shp, .dbf or a .shx file');
-	else // check passed, submit the form
+	else{ // check passed, submit the form
+		elt = document.getElementById('form_submitted');
+		elt.value = "submitted";
 		document.forms[0].submit();
+	}
 }
 
 ///
@@ -130,6 +135,7 @@ function validate_files(){
 				echo $generated_form_html;
 			?>
 			<hr />
+			<input type="hidden" id="form_submitted" name="form_submitted" value=""/>
 			<!-- 
 				the buttons below are disabled 
 				if the form is being displayed in

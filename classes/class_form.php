@@ -353,7 +353,7 @@ class Form{
 	/// it is read from some table in the db.
 	///
 	function save_files($form_submission_id){
-		$upload_path = "/home/karima/public_html/tng_port/tng_uploads/";
+		$upload_path = "/home/karima/public_html/tng_port/trunk/tng_uploads/";
 		$length = count($this->files);
 		
 		for($i = 0; $i < $length; $i++){

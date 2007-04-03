@@ -40,12 +40,13 @@ if(!isset($_SESSION['readonly']))
 
 ///
 /// main method
-/// if the form_id post variable is set, then
+/// if the form_submitted post variable 
+/// not is set, then
 /// this is the first time this form is being
 /// called i.e. it is not a post back
 ///
 ///
-if(isset($_SESSION['form_id'])){
+if(!isset($_POST['form_submitted'])){
 	global $xml_data;
 	global $xslt_file;
 	global $xslt_data;
@@ -58,11 +59,7 @@ if(isset($_SESSION['form_id'])){
 	}
 	else
 		$form = new Form($_SESSION['form_id']);
-	// unset session variables so that else
-	// clause is executed when the form is
-	// posted back
-	unset($_SESSION['form_id']);
-	
+		
 	// store the form in a session variable
 	// it will be used once the page has been 
 	// posted back
@@ -89,7 +86,8 @@ if(isset($_SESSION['form_id'])){
 	$xslt_params = array('readonly' => $_SESSION['readonly']);
 	$generated_form_html = xslt_process($xslt_processor, 'arg:/_xml', 'arg:/_xsl', NULL, $xslt_args, $xslt_params);
 	
-}else{ // the page has been posted back
+}else{ // form_submitted has been set,
+	//the page has been posted back.
 	// collect and store all field values 
 	// check to see if the session has 
 	// expired
@@ -102,13 +100,14 @@ if(isset($_SESSION['form_id'])){
 		collect_form_data($form);
 		// try to save the form
 		if($form->save_form($login->uid)){
-			unset($_SESSION['form_id']);
-			header("Location: tng_form_saved.html");
+			//header("Location: tng_form_saved.html");
+			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_saved.html'>";    
 		}
 		else{
-			unset($_SESSION['form_id']);
-			header("Location: tng_form_not_saved.html");
+			//header("Location: tng_form_not_saved.html");
+			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_not_saved.html'>";    
 		}
+		exit();
 	}
 }
 

@@ -7,6 +7,9 @@ file:	tng_list_forms.php
 desc:	webpage to display a list of forms that that user
 		can select to fill out
 ---------------------------------------------------------------*/
+header('Pragma: no-cache'); 
+header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 // includes
 // include file which has all the php code associated
@@ -23,10 +26,12 @@ ini_set("error_log", '/tmp/tng_dev_errors.txt');
 <link href="style.css" rel="stylesheet" type="text/css" />
 <title>Select Action</title>
 <script language="javascript">
+
 function submit_form(action_value){
 	document.getElementById('form_action').value = action_value;
 	document.forms[0].submit();
 }
+
 </script>
 </head>
 <body>
@@ -46,9 +51,9 @@ function submit_form(action_value){
 		<input type="button" class="button" value="Display Form" onClick="javascript:submit_form('fill_form');"/>
 		<br>
 		<hr>
-		<a href="tng_display_submissions.php"> View submissions </a>
+		<input type="button" class="button" value="View Submissions" onClick="window.location = 'tng_display_submissions.php'"/>
 		<hr>
-		<input type="button" class="button"  value="Launch Fist" onClick="javascript:submit_form('launch_fist');"/>
+		<input type="button" class="button"  value="Launch Map Viewer" onClick="javascript:submit_form('launch_fist');"/>
 		<input type="hidden" id="form_action" name="form_action"/>
 	</form>
 </body>

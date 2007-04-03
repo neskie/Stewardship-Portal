@@ -23,7 +23,8 @@ if(isset($_POST['uname']) && isset($_POST['passwd'])){
 			// set session variable
 			$_SESSION['obj_login'] = $login;
 			// go to list forms page
-			header("Location: tng_list_forms.php");
+			//header("Location: tng_list_forms.php");
+				echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_list_forms.php'>";  
 	}
 }
 ?>
