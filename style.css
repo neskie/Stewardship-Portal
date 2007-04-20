@@ -189,6 +189,10 @@ br{
 	float: right;
 }
 
+.input_checkbox{
+	vertical-align: middle;
+}
+
 .button {
 	font-size: 11px;
 	background-color: #CCCCCC;

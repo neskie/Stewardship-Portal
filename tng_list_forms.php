@@ -53,7 +53,7 @@ function submit_form(action_value){
 		<hr>
 		<input type="button" class="button" value="View Submissions" onClick="window.location = 'tng_display_submissions.php'"/>
 		<hr>
-		<input type="button" class="button"  value="Launch Map Viewer" onClick="javascript:submit_form('launch_fist');"/>
+		<input type="button" class="button" value="View Available Layers" onClick="window.location = 'tng_select_layers.php'"/>
 		<input type="hidden" id="form_action" name="form_action"/>
 	</form>
 </body>

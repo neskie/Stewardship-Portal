@@ -119,31 +119,34 @@ class Fist_Conf_File_Generator{
 		$map = ms_newMapObj($this->default_map_file);
 		$n_layers = count($this->viewable_layers);
 		// go through and create new 
-		// layer objects, adding them to the
+		// layer objects for those layers
+		// that have their display property set
+		// to true, adding them to the
 		// map object
 		for($i = 0; $i < $n_layers; $i++){
-			$layer = ms_newLayerObj($map);
-			$layer->set("name", $this->viewable_layers[$i]->layer_name);
-			$layer->set("status", MS_OFF);
-			$this->set_ms_layer_type($layer, $this->viewable_layers[$i]);
-			$layer->set("connectiontype", MS_POSTGIS);
-			$layer->set("connection", $this->dbconn->mapserver_conn_str);
-			$this->set_ms_data_string($layer, $this->viewable_layers[$i]);
-			$layer->setProjection($this->viewable_layers[$i]->layer_proj);
-			// generate classes that this
-			// layer contains
-			$n_classes = count($this->viewable_layers[$i]->layer_classes);
-			for($j = 0; $j < $n_classes; $j++){
-				$class = ms_newClassObj($layer);
-				$class->set("name", $this->viewable_layers[$i]->layer_classes[$j]->class_name);
-				$class->setExpression($this->viewable_layers[$i]->layer_classes[$j]->class_expr);
-				$style = ms_newStyleObj($class);
-				$style->color->setRGB($this->viewable_layers[$i]->layer_classes[$j]->class_color_r,
-										$this->viewable_layers[$i]->layer_classes[$j]->class_color_g,
-										$this->viewable_layers[$i]->layer_classes[$j]->class_color_b);
+			if($this->viewable_layers[$i]->display == "true"){
+				$layer = ms_newLayerObj($map);
+				$layer->set("name", $this->viewable_layers[$i]->layer_name);
+				$layer->set("status", MS_OFF);
+				$this->set_ms_layer_type($layer, $this->viewable_layers[$i]);
+				$layer->set("connectiontype", MS_POSTGIS);
+				$layer->set("connection", $this->dbconn->mapserver_conn_str);
+				$this->set_ms_data_string($layer, $this->viewable_layers[$i]);
+				$layer->setProjection($this->viewable_layers[$i]->layer_proj);
+				// generate classes that this
+				// layer contains
+				$n_classes = count($this->viewable_layers[$i]->layer_classes);
+				for($j = 0; $j < $n_classes; $j++){
+					$class = ms_newClassObj($layer);
+					$class->set("name", $this->viewable_layers[$i]->layer_classes[$j]->class_name);
+					$class->setExpression($this->viewable_layers[$i]->layer_classes[$j]->class_expr);
+					$style = ms_newStyleObj($class);
+					$style->color->setRGB($this->viewable_layers[$i]->layer_classes[$j]->class_color_r,
+											$this->viewable_layers[$i]->layer_classes[$j]->class_color_g,
+											$this->viewable_layers[$i]->layer_classes[$j]->class_color_b);
 				
+				}
 			}
-			
 		}
 		
 		if($map->save($this->output_mapfile) == MS_FAILURE){
@@ -257,32 +260,35 @@ class Fist_Conf_File_Generator{
 		// now that the folder has been created to hold the
 		// new layer, loop through all viewable layers
 		// and create a <layer> object for each, along with
-		// a <folder-layer> for each.
+		// a <folder-layer> for each layer that has its
+		// display property set to true.
 		$n_layers = count($this->viewable_layers);
 		for($i = 0; $i < $n_layers; $i++){
-			// create <layer>
-			$new_layer = $this->create_dom_node($dom, $layers, "layer");
-			// create <visible>true</visible>
-			$this->create_dom_node($dom, $new_layer, "visible", "true");
-			// create <name>tus_line</name>
-			$this->create_dom_node($dom, $new_layer, "name", $this->viewable_layers[$i]->layer_name);
-			// create 	<alias>tus line</alias>
-			$this->create_dom_node($dom, $new_layer, "alias", $this->viewable_layers[$i]->layer_name);
-			// create <max-scale>100000000</max-scale>
-			$this->create_dom_node($dom, $new_layer, "max-scale", "100000000");
-			// create <min-scale>1 </max-scale>
-			$this->create_dom_node($dom, $new_layer, "min-scale", "1");
-			// create <context>
-			$context = $this->create_dom_node($dom, $new_layer, "context");
-			// create <modes>
-			$modes = $this->create_dom_node($dom, $context, "modes");
-			// create <mode>
-			$this->create_dom_node($dom, $modes, "mode", "select");
-			// the <layer> element is now complete.
-			// generate <folder-layer> elements
-			$folder_layer = $this->create_dom_node($dom, $folder_layers, "folder-layer");
-			// create <name>tus line</name> 	
-			$this->create_dom_node($dom, $folder_layer, "name", $this->viewable_layers[$i]->layer_name);			
+			if($this->viewable_layers[$i]->display == "true"){
+				// create <layer>
+				$new_layer = $this->create_dom_node($dom, $layers, "layer");
+				// create <visible>true</visible>
+				$this->create_dom_node($dom, $new_layer, "visible", "true");
+				// create <name>tus_line</name>
+				$this->create_dom_node($dom, $new_layer, "name", $this->viewable_layers[$i]->layer_name);
+				// create 	<alias>tus line</alias>
+				$this->create_dom_node($dom, $new_layer, "alias", $this->viewable_layers[$i]->layer_name);
+				// create <max-scale>100000000</max-scale>
+				$this->create_dom_node($dom, $new_layer, "max-scale", "100000000");
+				// create <min-scale>1 </max-scale>
+				$this->create_dom_node($dom, $new_layer, "min-scale", "1");
+				// create <context>
+				$context = $this->create_dom_node($dom, $new_layer, "context");
+				// create <modes>
+				$modes = $this->create_dom_node($dom, $context, "modes");
+				// create <mode>
+				$this->create_dom_node($dom, $modes, "mode", "select");
+				// the <layer> element is now complete.
+				// generate <folder-layer> elements
+				$folder_layer = $this->create_dom_node($dom, $folder_layers, "folder-layer");
+				// create <name>tus line</name> 	
+				$this->create_dom_node($dom, $folder_layer, "name", $this->viewable_layers[$i]->layer_name);
+			}			
 		}
 		
 		$dom->dump_file($this->output_layerconf, false, false);

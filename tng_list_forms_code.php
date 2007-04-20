@@ -41,50 +41,7 @@ else{
 		$form_action = $_POST['form_action'];
 			
 		if($form_action == "launch_fist"){
-			$mapfile = "/home/karima/public_html/fist/sites/example_world/mapfiles/example_default.map";
-			$layerconf_file = "/home/karima/public_html/fist/sites/example_world/config/layer-config.xml.bak";
-			$mapservconf_file = "/home/karima/public_html/fist/config/map-service-config.xml";
-			$output_dir = "/tmp/";
-			$login = $_SESSION['obj_login'];
-			$fist_file_gen =& new Fist_Conf_File_Generator($login->uid, 
-														$mapfile, 
-														$layerconf_file,
-														$mapservconf_file,
-														"example_world_lin", 
-														$output_dir);
-			// get viewable layers
-			if(!$fist_file_gen->get_viewable_layers()){
-				echo "could not get viewable layers";
-				return;
-			}
-			// generate mapfile
-			if($fist_file_gen->generate_map_file() == NULL){
-				echo "could not generate map file";
-				return;
-			}
-			// generate layer-config.xml
-			if($fist_file_gen->generate_layerconf_file() == NULL){
-				echo "could not generate layer config file";
-				return;
-			}
-			// generate mapservice-confix.xml
-			$mapserv_conf_new;
-			if(($mapserv_conf_new = $fist_file_gen->generate_mapservice_conf_file()) == NULL){
-				echo "could not generate mapservice config file";
-				return;
-			}
-			// set session variable so that the fist 
-			// can see the file path
-			$_SESSION['fist_extern_mapserv_config'] = $mapserv_conf_new;
-			
-			// echo javascript out to open the fist in
-			// a new window
-			$js_str = "<script language='javascript'> "
-					. "window.open('http://142.207.69.203/~karima/fist/htdocs/fistMain.php?site=example_world_lin'); "
-					. "</script>";
-		
-			echo $js_str;
-			
+			// not used anymore
 		}else if($form_action == "fill_form"){
 			// set session variable and redirect
 			// to display form page.

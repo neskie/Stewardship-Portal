@@ -16,6 +16,7 @@ include_once('class_submission_layer_class.php');
 class Submission_Layer{
 	var $layer_id;
 	var $layer_name;
+	var $disp; /* whether the user wishes to display this layer for mapping */
 	var $view_name;
 	var $geom_pk_col_name;
 	var $geom_type;
@@ -30,6 +31,7 @@ class Submission_Layer{
 	function Submission_Layer($layer_id){
 		$this->ogr_bin = "/usr/local/bin/ogr2ogr";
 		$this->layer_id = $layer_id;
+		$this->display = "false";
 		$this->layer_classes = array();
 		$this->dbconn =& new DBConn();
 		if($this->dbconn == NULL)
@@ -174,5 +176,16 @@ class Submission_Layer{
 		$this->dbconn->disconnect();
 
 		return true;				
+	}
+	
+	///
+	/// set_display()
+	/// set whether the display property
+	/// of this layer. this determines 
+	/// whether it is visible for mapping
+	/// or not
+	///
+	function set_display($disp_value){
+		$this->display = $disp_value;
 	}
 }
