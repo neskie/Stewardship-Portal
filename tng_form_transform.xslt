@@ -10,11 +10,9 @@
 
 	<!-- form template -->
 	<xsl:template match="form">
-		<label>
+		<h2>
 			<xsl:value-of select="form_name"/> 
-		</label>
-		<br/>
-		<br/>
+		</h2>
 		<br/>
 		<xsl:apply-templates select="field"/>
 	</xsl:template> 

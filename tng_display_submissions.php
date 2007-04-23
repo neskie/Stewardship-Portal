@@ -51,7 +51,6 @@ function submit_form(elt_type, elt_id){
 
 </head>
 <body>
-<div id="container">
 	<div id="leftcol">wefwef </div>
 	<div id="content">
 		<form id="tng_display_submissions" name="tng_display_submissions" method="post" action="tng_display_submissions.php">
@@ -70,6 +69,5 @@ function submit_form(elt_type, elt_id){
 		</form>
 	</div>
 	<div id="rightcol"> wefwef  </div> 
-</div>
 </body>
 </html>

@@ -36,25 +36,87 @@ function submit_form(action_value){
 </head>
 <body>
 	<form id="tng_list_forms" method="POST" action="tng_list_forms.php">
-		Please select the form that you would like to fill in from the list below.
-		<br/>
-		<br/>
-		<br/>
-		<select id="form_id" name="form_id">
-			<?php
-				// fill drop down with form names
-				for($i=0; $i < $form_list_size; $i++){
-					printf("<option value=\"%d\"> %s </option>\n", $form_list[$i][0], $form_list[$i][1]);
-				}
-			?>
-		</select>
-		<input type="button" class="button" value="Display Form" onClick="javascript:submit_form('fill_form');"/>
-		<br>
-		<hr>
-		<input type="button" class="button" value="View Submissions" onClick="window.location = 'tng_display_submissions.php'"/>
-		<hr>
-		<input type="button" class="button" value="View Available Layers" onClick="window.location = 'tng_select_layers.php'"/>
+		<div id="leftcol">
+					Much effort has been made to ensure that 
+				the layouts in the BlueRobot Layout Reservoir appear 
+				as intended in CSS2 compliant browsers. The content 
+				should be viewable, though unstyled, in other web browsers. 
+				If you encounter a problem that is not listed as a known 
+				issue, I am most likely not aware of it. Your help will 
+				benefit the other five or six people who visit this site. 
+		</div>
+		<div id="content">
+			<h2> Choose an Option</h2>
+			<p> There are various functions available on this page.
+				To fill in a form, please see the fill form section.
+				<br/>
+			 	To view the submissions which you have permission to,
+				please see the Submissions section.
+				<br/> 
+				To see which layers are available to you and to view
+				these layers in a map viewer, please
+				see the Available Layers section.
+			</p>
+			<p>
+		</div>
+		<div id="content">
+			<h3> 1. Select Form </h3>
+			<p>
+				In this section, you can select a form to be filled for
+				submitting various types of data.
+				</br>
+				For example, to initiate a Forestry Referral, please select
+				the Referral form from the list below. Upon completing the
+				form, please click the Submit button.
+				<br/>
+				Please select the form that you would like to fill in from the list below.
+			</p>
+				<select id="form_id" name="form_id" style="width:150px;">
+					<?php
+						// fill drop down with form names
+						for($i=0; $i < $form_list_size; $i++){
+							printf("<option value=\"%d\"> %s </option>\n", $form_list[$i][0], $form_list[$i][1]);
+						}
+					?>
+				</select>
+				<input type="button" class="button" value="Display Form" onClick="javascript:submit_form('fill_form');"/>
+		</div>
+		<div id="content">
+			<h3> 2. View Submissions </h3>
+			<p>
+				Click on the View Submissions button below
+				to view all submissions that you have made in
+				the past.
+				<br/>
+				Note that you will not see submissions from other
+				users unless you the appropriate have permissions.
+			</p>
+			<input type="button" class="button" value="View Submissions" onClick="window.location = 'tng_display_submissions.php'"/>
+		</div>
+		<div id="content">
+			<h3> 3. View Layers </h3>
+			<p>
+				To view the spatial layers that you are permitted
+				to see, click on the button below. You will also be
+				able to search through the list of layers by name
+				and select which layers you would like to see
+				in the map viewer.
+			</p>
+			<input type="button" class="button" value="View Available Layers" onClick="window.location = 'tng_select_layers.php'"/>
+		</div>
+	
 		<input type="hidden" id="form_action" name="form_action"/>
+	
+	
+		<div id="rightcol"> 
+			Much effort has been made to ensure that 
+		the layouts in the BlueRobot Layout Reservoir appear 
+		as intended in CSS2 compliant browsers. The content 
+		should be viewable, though unstyled, in other web browsers. 
+		If you encounter a problem that is not listed as a known 
+		issue, I am most likely not aware of it. Your help will 
+		benefit the other five or six people who visit this site.  
+		</div>
 	</form>
 </body>
 </html>

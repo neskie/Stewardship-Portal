@@ -11,36 +11,121 @@
 #container {
 	width: 900px;
 	margin: 0 auto;
+	overflow: ;
 }
 #leftcol {
-	width: 100px;
-	float: left;
-	border: groove;
-	border-width:thin;
+	position:absolute;
+		width:150px;
+		top:20px;
+		left:20px;
+		border:1px dashed black;
+		background-color:#eee;
+		padding:10px;
+		z-index:2;
+		voice-family: "\"}\"";
+			voice-family:inherit;
+			width:128px;
 }
 #content {
-	width: 680px;
-	float: left;
-	border: groove;
-	border-width:thin;
+	position:relative; /* Position is declared "relative" to gain control of stacking order (z-index). */
+		width:auto;
+		min-width:120px;
+		margin:0px 210px 20px 170px;
+		border:1px solid black;
+		background-color:white;
+		padding:10px;
+		z-index:3; /* This allows the content to overlap the right menu in narrow windows in good browsers. */
 }
 #rightcol {
-	width: 100px;
-	float:right;
-	border: groove;
-	border-width:thin;
+	position:absolute;
+		width:190px;
+		top:20px;
+		right:20px;
+		border:1px dashed black;
+		background-color:#eee;
+		padding:10px;
+		z-index:1;
+	/* Again, the ugly brilliant hack. */
+		voice-family: "\"}\"";
+		voice-family:inherit;
+		width:168px;
 }
 /* end divs*/
+
+/* general html elements */
+h1{
+	font-style:bold;
+	font-size: 16px;
+	margin:0px 0px 5px 0px;
+	padding:0px;
+}
+
+h2{
+	font-style:bold;
+	font-size: 14px;
+	margin:0px 0px 5px 0px;
+	padding:0px;
+}
+
+h3{
+	font-style:bold;
+	font-size: 12px;
+	margin:0px 0px 5px 0px;
+	padding:0px;
+}
 
 body{
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-style: normal;
-	font-size: 11px;	
+	font-size: 11px;
+	margin:20px;
+	padding:0px;	
 }
 
 br{
 	clear: left;
 }
+
+p {
+	font:11px/20px verdana, arial, helvetica, sans-serif;
+	margin:0px 0px 16px 0px;
+	padding:0px;
+	}
+.Content>p {margin:0px;}
+.Content>p+p {text-indent:30px;}
+
+label{
+	background-color: #FFFFFF;
+	border: none;
+	display:block;
+	float:left;
+	text-align: left;
+	margin-bottom: 5px;
+	margin-right: 10px;
+	/*width:100px; - should be controlled by individual element */
+}
+
+input{
+	font-size: 11px;
+	font-style: normal;
+	background-color: #FFFFFF;
+	border: groove;
+	border-width:thin;
+}
+
+select{
+	font-size: 11px;
+	font-style: normal;
+	background-color: #FFFFFF;
+	border: groove;
+	border-width:thin;
+	/* width:150px; */
+}
+
+/* end general html elements */
+/* ------------------------------------------------------------------- */
+/* form specific css classes */
+/* ------------------------------------------------------------------- */
 
 /*
 	header label
@@ -167,7 +252,6 @@ br{
 	float: left;
 	width: 450px;
 }
-
 .input_regular{
 	font-size: 11px;
 	font-style: normal;
@@ -178,7 +262,7 @@ br{
 	border-width:thin;
 	margin-top: 5px;
 	margin-bottom: 2px;
-	margin-left: 5px;
+	/* margin-left: 5px; */
 	margin-right: 0px;
 }
 	

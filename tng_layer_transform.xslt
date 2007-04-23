@@ -6,15 +6,15 @@
 
 	<!-- layers template -->
 	<xsl:template match="layers">
-		<ul>
+		<dl>
 			<xsl:apply-templates select="layer"/>
-		</ul>
+		</dl>
 	</xsl:template> 
 	<!-- end layers template -->
 
 	<!-- layer template -->
 	<xsl:template match="layer">
-		<li>	
+		<dd>	
 			<input type="checkbox" class="input_checkbox" onChange='javascript: ajax_post_selected(this.id)'>
 				<xsl:attribute name="name">
 					<xsl:value-of select='concat("layerid_", layer_id)'/>
@@ -27,7 +27,7 @@
 				</xsl:if>
 				<xsl:value-of select="layer_name"/>
 			</input>
-		</li>
+		</dd>
 	</xsl:template> 
 	<!-- end layer template -->
 </xsl:stylesheet>
