@@ -11,7 +11,7 @@
 #container {
 	width: 900px;
 	margin: 0 auto;
-	overflow: ;
+
 }
 #leftcol {
 	position:absolute;
@@ -23,7 +23,7 @@
 		padding:10px;
 		z-index:2;
 		voice-family: "\"}\"";
-			voice-family:inherit;
+			voice-family:inherit; 
 			width:128px;
 }
 #content {
@@ -44,10 +44,10 @@
 		border:1px dashed black;
 		background-color:#eee;
 		padding:10px;
-		z-index:1;
+		z-index:1; 
 	/* Again, the ugly brilliant hack. */
 		voice-family: "\"}\"";
-		voice-family:inherit;
+		voice-family:inherit; 
 		width:168px;
 }
 /* end divs*/
@@ -86,6 +86,19 @@ br{
 	clear: left;
 }
 
+
+label{
+	background-color: #FFFFFF;
+	border: none;
+	display:inline;
+	position:relative; /* must have this - I.E screws up otherwise */
+	float:left;  /* having this without position makes label text disappear in I.E*/
+	text-align: left;
+	margin-bottom: 5px;
+	margin-right: 10px;
+	/*width:100px; - should be controlled by individual element */
+}
+
 p {
 	font:11px/20px verdana, arial, helvetica, sans-serif;
 	margin:0px 0px 16px 0px;
@@ -93,17 +106,6 @@ p {
 	}
 .Content>p {margin:0px;}
 .Content>p+p {text-indent:30px;}
-
-label{
-	background-color: #FFFFFF;
-	border: none;
-	display:block;
-	float:left;
-	text-align: left;
-	margin-bottom: 5px;
-	margin-right: 10px;
-	/*width:100px; - should be controlled by individual element */
-}
 
 input{
 	font-size: 11px;

@@ -56,6 +56,9 @@ function submit_form(action_value){
 				To see which layers are available to you and to view
 				these layers in a map viewer, please
 				see the Available Layers section.
+				<br/> 
+				To manage permissions on various objects, see the
+				Manage Permission section.
 			</p>
 			<p>
 		</div>
@@ -104,7 +107,17 @@ function submit_form(action_value){
 			</p>
 			<input type="button" class="button" value="View Available Layers" onClick="window.location = 'tng_select_layers.php'"/>
 		</div>
-	
+		<div id="content">
+			<h3> 4. Manage Permissions </h3>
+			<p>
+				Clicking on the button below will enable you to 
+				manage permissions on various objects such 
+				as layers, forms, etc. that a user has
+				access to.
+			</p>
+			<input type="button" class="button" value="Manage Permissions" onClick="window.location = 'tng_manage_permissions.php'"/>
+		</div>
+			
 		<input type="hidden" id="form_action" name="form_action"/>
 	
 	
