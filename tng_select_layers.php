@@ -23,6 +23,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 <!--
 // global variables to this script block
 var xmlHttp;
+var xmlDoc;
 var target_url = "tng_select_layers_code.php";
 
 ///
@@ -50,6 +51,27 @@ function create_http_request(){
    	}
 }
 
+///
+/// create_xml_doc()
+/// create xml document object from
+/// xml string that is passed in
+///
+function create_xml_doc(xml_txt){
+	if (window.ActiveXObject){
+		xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+		xmlDoc.async = false;
+		xmlDoc.loadXML(xml_txt)
+	}
+	else{
+		try{
+			var parser = new DOMParser();
+			xmlDoc = parser.parseFromString(xml_txt, "text/xml");
+		}catch (e){
+			alert('Your browser can\'t handle this script');
+			return;
+		}
+	}
+}
 ///
 /// send_http_request()
 /// send a request to the target with
@@ -107,11 +129,11 @@ function ajax_post_search(layer_name){
 /// only want to send data to the script.
 ///
 function ajax_post_selected(layer_id){
+	alert(layer_id);
 	create_http_request();
 	// create the parameters to be
 	// sent to the php target.
-	var id = layer_id.split('_')[1];
-	var post_params = "ajax_layer_id=" + id + "&";
+	var post_params = "ajax_layer_id=" + layer_id + "&";
 	if(document.getElementById(layer_id).checked == true)
 		post_params += "display=true";
 	else
@@ -153,12 +175,47 @@ function ajax_submit_form(){
 ///
 function xmlHttp_response_handler(){
 	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-		var layer_list_div = document.getElementById('layer_list');
-		layer_list_div.innerHTML = "";
-		layer_list_div.innerHTML = xmlHttp.responseText;
+		//var layer_list_div = document.getElementById('layer_list');
+		//layer_list_div.innerHTML = "";
+		//layer_list_div.innerHTML = xmlHttp.responseText;
+		populate_list_from_xml(xmlHttp.responseText, 'layer_list');
 	}
 }
 
+function populate_list_from_xml(xml, list_id){
+	var list = document.getElementById(list_id);
+	// clear the list
+	while(list.childNodes.length != 0)
+		list.removeChild(list.firstChild);
+		
+	create_xml_doc(xml);
+	// get all <layer> elements
+	var layers = xmlDoc.getElementsByTagName("layer");
+	// loop through and create <dd>
+	// elements for each layer
+	for(var i = 0; i < layers.length; i++){
+		var list_item = document.createElement("dd");
+		
+		var chk_box = document.createElement("input");
+		chk_box.setAttribute("type", "checkbox");
+		chk_box.setAttribute("id", layers[i].childNodes[0].childNodes[0].nodeValue);
+		chk_box.setAttribute("onChange", "javascript: ajax_post_selected(this.id)");
+		// see if the display attribute is turned on
+		if(layers[i].childNodes[2].childNodes[0].nodeValue == "true")
+			chk_box.setAttribute("checked", "");
+		
+		// finally attach the checkbox to the <li>
+		list_item.appendChild(chk_box);
+		
+		// get the layer name and display
+		// it next to the checkbox	
+		var layer_name = document.createTextNode(layers[i].childNodes[1].childNodes[0].nodeValue);
+		list_item.appendChild(layer_name);
+		
+		// and attach the <li> to the <list>
+		list.appendChild(list_item); 		
+	}
+}
 ///
 /// launch_mapper()
 /// use the eval function to execute a
@@ -202,9 +259,12 @@ ajax_post_search("");
 						size="50"
 						onKeyUp="javascript: ajax_post_search(this.value);"/> 
 				</p>
-				<div id="layer_list">
+				<!-- <div id="layer_list"> -->
 					<!-- this will be auto populated by javascript/ajax -->
-				</div>
+				<!-- </div> -->
+				<dl id="layer_list" name="layer_list">
+					<!-- this will be auto populated by javascript/ajax -->
+				</dl>
 				<br/>
 				<input type="button" class="button" value="Launch Map Viewer" onClick="javascript: ajax_submit_form()"/>
 				<br/>

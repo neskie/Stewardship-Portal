@@ -33,8 +33,8 @@ if(isset($_SESSION['obj_login'])){
 	if(isset($_POST['ajax_layer_name'])){
 		$ajax_layer_prefix = $_POST['ajax_layer_name'];
 		$xml = generate_layer_xml($fist_file_gen->viewable_layers, $ajax_layer_prefix);
-		$html = generate_html($xml, $xslt_file);
-		echo $html;
+		//$html = generate_html($xml, $xslt_file);
+		echo $xml;
 	} 
 	// otherwise see if the user has sent a
 	// specific layer id that they wish to
@@ -119,16 +119,16 @@ function generate_layer_xml($viewable_layers, $prefix){
 		if($prefix == ""
 			|| substr($viewable_layers[$i]->layer_name, 0, strlen($prefix)) == $prefix
 			){
-			$xml .= "<layer>\n"
-				. "<layer_id>"
+			$xml .= "<layer>"
+				. "<id>"
 				. $viewable_layers[$i]->layer_id
-				. "</layer_id>\n"
-				. "<layer_name>"
+				. "</id>"
+				. "<name>"
 				. $viewable_layers[$i]->layer_name
-				. "</layer_name>\n"
+				. "</name>"
 				. "<display>"
 				. $viewable_layers[$i]->display
-				. "</display>\n"
+				. "</display>"
 				. "</layer>\n";
 		}
 	}

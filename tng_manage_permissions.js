@@ -155,7 +155,6 @@ function ajax_toggle_permission(action){
 	// call php script through ajax so that
 	// it can make these changes in the db.
 	var post_params = "ajax_action=" + ajax_action + "&ajax_obj_type=" + obj_type + "&ajax_obj_id=" + obj_id + "&uid=" + uid;
-	alert(post_params);
 	// note - no need for a handler
 	// because we're only toggling
 	create_http_request();
