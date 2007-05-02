@@ -20,6 +20,11 @@ description:	stylesheet to be applied to xml
 				between the link that is clicked and the
 				form submission.
 				
+				note: each submission can have child submissions,
+				which are under the <children> tag. this 
+				means that the submission template may be
+				applied recursively.
+				
 				the current schema of the xml representing the
 				submissions is:
 				
@@ -38,6 +43,22 @@ description:	stylesheet to be applied to xml
 							<lname>	latlong.shp		</lname>
 							<view>	vi_forest_poly	<view>
 						</layer>
+						<children>
+					 		<submission>
+								<id> 123 				</id>
+								<form_id> 3				</form_id>
+								<user> default			</user>
+								<date> jan 12th 2007	</date>
+								<layer>
+									<lid>	861 			<lid>
+									<lname>	latlong.shp		</lname>
+									<view>	vi_forest_poly	<view>
+								</layer>
+								<file>
+								</file>
+							</submission>
+							...
+						</children>
 					</submission>
 					<submission>
 						...
@@ -124,6 +145,19 @@ description:	stylesheet to be applied to xml
 						<xsl:apply-templates select="layer"/>
 					</ul>
 				</div> <!-- end layers div -->
+				<br/>
+				<img src="images/right_arrow.gif" width="9" height="9" border="0">	
+					<xsl:attribute name="onClick">
+						<xsl:value-of select='concat("expand_collapse(", "&apos;" , id, "_children", "&apos;", ");")'/>
+					</xsl:attribute>
+					Children:
+				</img>
+				<div style="display:none;">
+						<xsl:attribute name="id">
+							<xsl:value-of select='concat(id, "_children")'/>
+						</xsl:attribute>
+						<xsl:apply-templates select="children"/>
+				</div>
 			</div> <!-- end main div -->
 		</li>
 		<hr/>
@@ -157,4 +191,10 @@ description:	stylesheet to be applied to xml
 		</li>
 	</xsl:template> 
 	<!-- end layer template -->
+	
+	<xsl:template match="children">
+		<ul>
+		<xsl:apply-templates select="submission"/>
+		</ul>
+	</xsl:template>
 </xsl:stylesheet>

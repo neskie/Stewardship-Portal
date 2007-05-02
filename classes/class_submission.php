@@ -21,6 +21,7 @@ class Submission{
 	var $dbconn;
 	var $submission_files;
 	var $submission_layers;
+	var $child_submissions;
 	
 	//
 	/// constructor
@@ -28,7 +29,7 @@ class Submission{
 	///
 	function Submission($sub_id){
 		$this->sub_id = $sub_id;
-		$this->dbconn = new DBConn();
+		$this->dbconn =& new DBConn();
 		if($this->dbconn == NULL)
 			die('Could not create connection object');
 			
@@ -38,8 +39,12 @@ class Submission{
 		// objects
 		$this->submission_files = array();
 		$this->submission_layers = array();
+		// child submission objects
+		$this->child_submissions = array();
 		
 		if(!$this->get_submission_attributes())
+			return NULL;
+		if(!$this->get_child_submissions())
 			return NULL;
 		if(!$this->get_submission_files())
 			return NULL;
@@ -82,6 +87,51 @@ class Submission{
 		$this->uname = pg_fetch_result($result, 0, 2);
 		
 		$this->dbconn->disconnect();
+		return true;
+	}
+	
+	///
+	/// get_child_submissions()
+	/// query the db for all submissions
+	/// having this submission as a parent
+	///
+	function get_child_submissions(){
+		$sql_str = "SELECT "
+						. "form_submission_id "
+					. "FROM "
+						. "tng_form_submission "
+					. "WHERE "
+						. "pid = " . $this->sub_id;
+		
+		$this->dbconn->connect();
+
+		$result = pg_query($this->dbconn->conn, $sql_str);
+
+		if(!$result){
+			echo "An error occurred while executing the query - " . $sql_str ." - " . pg_last_error($this->dbconn->conn);
+			$this->dbconn->disconnect();
+			return false;
+		}
+		
+		$n_children = pg_num_rows($result);
+		
+		// note that this will result in the child
+		// submission querying for submissions to 
+		// which IT is a parent, until we reach a 
+		// parent that has no children.
+		for($i = 0; $i < $n_children; $i++){
+			$this->child_submissions[$i] =& new Submission(pg_fetch_result($result, $i, 0));
+			if($this->child_submissions[$i] == NULL)
+				return false;
+		}
+		
+		// no need to disconnect -
+		// pg_close() doesnt need to 
+		// be called since it is called
+		// automatically when a script
+		// finishes execution
+		//$this->dbconn->disconnect();
+		
 		return true;
 	}
 	
@@ -183,6 +233,21 @@ class Submission{
 	///			<lname>	latlong.shp		</lname>
 	///			<view>	vi_forest_poly	<view>
 	///		</layer>
+	///		<children>
+	/// 		<submission>
+	///				<id> 123 				</id>
+	///				<form_id> 3				</form_id>
+	///				<user> default			</user>
+	///				<date> jan 12th 2007	</date>
+	///				<layer>
+	///					<lid>	861 			<lid>
+	///					<lname>	latlong.shp		</lname>
+	///					<view>	vi_forest_poly	<view>
+	///				</layer>
+	///				<file>
+	///				</file>
+	///			</submission>
+	///		</children>
 	///	</submission>
 	///
 	function generate_xml(){
@@ -216,6 +281,17 @@ class Submission{
 					. "</layer>\n";
 		}
 		//$xml_txt .= "<layers>\n";
+		$xml_txt .= "<children>\n";
+		$n_children = count($this->child_submissions);
+		$child_xml = "";
+		// recursively call this method to 
+		// generate xml for all child 
+		// submissions for which this submission
+		// is a parent.
+		for($i = 0; $i < $n_children; $i++)
+			$child_xml .= $this->child_submissions[$i]->generate_xml();
+		$xml_txt .= $child_xml;
+		$xml_txt .= "</children>\n";
 		$xml_txt .= "</submission>";
 		
 		return $xml_txt; 

@@ -99,7 +99,10 @@ if(!isset($_POST['form_submitted'])){
 		$login = $_SESSION['obj_login'];
 		collect_form_data($form);
 		// try to save the form
-		if($form->save_form($login->uid)){
+		$parent_sub_id = -1;
+		if(isset($_POST['parent_submission']))
+			$parent_sub_id = $_POST['parent_submission'];
+		if($form->save_form($login->uid, $parent_sub_id)){
 			//header("Location: tng_form_saved.html");
 			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_saved.html'>";    
 		}

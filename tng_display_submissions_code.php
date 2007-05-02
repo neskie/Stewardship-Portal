@@ -29,13 +29,16 @@ if(!isset($_POST['elt_selected'])){ // first time form is being loaded
 	global $xslt_file;
 	global $generated_submission_html;
 	$submissions = array();
-	// begin by querying for all submissions
+	// begin by querying for all 
+	// submissions having no parent submissions
 	// and order them by the date of the
-	// submission
+	// submission.
 	$sql_str = "SELECT "
 				. "form_submission_id "
 			."FROM "
 				. "tng_form_submission "
+			. "WHERE "
+				. "pid = -1 "
 			. "ORDER BY "
 				. "form_submission_time DESC "
 			. "LIMIT 50";

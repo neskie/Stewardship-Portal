@@ -246,6 +246,9 @@ class Form{
 	/// create a form submission and use this
 	/// form submission id (FK) to insert records
 	/// into the field submission table.
+	/// if a valid pid (parent id) is provided,
+	/// link the newly created submission to the
+	/// parent.
 	/// once the fields are dealt with, 
 	/// loop through the array of files and
 	/// store them in a fixed location on the
@@ -253,8 +256,20 @@ class Form{
 	/// ogr to insert them into the corresponding
 	/// spatial table.
 	///
-	function save_form($uid){
+	function save_form($uid, $pid){
 		$form_submission_id = -1;
+		$parent_id = -1;
+		if($pid != -1){
+			// check if a valid submission id
+			// was provided for the parent.
+			if(!$this->check_pid($pid)){
+				echo "invalid parent submission";
+				return false;
+			}
+			else
+				$parent_id = $pid;
+		}
+			
 		// create a form submission record and get
 		// the id of the record.
 		$sql_str = "INSERT INTO tng_form_submission "
@@ -267,7 +282,7 @@ class Form{
 						. "( "
 							. $uid . ", "
 							. $this->id . ", "
-							. "-1 "
+							. $parent_id
 						. "); "
 						. "SELECT " 
 							. "max(form_submission_id) "
@@ -278,7 +293,9 @@ class Form{
 		$result = pg_query($this->dbconn->conn, $sql_str);
 		
 		if(!$result){
-			echo "An error occurred while executing the query - class_form.php:217 " . pg_last_error($this->dbconn->conn);
+			echo "An error occurred while executing the query  " 
+				. $sql_str . " - "
+				. pg_last_error($this->dbconn->conn);
 			$this->dbconn->disconnect();
 			return false;
 		}
@@ -301,6 +318,42 @@ class Form{
 		$this->save_files($form_submission_id);
 		
 		return true;	
+	}
+	
+	///
+	/// check_pid()
+	/// when the user provides a parent submission
+	/// id that they wish to link this submission
+	/// to, we must check to see if the id is valid
+	/// i.e. whether it exists in the db
+	///
+	function check_pid($pid){
+		$res = false;
+		
+		$sql_str = "SELECT "
+						. "form_submission_id "
+					. "FROM "
+						. "tng_form_submission "
+					. "WHERE "
+						. "form_submission_id  = " . $pid;
+					$this->dbconn->connect();
+
+		$result = pg_query($this->dbconn->conn, $sql_str);
+
+		if(!$result){
+			echo "An error occurred while executing the query " 
+				. $sql_str . " - "
+				. pg_last_error($this->dbconn->conn);
+			$this->dbconn->disconnect();
+			return false;
+		}
+		
+		if(pg_num_rows($result) == 1)
+			$res = true;
+		
+		$this->dbconn->disconnect();
+		
+		return $res;
 	}
 	
 	///
@@ -353,7 +406,7 @@ class Form{
 	/// it is read from some table in the db.
 	///
 	function save_files($form_submission_id){
-		$upload_path = "/home/karima/public_html/tng_port/trunk/tng_uploads/";
+		$upload_path = "/home/karima/public_html/trunk/tng_uploads/";
 		$length = count($this->files);
 		
 		for($i = 0; $i < $length; $i++){
