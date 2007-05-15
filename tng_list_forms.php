@@ -115,9 +115,23 @@ function submit_form(action_value){
 				as layers, forms, etc. that a user has
 				access to.
 			</p>
-			<input type="button" class="button" value="Manage Permissions" onClick="window.location = 'tng_manage_permissions.php'"/>
+			<input type="button" 
+					class="button" 
+					value="Manage Permissions" 
+					onClick="window.location = 'tng_manage_permissions.php'"/>
 		</div>
-			
+		<div id="content">
+			<h3> 5. Add/Edit Users </h3>
+			<p>
+				To add new users to the system or to change
+				passwords for existing users, click on the
+				button below.
+			</p>
+			<input type="button" 
+					class="button" 
+					value="Add/Edit Users" 
+					onClick="window.location = 'tng_add_edit_user.php'"/>
+		</div>	
 		<input type="hidden" id="form_action" name="form_action"/>
 	
 	

@@ -4,7 +4,7 @@ author:	alim karim
 date:	April 18, 2007
 file:	tng_manage_permissions_code.php
 
-desc:	.
+desc:	code behind permission manager.
 ---------------------------------------------------------------*/
 include_once('classes/class_login.php');
 include_once('classes/class_dbconn.php');
