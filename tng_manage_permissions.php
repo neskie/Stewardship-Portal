@@ -21,6 +21,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 <title>Manage Permissions</title>
+<script src="tng_ajax_utils.js"> </script>
 <script src="tng_manage_permissions.js"> </script>
 <script language="javascript">
 

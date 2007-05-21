@@ -10,10 +10,6 @@ include_once('classes/class_login.php');
 include_once('classes/class_dbconn.php');
 
 session_start();
-//unset($_SESSION['user_list']);
-//return;
-
-
 
 $user_list =& get_user_list();
 $obj_list = array();
@@ -136,48 +132,40 @@ if(isset($_SESSION['obj_login'])){
 
 ///
 /// get_user_list()
-/// get the user list from the session
-/// array. if one does not exist, it is created.
+/// get the user list from the
+/// database.
 ///
 function &get_user_list(){
 	$user_list = array();
 	
-	// create the user list array
-	// if one does not exist as a 
-	// session variable
-	if(!isset($_SESSION['user_list'])){
-		$sql_str = "SELECT "
-						. "uid, " 
-						. "uname "
-					. "FROM tng_user ";
-		
+	$sql_str = "SELECT "
+					. "uid, " 
+					. "uname "
+				. "FROM tng_user ";
+	
 
-		$dbconn =& new DBConn();
+	$dbconn =& new DBConn();
 
-		$dbconn->connect();
+	$dbconn->connect();
 
-		$result = pg_query($dbconn->conn, $sql_str);
-		if(!$result){
-			echo "An error occurred while executing the query " . pg_last_error($dbconn->conn);
-			$dbconn->disconnect();
-			return NULL;
-		}
-		
-		$n_users = pg_num_rows($result);
-		// populate user_list array
-		// as name-value pairs
-		// i.e. the user name is the name, and the
-		// user id is the value
-		for($i = 0; $i < $n_users; $i++)
-			$user_list[pg_fetch_result($result, $i, 1)] = pg_fetch_result($result, $i, 0);
-		
+	$result = pg_query($dbconn->conn, $sql_str);
+	if(!$result){
+		echo "An error occurred while executing the query " . pg_last_error($dbconn->conn);
 		$dbconn->disconnect();
-		
-		// set session variable
-		$_SESSION['user_list'] = $user_list;
+		return NULL;
 	}
 	
-	return $_SESSION['user_list'];
+	$n_users = pg_num_rows($result);
+	// populate user_list array
+	// as name-value pairs
+	// i.e. the user name is the name, and the
+	// user id is the value
+	for($i = 0; $i < $n_users; $i++)
+		$user_list[pg_fetch_result($result, $i, 1)] = pg_fetch_result($result, $i, 0);
+	
+	$dbconn->disconnect();
+	
+	return $user_list;
 }
 
 ///

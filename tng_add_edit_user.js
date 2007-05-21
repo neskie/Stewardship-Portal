@@ -1,76 +1,5 @@
-// global variables to this script block
-var xmlHttp;
-var xmlDoc;
+
 var target_url = "tng_add_edit_user_code.php";
-
-///
-/// create_http_request()
-/// initialize the global xmlHttp variable
-/// to the correct http request object based on
-/// the browser type
-///
-function create_http_request(){
-	try{
-		// Firefox, Opera 8.0+, Safari
-		xmlHttp=new XMLHttpRequest();
-	}catch (e){
-    	// Internet Explorer
-    	try{
-      		xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
-    	}catch (e){
-      		try{
-        		xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-      		}catch (e){
-        		alert("Your browser does not support AJAX!");
-        		return false;
-       		}
-     	}
-   	}
-}
-
-///
-/// create_xml_doc()
-/// create xml document from
-/// xml string
-///
-function create_xml_doc(xml_txt){
-	if (window.ActiveXObject){
-		xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-		xmlDoc.async = false;
-		xmlDoc.loadXML(xml_txt)
-	}
-	else{
-		try{
-			var parser = new DOMParser();
-			xmlDoc = parser.parseFromString(xml_txt, "text/xml");
-		}catch (e){
-			alert('Your browser can\'t handle this script');
-			return;
-		}
-	}
-}
-///
-/// send_http_request()
-/// send a request to the target with
-/// the given parameters. note that params
-/// should be url encoded i.e. multiple params
-/// should be separated by &.
-/// handler is the name of the function to be executed
-/// when the readystate of the xml http
-/// request changes state.
-/// method can be GET or POST.
-///
-function send_http_request(handler, method, target, params){
-	// set the content type 
-	// for POST to work as a method
-	// when opening the xmlHttp request
-	// to the server
-	var content_type = "application/x-www-form-urlencoded; charset=UTF-8";
-	xmlHttp.onreadystatechange = handler;
-	xmlHttp.open(method, target,true);
-	xmlHttp.setRequestHeader("Content-Type", content_type);
-	xmlHttp.send(params);
-}
 
 ///
 /// ajax_get_users()
@@ -98,7 +27,8 @@ function ajax_get_users(){
 function ajax_add_edit_user(){
 	var uname = document.getElementById('uname').value;
 	var passwd = document.getElementById('password').value;
-	
+	var action = document.getElementById('button1').value;
+		
 	if(uname == ""){
 		alert('Please enter a valid user name');
 		return;
@@ -109,7 +39,7 @@ function ajax_add_edit_user(){
 		return;
 	}
 	
-	if(!check_uname(uname)){
+	if(action =="Add User" && !check_uname(uname)){
 		alert("A user with user name <" 
 					+ uname 
 					+ "> already exists.\n"
@@ -124,7 +54,7 @@ function ajax_add_edit_user(){
 	// the user is adding a user
 	// or resetting a password
 	var post_params;
-	var action = document.getElementById('button1').value;
+
 	if(action == "Add User" ){
 		post_params = "ajax_action=add_user&ajax_uname=" + uname + "&ajax_passwd=" + passwd;
 		send_http_request(xmlHttp_handle_ulist_populate, "POST", target_url, post_params);

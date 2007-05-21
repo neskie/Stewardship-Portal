@@ -18,6 +18,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 <title>Add/Edit Users</title>
+<script src="tng_ajax_utils.js"> </script>
 <script src="tng_add_edit_user.js"> </script>
 <script language="javascript">
 // the first time around, we should display
@@ -45,7 +46,7 @@ ajax_get_users();
 					button. Enter the new password in the password field
 					and click the "Save" button to save changes.
 				</p>
-				<p>
+				
 				<label style="width:100px" for="uname"> User Name: </label>
 				<input type="text" id="uname" name="uname" size="45"/>
 				<br/>
@@ -56,7 +57,8 @@ ajax_get_users();
 						id="button1" 
 						value="Add User" 
 						onClick="javascript: ajax_add_edit_user();"/>
-				</p>
+				<br/>
+				<br/>
 				<p>	
 					<label style="width:100px"> Users: </label>
 					<select id="user_list" name="user_list" style="width:250px;" size="5">
@@ -71,7 +73,6 @@ ajax_get_users();
 							onClick="javascript: ajax_reset_passwd(); "/>
 					<br/>
 					
-					</div>
 				</p>
 			</form>
 		</div>
