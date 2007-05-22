@@ -21,7 +21,27 @@ function ajax_post_search(layer_name){
 	// multiple parameters are to be sent, then they
 	// are separated by an ampersand.
 	var post_params = "ajax_layer_name=" + layer_name;
-	// call method to sent the request
+	// call method to send the request
+	send_http_request(xmlHttp_response_handler, "POST", target_url, post_params);
+}
+
+///
+/// ajax_refresh_layers()
+/// call back end script to regenerate
+/// list of layers. since the list is 
+/// held in a session variable, it will not
+/// display new layers that have been added
+/// after this session was started.
+///
+function ajax_refresh_layers(){
+	create_http_request();
+	// create the parameters to be
+	// sent to the php target.
+	// this is a string of name=value pairs. if
+	// multiple parameters are to be sent, then they
+	// are separated by an ampersand.
+	var post_params = "ajax_refresh_layers=1";
+	// call method to send the request
 	send_http_request(xmlHttp_response_handler, "POST", target_url, post_params);
 }
 
@@ -35,7 +55,6 @@ function ajax_post_search(layer_name){
 /// only want to send data to the script.
 ///
 function ajax_post_selected(layer_id){
-	alert(layer_id);
 	create_http_request();
 	// create the parameters to be
 	// sent to the php target.

@@ -100,7 +100,12 @@ if(!isset($_POST['form_submitted'])){
 		collect_form_data($form);
 		// try to save the form
 		$parent_sub_id = -1;
-		if(isset($_POST['parent_submission']))
+		// note that only an isset test 
+		// is not enough. the user may type
+		// something and then erase the value,
+		// which would lead to a blank value
+		// being submitted.
+		if(isset($_POST['parent_submission']) && $_POST['parent_submission'] != "")
 			$parent_sub_id = $_POST['parent_submission'];
 		if($form->save_form($login->uid, $parent_sub_id)){
 			//header("Location: tng_form_saved.html");

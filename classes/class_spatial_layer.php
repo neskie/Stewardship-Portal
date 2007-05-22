@@ -114,9 +114,16 @@ class SpatialLayer{
 			$src_feature = OGR_L_GetNextFeature($this->ogr_src_layer);
 			$n_src_attributes = OGR_F_GetFieldCount($src_feature);
 			$src_feature_defn = OGR_L_GetLayerDefn($this->ogr_src_layer);
-		
+			
+			// note: this was a subtle bug.
+			// we should NOT return false if the
+			// number of attributes doesnt match.
+			// this means that the current schema
+			// does not match, however another
+			// schema at index (k+i) may match, so
+			// we have to CONTINUE searching.
 			if($n_src_attributes != count($this->attr_table_schema))
-				return false;
+				continue; //return false;
 	
 			// now we know that the number of attributes
 			// matches. verify the names of each of the attributes

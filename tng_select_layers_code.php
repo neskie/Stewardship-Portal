@@ -35,6 +35,14 @@ if(isset($_SESSION['obj_login'])){
 		$xml = generate_layer_xml($fist_file_gen->viewable_layers, $ajax_layer_prefix);
 		//$html = generate_html($xml, $xslt_file);
 		echo $xml;
+	}
+	else if(isset($_POST['ajax_refresh_layers'])){
+		// unset the conf object and re-obtain
+		// the list of layers from the db
+		unset($_SESSION['fist_file_gen']);
+		$fist_file_gen =& get_conf_file_generator();
+		$xml = generate_layer_xml($fist_file_gen->viewable_layers, "");
+		echo $xml;
 	} 
 	// otherwise see if the user has sent a
 	// specific layer id that they wish to

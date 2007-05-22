@@ -24,9 +24,9 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 <script language="javascript">
 // the first time around, we should display
-// all available layers. this is done by sending
-// a blank string to the ajax_post_search function.
-ajax_post_search("");
+// all available layers. any previous lists
+// held in a session variable should be cleared.
+ajax_refresh_layers();
 
 </script>
 
@@ -60,7 +60,15 @@ ajax_post_search("");
 					<!-- this will be auto populated by javascript/ajax -->
 				</dl>
 				<br/>
-				<input type="button" class="button" value="Launch Map Viewer" onClick="javascript: ajax_submit_form()"/>
+				<input type="button" 
+						class="button" 
+						value="Refresh List"
+						onClick="javascript: ajax_refresh_layers()"/>
+				<br/>
+				<input type="button" 
+						class="button" 
+						value="Launch Map Viewer" 
+						onClick="javascript: ajax_submit_form()"/>
 				<br/>
 				<br/>
 			</form>
