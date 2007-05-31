@@ -47,20 +47,23 @@ function submit_form(action_value){
 		</div>
 		<div id="content">
 			<h2> Choose an Option</h2>
-			<p> There are various functions available on this page.
-				To fill in a form, please see the fill form section.
-				<br/>
-			 	To view the submissions which you have permission to,
-				please see the Submissions section.
-				<br/> 
-				To see which layers are available to you and to view
-				these layers in a map viewer, please
-				see the Available Layers section.
-				<br/> 
-				To manage permissions on various objects, see the
-				Manage Permission section.
-			</p>
-			<p>
+			<p> There are various functions available on this page. </p>
+			<ul>
+				<li> To fill in a form, please see the fill form section. </li> <br/>
+			 	<li> 
+					To view the submissions which you have permission to,
+					please see the Submissions section.
+				</li><br/>
+				<li> 
+					To see which layers are available to you and to view
+					these layers in a map viewer, please
+					see the Available Layers section.
+				</li><br/>
+				<li> 
+					To manage permissions on various objects, see the
+					Manage Permission section.
+				</li>
+			</ul>
 		</div>
 		<div id="content">
 			<h3> 1. Select Form </h3>
@@ -131,6 +134,29 @@ function submit_form(action_value){
 					class="button" 
 					value="Add/Edit Users" 
 					onClick="window.location = 'tng_add_edit_user.php'"/>
+		</div>
+		<div id="content">
+			<h3> 6. Create Spatial Schema </h3>
+			<p>
+				Please click the button below to create
+				a new spatial schema
+			</p>
+			<input type="button" 
+					class="button" 
+					value="Create Schema" 
+					onClick="window.location = 'tng_create_schema.php'"/>
+		</div>
+		<div id="content">
+			<h3> 7. View Spatial Schemas </h3>
+			<p>
+				Clicking on the button below will allow you
+				to see all spatial schemas that are available
+				in the system.
+			</p>
+			<input type="button" 
+					class="button" 
+					value="View Schemas" 
+					onClick="window.location = 'tng_view_schema.php'"/>
 		</div>	
 		<input type="hidden" id="form_action" name="form_action"/>
 	
