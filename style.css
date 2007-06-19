@@ -124,6 +124,36 @@ select{
 	/* width:150px; */
 }
 
+table{
+	border-width: 1px;
+	border-spacing: 2px;
+	border-style: solid;
+	border-color: gray;
+	border-collapse: collapse;
+	width: 500px;
+}
+
+th{
+	
+	border-collapse: separate;
+	padding: 2px;
+	border-bottom: 1px solid;
+	border-right: 1px solid;
+	background-color: #fff2ba;
+}
+
+td{
+	border-bottom: 1px solid;
+	padding: 5px;
+	background-color: #D6D5D3;
+}
+
+td.details{
+	border-right: 1px dotted;
+	background-color: #9BD5FF;
+	vertical-align: top;
+}
+
 /* end general html elements */
 /* ------------------------------------------------------------------- */
 /* form specific css classes */

@@ -276,13 +276,15 @@ class Form{
 						. "( "
 							. "uid, "
 							. "form_id, "
-							. "pid "
+							. "pid, "
+							. "status_id "
 						. ") "
 						. "VALUES "
 						. "( "
 							. $uid . ", "
 							. $this->id . ", "
-							. $parent_id
+							. $parent_id . ", "
+							. "1 " // status = new
 						. "); "
 						. "SELECT " 
 							. "max(form_submission_id) "
@@ -314,7 +316,7 @@ class Form{
 			}
 		}	
 		$this->dbconn->disconnect();
-		
+		$this->update_title($form_submission_id, $parent_id, $uid);
 		$this->save_files($form_submission_id);
 		
 		return true;	
@@ -354,6 +356,80 @@ class Form{
 		$this->dbconn->disconnect();
 		
 		return $res;
+	}
+	
+	///
+	/// update_title()
+	/// once the submission record has been created,
+	/// update the record's title with something that
+	/// will have some meaning e.g
+	/// 450 - Forestry Referral - john smith
+	///
+	function update_title($sub_id, $pid, $uid){
+		$form_name = "";
+		$u_name = "";
+		$sub_title = "";
+		
+		$sql_str = "SELECT "
+		 				. "form_name "
+					. "FROM "
+						. "tng_form "
+					. "WHERE "
+						. "form_id = " . $this->id;
+		$this->dbconn->connect();
+		$result = pg_query($this->dbconn->conn, $sql_str);
+		if(!$result){
+			echo "An error occurred while executing the query  " 
+				. $sql_str . " - "
+				. pg_last_error($this->dbconn->conn);
+			$this->dbconn->disconnect();
+			return false;
+		}
+		$form_name = pg_fetch_result($result, 0, 'form_name');
+		$this->dbconn->disconnect();
+		
+		$sql_str = "SELECT "
+		 				. "uname "
+					. "FROM "
+						. "tng_user "
+					. "WHERE "
+						. "uid = " . $uid;
+		$this->dbconn->connect();
+		$result = pg_query($this->dbconn->conn, $sql_str);
+		if(!$result){
+			echo "An error occurred while executing the query  " 
+				. $sql_str . " - "
+				. pg_last_error($this->dbconn->conn);
+			$this->dbconn->disconnect();
+			return false;
+		}
+		$u_name = pg_fetch_result($result, 0, 'uname');
+		$this->dbconn->disconnect();
+		
+		$sub_title = "ID: " . $sub_id . " - ";
+		
+		if($pid != -1)
+			$sub_title .= "Amendment to ID: " . $pid . " - ";
+			
+		$sub_title .= $form_name . " - " . $u_name;
+		
+		$sql_str = "UPDATE " 
+						. "tng_form_submission "
+					. "SET "
+						. "submission_title = '" . $sub_title . "' "
+					. "WHERE "
+						. "form_submission_id = " . $sub_id;
+		$this->dbconn->connect();
+		$result = pg_query($this->dbconn->conn, $sql_str);
+		if(!$result){
+			echo "An error occurred while executing the query  " 
+				. $sql_str . " - "
+				. pg_last_error($this->dbconn->conn);
+			$this->dbconn->disconnect();
+			return false;
+		}
+		
+		return true;			
 	}
 	
 	///
