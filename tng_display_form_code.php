@@ -17,14 +17,6 @@ include_once('classes/class_form.php');
 include_once('classes/class_login.php');
 
 session_start();
-error_reporting(E_ALL);
-ini_set( "display_errors", "1" );
-ini_set( "track_errors", "1" );
-
-//ini_set("error_log", '/tmp/tng_dev_errors.txt');
-//echo phpinfo();
-
-
 
 $xml_data = "";
 $xslt_file = "tng_form_transform.xslt";
