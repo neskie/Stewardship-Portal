@@ -141,7 +141,9 @@ function collect_form_data(&$form){
 			// array to get the value entered by the user. this
 			// is then passed to the set_field_value function
 			// along with the field_id.
-			$form->set_field_value($field_id, $_POST[$post_variables[$i]]);
+			// surround single quotes with '' so that they are
+			// escaped properly.
+			$form->set_field_value($field_id, str_replace("'", "''", $_POST[$post_variables[$i]]));
 		}
 	}
 	// now that all the post variables are dealt
