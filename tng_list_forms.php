@@ -88,16 +88,18 @@ function submit_form(action_value){
 				<input type="button" class="button" value="Display Form" onClick="javascript:submit_form('fill_form');"/>
 		</div>
 		<div id="content">
-			<h3> 2. View Submissions </h3>
+			<h3> 2. Search Submissions </h3>
 			<p>
-				Click on the View Submissions button below
-				to view all submissions that you have made in
-				the past.
+				Click on the Search Submissions button below
+				to search through the Submissions in the Portal.
 				<br/>
 				Note that you will not see submissions from other
 				users unless you the appropriate have permissions.
 			</p>
-			<input type="button" class="button" value="View Submissions" onClick="window.location = 'tng_display_submissions.php'"/>
+			<input type="button" 
+				class="button" 
+				value="Search Submissions" 
+				onClick="window.location = 'tng_search_submissions.php'"/>
 		</div>
 		<div id="content">
 			<h3> 3. View Layers </h3>

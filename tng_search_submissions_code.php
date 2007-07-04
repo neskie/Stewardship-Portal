@@ -72,6 +72,8 @@ if(isset($_SESSION['obj_login'])){
 				echo $xml;
 			break;
 			// perform a search
+			// use strip slashes to escape backslashes added
+			// by http to escape single quotes.
 			case "perform_search":
 				$where_clause = stripslashes($_POST['where_clause']);
 				//$where_clause = str_replace($tmp, "\\", "");

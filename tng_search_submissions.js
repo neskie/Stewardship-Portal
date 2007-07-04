@@ -83,10 +83,10 @@ function type_toggled(){
 ///		...
 /// </submissions>
 ///
-function populate_results(xml){
+function populate_results(xml, table_id){
 	// make div visible
 	document.getElementById('search_results').style.display = 'block';
-	var table = document.getElementById('tbl_search_res');
+	var table = document.getElementById(table_id);
 	clear_table('tbl_search_res');
 	//table.rows.length = 0;
 	create_xml_doc(xml);
@@ -96,6 +96,9 @@ function populate_results(xml){
 		// id cell
 		cell = row.insertCell(0);
 		var id = objects[i].childNodes[0].childNodes[0].nodeValue;
+		// create a link, which when clicked 
+		// goes to tng_view_submission.php
+		// with a sub_id parameter
 		elt = document.createElement('a');
 		elt.setAttribute('href', 'tng_view_submission.php?sub_id=' + id);
 		elt.innerHTML = id;
@@ -118,7 +121,7 @@ function populate_results(xml){
 /// row from the given table.
 ///
 function clear_table(table_id){
-	var table = document.getElementById('tbl_search_res');
+	var table = document.getElementById(table_id);
 	var n_rows = table.rows.length;
 	while(table.rows.length > 1)
 		table.deleteRow(table.rows.length - 1);
@@ -232,7 +235,8 @@ function ajax_simple_search(){
 /// retrieve parameters for a detailed search
 /// and send an ajax request for that.
 function ajax_detailed_search(){
-	var where_clause = "WHERE ";
+	// only search parent submissions
+	var where_clause = "WHERE pid = -1 ";
 	// lists
 	var type_list = document.getElementById('type_list');
 	var status_list = document.getElementById('status_list');
@@ -262,39 +266,25 @@ function ajax_detailed_search(){
 	// check which options are included
 	// and append them to the where clause
 	if(include_name && sub_name != "")
-		where_clause += "sub_name LIKE '%" + sub_name + "%' ";
+		where_clause += "AND sub_name LIKE '%" + sub_name + "%' ";
 	if(include_type && type_id != -1){
-		if(where_clause != "WHERE ")
-			where_clause += "AND ";
-		where_clause += "sub_type_id = " + type_id + " ";
+		where_clause += "AND sub_type_id = " + type_id + " ";
 	}
 	if(include_status && status_id != -1){
-		if(where_clause != "WHERE ")
-			where_clause += "AND ";
-		where_clause += "status_id = " + status_id + " ";
+		where_clause += "AND status_id = " + status_id + " ";
 	}
 	if(include_user && uid_submitted != -1){
-		if(where_clause != "WHERE ")
-			where_clause += "AND ";
-		where_clause += "uid_submitted = " + uid_submitted + " ";
+		where_clause += "AND uid_submitted = " + uid_submitted + " ";
 	}		
 	if(include_asignee && uid_asignee != -1){
-		if(where_clause != "WHERE ")
-			where_clause += "AND ";
-		where_clause += "uid_assigned = " + uid_asignee + " ";
+		where_clause += "AND uid_assigned = " + uid_asignee + " ";
 	}
 	if(include_spec_field && spec_field_id != null){
 		var spec_field_value = escape_quotes(document.getElementById('spec_field_value').value);
-		if(where_clause != "WHERE ")
-			where_clause += "AND ";
-		where_clause += "field_id = " + spec_field_id + " "
+		where_clause += "AND field_id = " + spec_field_id + " "
 					+ "AND field_value LIKE '%" + spec_field_value + "%' "
 	}
 	
-	// if no search criteria were added, 
-	// then erase the where clause.
-	if(where_clause == "WHERE ")
-		where_clause = "";
 	create_http_request();
 	var post_params = "ajax_action=perform_search&where_clause=" + where_clause; 
 	send_http_request(handler_search_results, "POST", target_url, post_params);
@@ -370,7 +360,7 @@ function handler_populate_spec_field(){
 ///
 function handler_search_results(){
 	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-		populate_results(xmlHttp.responseText);
+		populate_results(xmlHttp.responseText, 'tbl_search_res');
 	}
 }
 

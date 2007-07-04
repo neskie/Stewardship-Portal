@@ -130,7 +130,12 @@ function validate_files(){
 		action="tng_display_form.php">
 		<div id="content">
 			<h3> Parent Submission ID: 
-				<input type="text" id="parent_submission" name="parent_submission" size="30"/>
+				<input type="text" 
+						id="parent_submission" 
+						name="parent_submission" 
+						size="30"
+						<?php if($_SESSION['readonly'] == 'true') echo "disabled"; ?>
+				/>
 			</h3>
 			<p> Please leave this field blank if you do not
 				wish to link this submission with a previously
