@@ -45,13 +45,19 @@ function add_file_input(){
 	file_desc.setAttribute('class', 'txt_area_file_description');
 	file_div.appendChild(file_desc);
 	
+	var end_tag = document.createElement('br');
+	file_div.appendChild(end_tag);
+	
 	var file_input = document.createElement('input');
 	file_input.setAttribute('type', 'file');
 	file_input.setAttribute('id', file_prefix + file_count);
 	file_input.setAttribute('name', file_prefix + file_count);
 	file_input.setAttribute('class', 'input_file'); 
+	file_input.setAttribute('size', '65'); 
 	file_div.appendChild(file_input);
 	
+	var end_tag = document.createElement('br');
+	file_div.appendChild(end_tag);
 	var end_tag = document.createElement('br');
 	file_div.appendChild(end_tag);
 	
