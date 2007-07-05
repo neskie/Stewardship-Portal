@@ -52,6 +52,33 @@ function populate_ordered_list_from_xml(xml, list_id, type){
 	}
 }
 
+///
+/// check_special_chars()
+/// check if a string contains
+/// special characters
+///
+function check_special_chars(attribute){
+	if(attribute == ""
+		|| attribute.indexOf(' ') != -1
+		|| attribute.indexOf('!') != -1
+		|| attribute.indexOf('@') != -1
+		|| attribute.indexOf('#') != -1
+		|| attribute.indexOf('$') != -1
+		|| attribute.indexOf('%') != -1
+		|| attribute.indexOf('^') != -1
+		|| attribute.indexOf('&') != -1
+		|| attribute.indexOf('*') != -1
+		|| attribute.indexOf('(') != -1
+		|| attribute.indexOf(')') != -1
+		|| attribute.indexOf('<') != -1
+		|| attribute.indexOf('>') != -1
+		|| attribute.indexOf('?') != -1
+	)
+		return false;
+	else
+		return true;
+}
+
 //
 /// populate_children()
 /// populate ammendments table
@@ -220,6 +247,9 @@ function ajax_dislpay_form(){
 ///
 function ajax_update_name(){
 	var new_name = document.getElementById('sub_name').value;
+	if(!check_special_chars(new_name)){
+		alert('The name cannot contain special characters');
+	}
 	if(new_name != ""){
 		create_http_request();
 		var post_params = "ajax_action=update_sub_name&sub_id=" + sub_id + "&sub_name=" + new_name;
@@ -248,14 +278,9 @@ function ajax_update_assignee(){
 	var uid = asignee_list.options[asignee_list.selectedIndex].id;
 	create_http_request();
 	var post_params = "ajax_action=update_sub_asignee&sub_id=" + sub_id + "&uid_assigned=" + uid;
-	send_http_request(xtmp, "POST", target_url, post_params);
+	send_http_request(null, "POST", target_url, post_params);
 }
 
-function xtmp(){
-	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-		alert(xmlHttp.responseText);
-	}
-}
 //-----------------------------------------------------------------
 // ajax handlers
 ///
