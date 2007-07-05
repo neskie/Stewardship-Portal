@@ -347,7 +347,7 @@ function perform_search($where_clause){
 	$xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
 		 		. "<submissions>";
 	$sql_str = "SELECT "
-				. "sub_id, "
+				. "vi_submission_search.sub_id, "
 				. "sub_type, "
 				. "sub_title, "
 				. "sub_name, "
@@ -356,8 +356,15 @@ function perform_search($where_clause){
 				. "assigned_to, "
 				. "sub_date "
 			. "FROM "
-				. "vi_submission_search "
-			. $where_clause;
+				. "vi_submission_search ";
+	// if the user wishes to include a specific field
+	// search, include the view that accomplishes
+	// this.
+	if(substr_count($where_clause, "field_id") == 1)
+		$sql_str .= "INNER JOIN vi_field_search "
+						. "ON vi_submission_search.sub_id = vi_field_search.sub_id ";
+						
+	$sql_str .= $where_clause;
 		
 	$dbconn =& new DBConn();
 	$dbconn->connect();
