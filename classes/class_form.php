@@ -299,7 +299,7 @@ class Form{
 				. $sql_str . " - "
 				. pg_last_error($this->dbconn->conn);
 			$this->dbconn->disconnect();
-			return false;
+			return $form_submission_id;
 		}
 		// obtain the form submission id
 		$form_submission_id = pg_fetch_result($result, 0, 0);
@@ -319,7 +319,7 @@ class Form{
 		$this->update_title($form_submission_id, $parent_id, $uid);
 		$this->save_files($form_submission_id);
 		
-		return true;	
+		return $form_submission_id;	
 	}
 	
 	///

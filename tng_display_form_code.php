@@ -89,6 +89,7 @@ if(!isset($_POST['form_submitted'])){
 	}else{ // session not expired
 		$form = $_SESSION['obj_form'];
 		$login = $_SESSION['obj_login'];
+		$sub_id = -1;
 		collect_form_data($form);
 		// try to save the form
 		$parent_sub_id = -1;
@@ -99,8 +100,9 @@ if(!isset($_POST['form_submitted'])){
 		// being submitted.
 		if(isset($_POST['parent_submission']) && $_POST['parent_submission'] != "")
 			$parent_sub_id = $_POST['parent_submission'];
-		if($form->save_form($login->uid, $parent_sub_id)){
+		if(($sub_id = $form->save_form($login->uid, $parent_sub_id)) != -1 ){
 			//header("Location: tng_form_saved.html");
+			send_confirmation_email($sub_id, $login->email);
 			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_saved.html'>";    
 		}
 		else{
@@ -162,5 +164,19 @@ function collect_form_data(&$form){
 	for($i = 0; $i < $length; $i++){
 		$form->add_file($_FILES[$file_keys[$i]]['tmp_name'], $_FILES[$file_keys[$i]]['name']);
 	}
+}
+
+///
+/// send_confirmation_email()
+/// send mail to user confirming that
+/// the submission was successful
+///
+function send_confirmation_email($sub_id, $email_to){
+	$subject = "Submission Successful - " . $sub_id;
+	$message = "You have successfully made a Submission to the TNG Portal.\n"
+				. "The ID for your Submission is: " . $sub_id . ".\n"
+				. "This email is for notification purposes only. " 
+				. "Please do not respond to it.\n";
+	mail($email_to, $subject, wordwrap($message, 70));
 }
 ?>

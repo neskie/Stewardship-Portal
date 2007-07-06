@@ -13,6 +13,9 @@ class Login{
 	var $dbconn;
 	var $uid;
 	var $uname;
+	var $fname;
+	var $lname;
+	var $email;
 	var $permission;
 	
 	///
@@ -37,35 +40,41 @@ class Login{
 		$validate = false;
 		$sql_str = "SELECT "
 					. "tng_user.uid, "
-					. "tng_user.passwd "
+					. "tng_user.passwd, "
+					. "tng_user.fname, "
+					. "tng_user.lname, "
+					. "tng_user.email "
 				. "FROM "
 					. "tng_user "
-				. "WHERE uname ='"
-					. $this->uname
-				. "'";
+				. "WHERE " 
+					. "uname ='". $this->uname	. "'";
 				
 		$this->dbconn->connect();
-				
 		$result = pg_query($this->dbconn->conn, $sql_str);
 		
 		if(!$result){
-			echo "An error occurred while executing the query - class_login.php:50 " . pg_last_error($this->dbconn->conn);
+			echo "An error occurred while executing the query"
+				. pg_last_error($this->dbconn->conn) . "\n"
+				. $sql_str;
 			$this->dbconn->disconnect();
 		}else{ // successfuly ran the query
 			// if no rows are found, then no match exists 
 			// for the provided user name
 			if(pg_num_rows($result) != 0){
-				$row = pg_fetch_row($result);
+				$db_passwd = pg_fetch_result($result, 0, 'passwd');
 				// check if password matches, if
 				// it does, set validate to true and
 				// set the uid value
-				if($row[1] == md5($passwd)){
+				if($db_passwd == md5($passwd)){
 					$validate = true;
-					$this->uid = $row[0];
+					$this->uid = pg_fetch_result($result, 0, 'uid');
+					$this->fname = pg_fetch_result($result, 0, 'fname');
+					$this->lname = pg_fetch_result($result, 0, 'lname');
+					$this->email = pg_fetch_result($result, 0, 'email');
 				} 
 			}
 		}
-
+		$this->dbconn->disconnect();
 		return $validate;
 	}
 }
