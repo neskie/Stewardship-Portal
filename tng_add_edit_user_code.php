@@ -31,20 +31,35 @@ if(isset($_SESSION['obj_login'])){
 				$xml = generate_object_list_xml($user_list, "");
 				echo $xml;
 			break;
-			// the caller wishes to reset the
-			// password for a user
-			case "reset_password":
+			// the caller wishes get details
+			// about a user
+			case "get_user_details":
 				$uid = $_POST['ajax_uid'];
-				$new_passwd = $_POST['ajax_newpasswd'];
-				reset_password($uid, $new_passwd);
-				//$html = generate_html($xml, $xslt_user);
+				$xml = get_user_details($uid);
+				echo $xml;
+			break;
+			// the caller wishes to update
+			// attributes associated with 
+			// a user
+			case "update_user":
+				$uid = $_POST['ajax_uid'];
+				$fname = $_POST['ajax_fname'];
+				$lname = $_POST['ajax_lname'];
+				$email = $_POST['ajax_email'];
+				$new_passwd = "";
+				if(isset($_POST['ajax_newpasswd']))
+					$new_passwd = $_POST['ajax_newpasswd'];
+				update_user($uid, $new_passwd, $fname, $lname, $email);
 			break;
 			// the caller wishes to add a new
 			// user to the db
 			case "add_user":
 				$uname = $_POST['ajax_uname'];
 				$passwd = $_POST['ajax_passwd'];
-				add_user($uname, $passwd);
+				$fname = $_POST['ajax_fname'];
+				$lname = $_POST['ajax_lname'];
+				$email = $_POST['ajax_email'];
+				add_user($uname, $passwd, $fname, $lname, $email);
 				// regenerate the user list
 				// and send back the new list
 				// as xml
@@ -129,30 +144,70 @@ function generate_object_list_xml($obj_list, $prefix){
 }
 
 ///
-/// reset_password()
-/// reset the password for
-/// uid to new_passwd
+/// get_user_details()
+/// get user attributes
 ///
-function reset_password($uid, $new_passwd){
-	$md5_pass = md5($new_passwd);
+function get_user_details($uid){
+	$sql_str = "SELECT "
+				. "uname, "
+				. "fname, "
+				. "lname, "
+				. "email "
+			. "FROM "
+				. "tng_user "
+			. "WHERE "
+				. "uid = " . $uid;
+
+	$dbconn =& new DBConn();
+	$dbconn->connect();
+	$result = pg_query($dbconn->conn, $sql_str);
+	if(!$result){
+		echo "An error occurred while executing the query " 
+				. pg_last_error($dbconn->conn) . "\n"
+				. $sql_str;
+		$dbconn->disconnect();
+		return NULL;
+	}
+	
+	$xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
+		 		. "<user>"
+					. "<uname>" . pg_fetch_result($result, 0, 'uname') . "</uname>"
+					. "<fname>" . pg_fetch_result($result, 0, 'fname') . "</fname>"
+					. "<lname>" . pg_fetch_result($result, 0, 'lname') . "</lname>"
+					. "<email>" . pg_fetch_result($result, 0, 'email') . "</email>"
+				. "</user>";
+	$dbconn->disconnect();
+	return $xml;
+}
+
+///
+/// update_user()
+/// update user attributes
+///
+function update_user($uid, $new_passwd = "", $fname, $lname, $email){
 	$sql_str = "UPDATE "
 					. "tng_user "
 				. "SET "
-					. "passwd = '" . $md5_pass . "' "
-				. "WHERE "
+					. "fname = '" . $fname . "', "
+					. "lname = '" . $lname . "', "
+					. "email = '" . $email . "' ";
+					
+	if($new_passwd != ""){
+		$md5_pass = md5($new_passwd);
+		$sql_str .= ", passwd = '" . $md5_pass . "' ";
+	}
+	
+	$sql_str .= "WHERE "
 					. "uid = " . $uid;
 
 	$dbconn =& new DBConn();
-
 	$dbconn->connect();
-
 	$result = pg_query($dbconn->conn, $sql_str);
 	if(!$result){
 		echo "An error occurred while executing the query " . pg_last_error($dbconn->conn);
 		$dbconn->disconnect();
 		return NULL;
 	}
-
 	$dbconn->disconnect();
 }
 
@@ -161,31 +216,34 @@ function reset_password($uid, $new_passwd){
 /// create a user record in the
 /// tng_user table
 ///
-function add_user($uname, $passwd){
+function add_user($uname, $passwd, $fname, $lname, $email){
 	$md5_passwd = md5($passwd);
 	
 	$sql_str = "INSERT INTO tng_user "
 					. "("
 						. "uname, "
-						. "passwd "
+						. "passwd, "
+						. "fname, "
+						. "lname, "
+						. "email "
 					. ") "
 					. "VALUES "
 					. "("
 						. "'" . $uname . "', "
-						. "'" . $md5_passwd . "' "
+						. "'" . $md5_passwd . "', "
+						. "'" . $fname . "', "
+						. "'" . $lname . "', "
+						. "'" . $email . "' "
 					. ")";
 					
 	$dbconn =& new DBConn();
-
 	$dbconn->connect();
-
 	$result = pg_query($dbconn->conn, $sql_str);
 	if(!$result){
 		echo "An error occurred while executing the query " . pg_last_error($dbconn->conn);
 		$dbconn->disconnect();
 		return NULL;
 	}
-
 	$dbconn->disconnect();
 }
 

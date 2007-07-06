@@ -21,22 +21,33 @@ function ajax_get_users(){
 ///
 /// ajax_add_edit_user()
 /// add a new user to db
-/// or save new passwd for 
+/// or update attributes for 
 /// existing user
 ///
 function ajax_add_edit_user(){
 	var uname = document.getElementById('uname').value;
 	var passwd = document.getElementById('password').value;
+	var fname = document.getElementById('fname').value;
+	var lname = document.getElementById('lname').value;
+	var email = document.getElementById('email').value;
 	var action = document.getElementById('button1').value;
 		
 	if(uname == ""){
-		alert('Please enter a valid user name');
+		confirm('Please enter a valid user name');
 		return;
 	}
 	
 	if(passwd == ""){
-		alert("Please enter a valid password for user " + uname);
-		return;
+		if(action == "Add User"){
+			alert("Please enter a valid password for user " + uname);
+			return;
+		}else{
+			var response = confirm("Leaving the password field blank\n"
+									+ "will NOT update the password for user " + uname + "\n"
+									+ "Are you sure you wish to proceed?");
+			if(!response)
+				return;
+		}
 	}
 	
 	if(action =="Add User" && !check_uname(uname)){
@@ -56,36 +67,81 @@ function ajax_add_edit_user(){
 	var post_params;
 
 	if(action == "Add User" ){
-		post_params = "ajax_action=add_user&ajax_uname=" + uname + "&ajax_passwd=" + passwd;
+		post_params = "ajax_action=add_user&ajax_uname=" + uname 
+						+ "&ajax_passwd=" + passwd
+						+ "&ajax_fname=" + fname
+						+ "&ajax_lname=" + lname
+						+ "&ajax_email=" + email;
 		send_http_request(xmlHttp_handle_ulist_populate, "POST", target_url, post_params);
 	}else if(action == "Save"){
 		var user_list = document.getElementById('user_list');
 		var uid = user_list.options[user_list.selectedIndex].value;
-		post_params = "ajax_action=reset_password&ajax_uid=" + uid + "&ajax_newpasswd=" + passwd;
+		post_params = "ajax_action=update_user&ajax_uid=" + uid
+					+ "&ajax_fname=" + fname
+					+ "&ajax_lname=" + lname
+					+ "&ajax_email=" + email;
+		// check if a new password was entered
+		if(passwd != "")
+			post_params += "&ajax_newpasswd=" + passwd;
+			
 		send_http_request(ajax_cleanup, "POST", target_url, post_params);
 	}
 }
 
 ///
-/// ajax_reset_passwd()
-/// reset password for the selected
-/// user in the list. this does not
-/// call the back end script, rather
-/// it just moves the name of the user
-/// into the uname field and changes
-/// the text on the button beside
-/// the password field.
+/// ajax_update_user()
+/// query for the user details so that
+/// the user can change attributes
 ///
-function ajax_reset_passwd(){
+function ajax_update_user(){
 	var user_list = document.getElementById('user_list');
 	var uname = user_list.options[user_list.selectedIndex].innerHTML;
-	document.getElementById('uname').value = uname;
+	var uid = user_list.options[user_list.selectedIndex].id;
 	document.getElementById('button1').value = "Save";
+	create_http_request();
+	post_params = "ajax_action=get_user_details"
+				+ "&ajax_uid=" +  uid;
+	send_http_request(handler_ajax_update_user, "POST", target_url, post_params);
 }
 
-
 ///
-/// xmlHttp_handle_uname_search()
+/// handler_ajax_update_user()
+/// populate fields from xml data.
+/// schema:
+///	<user>
+///		<uname> alim </uname>
+///		<fname> alim </fname>
+///		<lname> karim </lname>
+///		<email>	karima@unbc.ca </email>
+/// </user>
+///
+function handler_ajax_update_user(){
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+		create_xml_doc(xmlHttp.responseText);
+		var uname = document.getElementById('uname');
+		var fname = document.getElementById('fname');
+		var lname = document.getElementById('lname');
+		var email = document.getElementById('email');
+		// note there is no check for 
+		// childnodes for the uname
+		// element, because each user 
+		// MUST have a username and therefore 
+		// a textnode must exist as the child
+		// of uname.
+		uname.value = xmlDoc.getElementsByTagName("uname")[0].childNodes[0].nodeValue;
+		// set first name
+		if(xmlDoc.getElementsByTagName("fname")[0].childNodes.length > 0)
+			fname.value = xmlDoc.getElementsByTagName("fname")[0].childNodes[0].nodeValue;
+		// set last name
+		if(xmlDoc.getElementsByTagName("lname")[0].childNodes.length > 0)
+			lname.value = xmlDoc.getElementsByTagName("lname")[0].childNodes[0].nodeValue;
+		// set email
+		if(xmlDoc.getElementsByTagName("email")[0].childNodes.length > 0)
+			email.value = xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue;
+	}
+}
+///
+/// xmlHttp_handle_ulist_populate()
 /// this is the handler that is called when the
 /// user has supplied a partial user name. it
 /// recieves the xml that represents the list
@@ -164,4 +220,7 @@ function cleanup(){
 		// clear fields
 		document.getElementById('uname').value = "";
 		document.getElementById('password').value = "";
+		document.getElementById('fname').value = "";
+		document.getElementById('lname').value = "";
+		document.getElementById('email').value = "";
 }

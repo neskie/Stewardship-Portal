@@ -52,6 +52,17 @@ ajax_get_users();
 				<br/>
 				<label style="width:100px" for="password"> Password: </label>
 				<input type="password" id="password" name="password" size="45"/>
+				<br/>
+				<br/>
+				<label style="width:100px"> First Name: </label>
+				<input type="text" id="fname" name="fname" size="45"/>
+				<br/>
+				<label style="width:100px"> Last Name: </label>
+				<input type="text" id="lname" name="lname" size="45"/>
+				<br/>
+				<label style="width:100px"> Email Address: </label>
+				<input type="text" id="email" name="email" size="45"/>
+				
 				<input type="button" 
 						class="button" 
 						id="button1" 
@@ -69,8 +80,8 @@ ajax_get_users();
 					
 					<input type="button" 
 							class="button" 
-							value="Reset Password" 
-							onClick="javascript: ajax_reset_passwd(); "/>
+							value="Edit User" 
+							onClick="javascript: ajax_update_user(); "/>
 					<br/>
 					
 				</p>
