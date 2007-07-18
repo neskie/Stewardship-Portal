@@ -46,6 +46,29 @@
 				</textarea>
 				<br/>
 			</xsl:when>
+			<xsl:when test="field_type = 'checkbox'">
+				<input type="checkbox">
+					<xsl:attribute name="name">
+						<xsl:value-of select='concat("fieldid_", field_id)'/>
+					</xsl:attribute>
+					<xsl:attribute name="class">
+						<xsl:value-of select="field_css_class"/>
+					</xsl:attribute>
+					<!-- check if the readonly parameter is set -->
+					<xsl:if test="$readonly = 'true'">
+						<xsl:attribute name="disabled">
+							<xsl:value-of select="true"/>
+						</xsl:attribute>
+					</xsl:if>
+					<!-- print out the value of the field -->
+					<xsl:if test="field_value = 'on'">
+						<xsl:attribute name="checked">
+							<xsl:value-of select="1"/>
+						</xsl:attribute>
+					</xsl:if>
+				</input>
+				<br/>
+			</xsl:when>
 			<xsl:otherwise>
 				<br/>
 			</xsl:otherwise>
