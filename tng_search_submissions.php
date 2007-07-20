@@ -24,33 +24,62 @@ include_once('tng_check_session.php');
 <title>Search Submisssions</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_search_submissions.js"> </script>
-<script language="javascript">
-
-</script>
-
+<!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.thrColHybHdr #sidebar1, .thrColHybHdr #sidebar2 { padding-top: 30px; }
+.thrColHybHdr #mainContent { zoom: 1; padding-top: 15px; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]-->
 </head>
-<body onLoad="ajax_populate_lists()">
-		<div id="leftcol"> why is is that 
-						this didnt work before but 
-						it works just fine now ....
-		</div>
-		<div id="content">
+<body class="thrColHybHdr" onLoad="ajax_populate_lists()">
+		<div id="container">
+		  <div id="header">
+		    <?php include_once('top_div.html'); ?>
+		  </div>
+		  <!-- end #header -->
+
+		  <div id="sidebar1">
+		    <?php include_once('tng_links_post_login.php');?>
+		  </div>  
+		  <!-- end #sidebar1 -->
+
+		  <div id="sidebar2">
+		    <p><span class="subHeader">Portal Access</span><br /></p>
+		    <p class="smallText">
+				A user account is needed to log into the Stewardship Portal. 
+		        To acquire a username and password, please send an email 
+		        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
+
+		    <p><span class="subHeader">TITLE HERE</span><br />
+				Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
+
+			<p><span class="subHeader">TITLE HERE</span><br />
+				Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
+
+		 </div>
+		 <!-- end #sidebar2 -->
+		 
+		<div id="mainContent">
+			<h1 class="pageName"> Search Submissions </h1>
+				
 			<form id="tng_search_submissions" 
 					name="tng_search_submissions" 
 					method="post" 
 					enctype="multipart/form-data">
-				<h2> Search Submissions </h2>
-				<p>
+				<p class="bodyText">
 					If you know the ID of the Submission you
 					are searching for, please enter it in the
 					Submission ID field and click the search
 					button located beside it.
 				</p>
-				<p>
+				<p class="bodyText">
 					To conduct a more generic search (by Submission type,
 					Submission Status, Submission Asignee, etc.), please click
 					on the Detailed Search button
-				</p>
+				<br/>
+				<br/>
 				<label style="width: 100px; "> <b> Submission ID </b> </label>
 				<input type="text" 
 						id="sub_id"
@@ -59,8 +88,7 @@ include_once('tng_check_session.php');
 				<input type="button"
 					value="Search"
 					onClick="ajax_simple_search()"/>
-				<br/>
-				<br/>
+				</p>
 				<input type="button"
 					id="detail_button"
 					onClick="expand_collapse('detailed_search')"
@@ -71,7 +99,7 @@ include_once('tng_check_session.php');
 					<hr/>
 				<br/>
 				<br/>
-				<dl>
+				<dl class="bodyText">
 					<dt> 
 						<label style="width: 150px;"> 
 							<input type="checkbox"
@@ -81,6 +109,7 @@ include_once('tng_check_session.php');
 						<input type="text"
 								id="sub_name"
 								size="45"/>
+						<br/>
 					</dt>
 					<br/>
 					<dt> 
@@ -88,7 +117,7 @@ include_once('tng_check_session.php');
 							<input type="checkbox"
 									id="chk_sub_type"
 									onClick="type_toggled()"/> 
-									<b> Submission Type </b>  
+									<b> Submission Type </b>
 						</label>
 						<select id="type_list"
 							name="type_list"
@@ -96,6 +125,7 @@ include_once('tng_check_session.php');
 							onChange="javascript: ajax_populate_spec_field();">
 							<!-- automatically populated by ajax-->
 						</select>
+						<br/>
 					</dt>
 					<br/>
 					<dt>
@@ -109,6 +139,7 @@ include_once('tng_check_session.php');
 								style="width: 250px">
 								<!-- automatically populated by ajax -->
 						</select>
+						<br/>
 					</dt>
 					<br/>
 					<dt>
@@ -122,6 +153,7 @@ include_once('tng_check_session.php');
 								style="width: 250px">
 								<!-- automatically populated by ajax -->
 						</select>
+						<br/>
 					</dt>
 					<br/>
 					<dt>
@@ -135,6 +167,7 @@ include_once('tng_check_session.php');
 								style="width: 250px">
 								<!-- automatically populated by ajax -->
 						</select>
+						<br/>
 					</dt>
 					<br/>
 					<dt>
@@ -149,13 +182,15 @@ include_once('tng_check_session.php');
 								<!-- automatically populated by ajax -->
 						</select>
 						<br/>
+						<br/>
 						<dd>
-						<label style="width: 110px"> <i>Value</i> </label>
+						<label style="width: 110px;"> <i>Value</i> </label>
 						<input type="text" 
 								id="spec_field_value" 
 								name="spec_field_value"
 								size="45"/>
 						</dd>
+						
 					</dt>
 				</dl>
 				<br/>
@@ -165,13 +200,14 @@ include_once('tng_check_session.php');
 					onClick="ajax_detailed_search()"/>
 				<hr/>
 				</div>
+				<!-- end detailed search div -->
 				<br/>
 				<div id="search_results"
 					style="display:none">
 					<br/>
 					<table id="tbl_search_res"
-							style="width: 90%;">
-						<tr>
+							style="width: 90%; border-collapse: collapse;">
+						<tr class="th_search">
 							<th> ID </th>
 							<th> Type </th>
 							<th> Title </th>
@@ -182,19 +218,22 @@ include_once('tng_check_session.php');
 							<th> Date Submitted </th>
 						</tr>
 					</table>
+					<br/>
 				</div>
+				<!-- end search results div -->
 			</form>
+			
 		</div>
-		<div id="rightcol"> 
-			Much effort has been made to ensure that 
-			the layouts in the BlueRobot Layout Reservoir appear 
-			as intended in CSS2 compliant browsers. The content 
-			should be viewable, though unstyled, in other web browsers. 
-			If you encounter a problem that is not listed as a known 
-			issue, I am most likely not aware of it. Your help will 
-			benefit the other five or six people who visit this site. 
-		</div> 
-	<!-- </div> -->
-	</body>
+		<!-- end #mainContent -->
+		<!-- This clearing element should immediately follow 
+	    the #mainContent div in order to force the 
+	    #container div to contain all child floats -->
+	   <br class="clearfloat" />
+	   <div id="footer">
+	    <p>Footer</p>
+	   </div>
+	  <!-- end #footer -->
+	  </div>
+	<!-- end #container -->
 </body>
 </html>

@@ -43,9 +43,8 @@ function populate_ordered_list_from_xml(xml, list_id, type){
 		var li = document.createElement("li");
 		li.id = id;
 		var a = document.createElement("a");
-		a.href = "#file";
 		var get_params = "type=" + type + "&id=" + id;
-		a.setAttribute('onClick', "javascript: window.location = 'tng_download_sub_file.php?" + get_params + "'" );
+		a.setAttribute('href', 'tng_download_sub_file.php?' + get_params);
 		a.innerHTML = value;
 		li.appendChild(a);
 		list.appendChild(li);
@@ -107,7 +106,8 @@ function populate_children(xml, table_id){
 	for(var i=0; i < objects.length; i++){
 		var row = table.insertRow(i+1);
 		// id cell
-		cell = row.insertCell(0);
+		var cell = row.insertCell(0);
+		cell.setAttribute('class', 'td_search');
 		var id = objects[i].childNodes[0].childNodes[0].nodeValue;
 		// create a link, which when clicked 
 		// goes to tng_view_submission.php
@@ -119,6 +119,7 @@ function populate_children(xml, table_id){
 		// remaining cells
 		for(var j = 1; j < 8; j++){
 			cell = row.insertCell(j);
+			cell.setAttribute('class', 'td_search');
 			elt_value = "";
 			if(objects[i].childNodes[j].childNodes.length > 0)
 				elt_value = objects[i].childNodes[j].childNodes[0].nodeValue

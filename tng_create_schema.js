@@ -5,6 +5,10 @@ function add_field(){
 	var field_div = document.getElementById('fields');
 	
 	var new_div = document.createElement('div');
+	var par = document.createElement('p');
+	par.setAttribute('class', 'bodyText');
+	par.className = 'bodyText';
+	new_div.appendChild(par);
 	// again, to keep IE happy, append the
 	// new div in the DOM before accessing
 	// any of its properties.
@@ -14,32 +18,38 @@ function add_field(){
 	new_div.style.position =  "relative";
 	new_div.style.width =  "600px";
 	new_div.style.padding =  "5px";
-	new_div.style.border = "1px dashed blue";
+	//new_div.style.border = "1px dashed blue";
 	new_div.style.marginLeft = "20px";
 	new_div.style.marginBottom = "10px";
 		
 	var field_label = document.createElement('label');
-	field_label.setAttribute('style', 'margin-left:10px;position:relative;float:none;width:150px;');
+	//field_label.setAttribute('style', 'margin-left:10px;position:relative;float:none;width:150px;');
+	field_label.setAttribute('style', 'width:100px;');
+	field_label.style.cssText = 'width:100px;';
+
 	field_label.innerHTML = "Field Name:";
-	new_div.appendChild(field_label);
+	par.appendChild(field_label);
 		
 	var field_name = document.createElement('input');
-	new_div.appendChild(field_name);
+	par.appendChild(field_name);
 	field_name.setAttribute('type', 'text');
 	field_name.setAttribute('size', '45');
 	
 	var end_tag = document.createElement('br');
 	//new_div.appendChild(end_tag);
 	end_tag = document.createElement('br');
-	//new_div.appendChild(end_tag);
+	par.appendChild(end_tag);
+	par.appendChild(end_tag);
 	
 	var dt_label = document.createElement('label');
-	new_div.appendChild(dt_label);
-	dt_label.setAttribute('style', 'margin-left:10px;position:relative;float:none;width:150px;');
+	par.appendChild(dt_label);
+	dt_label.setAttribute('style', 'width:150px;');
+	dt_label.style.cssText = 'width:100px;';
 	dt_label.innerHTML = "Field Data Type:";
 	
 	var data_type = document.createElement('select');
 	data_type.setAttribute('style', 'width:100px;');
+	data_type.style.cssText =  'width:100px;';
 	// int
 	var t_int = document.createElement('option');
 	t_int.setAttribute('value', 'integer');
@@ -56,7 +66,7 @@ function add_field(){
 	t_varchar.innerHTML = "string";
 	data_type.appendChild(t_varchar);
 	
-	new_div.appendChild(data_type);
+	par.appendChild(data_type);
 	
 	var delete_button = document.createElement('input');
 	delete_button.setAttribute('type', 'button');
@@ -73,7 +83,7 @@ function add_field(){
 	// calls the function we wish to call.
 	// pathetic, but oh well.
 	delete_button.onclick = function(){delete_field(new_div.id);};
-	new_div.appendChild(delete_button);
+	par.appendChild(delete_button);
 	
 	field_count++;
 }

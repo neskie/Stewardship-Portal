@@ -17,22 +17,56 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
-<title>Create Schema</title>
+<title>View Schema</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_view_schema.js"> </script>
+<!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.thrColHybHdr #sidebar1, .thrColHybHdr #sidebar2 { padding-top: 30px; }
+.thrColHybHdr #mainContent { zoom: 1; padding-top: 15px; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]-->
 </head>
-<body onload="ajax_get_schemas()">
-		<div id="leftcol"> why is is that this didnt work before but it works just fine now ....</div>
-		<div id="content">
-			<form id="tng_view_schema" 
-					name="tng_view_schema" 
-					method="post" 
-					enctype="multipart/form-data">
-				<h2> View Schema </h2>
-				<p>
-					Select the schema you wish to view from the 
-					list below.
-				</p>
+<body class="thrColHybHdr" onload="ajax_get_schemas()">
+	<div id="container">
+	  <div id="header">
+	    <?php include_once('top_div.html'); ?>
+	  </div>
+	  <!-- end #header -->
+
+	  <div id="sidebar1">
+	    <?php include_once('tng_links_post_login.php');?>
+	  </div>  
+	  <!-- end #sidebar1 -->
+
+	  <div id="sidebar2">
+	    <p><span class="subHeader">Portal Access</span><br /></p>
+	    <p class="smallText">
+			A user account is needed to log into the Stewardship Portal. 
+	        To acquire a username and password, please send an email 
+	        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
+
+	    <p><span class="subHeader">TITLE HERE</span><br />
+			Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
+
+		<p><span class="subHeader">TITLE HERE</span><br />
+			Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
+
+	  </div>
+	  <!-- end #sidebar2 -->
+	  <div id="mainContent">
+		<form id="tng_view_schema" 
+			name="tng_view_schema" 
+			method="post" 
+			enctype="multipart/form-data">
+			<h1 class="pageName"> View Schema </h1>
+			<p class="bodyText">
+				Select the schema you wish to view from the 
+				list below.
+			</p>
+			<p class="bodyText">
 				<label style="width: 100px"> <b> Schema </b> </label>
 				<select id="schema_list"
 						name="schema_list"
@@ -53,21 +87,23 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 				<label style="width: 100px"> <b> Attributes </b> </label>
 				<br/>
 				<ul id="attr_list"
-					name="attr_list">
+					name="attr_list"
+					class="bodyText">
 					<!-- automatically populated -->
 				</ul>
-			</form>
+			</p>
+		</form>
 		</div>
-		<div id="rightcol"> 
-			Much effort has been made to ensure that 
-			the layouts in the BlueRobot Layout Reservoir appear 
-			as intended in CSS2 compliant browsers. The content 
-			should be viewable, though unstyled, in other web browsers. 
-			If you encounter a problem that is not listed as a known 
-			issue, I am most likely not aware of it. Your help will 
-			benefit the other five or six people who visit this site. 
-		</div> 
-	<!-- </div> -->
-	</body>
+		<!-- end #mainContent -->
+		<!-- This clearing element should immediately follow 
+	    the #mainContent div in order to force the 
+	    #container div to contain all child floats -->
+	   <br class="clearfloat" />
+	   <div id="footer">
+	    <p>Footer</p>
+	   </div>
+	  <!-- end #footer -->
+	  </div>
+	<!-- end #container -->
 </body>
 </html>

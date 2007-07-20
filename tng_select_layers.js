@@ -124,11 +124,10 @@ function populate_list_from_xml(xml, list_id){
 	// elements for each layer
 	for(var i = 0; i < layers.length; i++){
 		var list_item = document.createElement("dd");
-		
 		var chk_box = document.createElement("input");
 		chk_box.setAttribute("type", "checkbox");
 		chk_box.setAttribute("id", layers[i].childNodes[0].childNodes[0].nodeValue);
-		chk_box.setAttribute("class", "input_checkbox");
+		chk_box.setAttribute("class", "bodyText");
 		chk_box.setAttribute("onChange", "javascript: ajax_post_selected(this.id)");
 		// see if the display attribute is turned on
 		if(layers[i].childNodes[2].childNodes[0].nodeValue == "true")
@@ -141,7 +140,7 @@ function populate_list_from_xml(xml, list_id){
 		// it next to the checkbox	
 		var layer_name = document.createTextNode(layers[i].childNodes[1].childNodes[0].nodeValue);
 		list_item.appendChild(layer_name);
-		
+
 		// and attach the <li> to the <list>
 		list.appendChild(list_item); 		
 	}

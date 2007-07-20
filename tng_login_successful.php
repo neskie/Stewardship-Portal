@@ -17,7 +17,7 @@ include_once('tng_check_session.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="style.css" type="text/css" />
-<title>Form Not Saved</title>
+<title>Stewardship Portal Main Page</title>
 
 <!--[if IE]>
 <style type="text/css"> 
@@ -58,11 +58,66 @@ include_once('tng_check_session.php');
   </div>
   <!-- end #sidebar2 -->
   <div id="mainContent">
-    <h1 class="pageName"> Error </h1>
+    <h1 class="pageName"> Welcome to The Stewardship Portal </h1>
     <p class="bodyText">
-    	The form that you filled out could not be saved successfully.
+    	You have successfully logged in to The Stewardship Portal. The list
+		below outlines the functions that are accessible from the menu on the left.
     </p>
 
+	<p class="bodyText">
+		<ul>
+			<li class="subHeader"> Forms </li>
+				<p class="bodyText">
+					Select a Form to be filled for
+					submitting various types of data.
+					<br/>			
+					For example, to initiate a Forestry Referral, click on
+					"View Forms" and select the Referral Form from the list.
+				</p>
+			<li class="subHeader"> Search Submissions </li>
+				<p class="bodyText">
+					This function allows you 
+					to search through the Submissions in the Portal.
+					<br/>
+					Note that you will not see submissions from other
+					users unless you the appropriate have permissions.
+				</p>
+			<li class="subHeader"> Map Layers </li>
+				<p class="bodyText">
+					To view the spatial layers that you are permitted
+					to see, click on the "Map Layers" link. 
+					<br/>
+					You will be
+					able to search through the list of layers by name
+					and select which layers you would like to see
+					in the Map Viewer.
+				</p>
+			<li class="subHeader"> Manage Permissions </li>
+				<p class="bodyText">
+					This is an administrative function that
+						enables you to 
+						manage permissions on various objects such 
+						as layers, forms, etc. that a user has
+						access to.
+				</p>
+			<li class="subHeader"> User Management </li>
+				<p class="bodyText">
+					Use this function to add new users to the 
+					Portal or to change
+					passwords, email addresses, etc. for existing users.
+				</p>
+			<li class="subHeader"> Create Spatial Schema </li>
+				<p class="bodyText">
+					An administrative function allowing creation of
+					Spatial Schemas that can be linked to various forms.
+				</p>
+			<li class="subHeader"> View Available Schemas </li>
+				<p class="bodyText">
+					Allows you to see what schemas are available
+					and which forms are associated with which schema(s).
+				</p>
+		</ul>
+     </p>
           
    </div>
 	<!-- end #mainContent -->
@@ -76,11 +131,5 @@ include_once('tng_check_session.php');
   <!-- end #footer -->
   </div>
 <!-- end #container -->
-</body>
-</html>
-<html>
-<head> </head>
-<body>
-	<h2> There was an error saving the form </h2>
 </body>
 </html>

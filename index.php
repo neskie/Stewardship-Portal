@@ -1,23 +1,9 @@
-<?php
-/*---------------------------------------------------------------
-author:	alim karim
-date:	July 12, 2007
-file:	tng_login_successful.php
-
-desc:	webpage that will be displayed upon
-		successful login
----------------------------------------------------------------*/
-header('Pragma: no-cache'); 
-header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-include_once('tng_check_session.php');
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="style.css" type="text/css" />
-<title>Form Not Saved</title>
+<title>Stewardship Portal</title>
 
 <!--[if IE]>
 <style type="text/css"> 
@@ -26,8 +12,7 @@ include_once('tng_check_session.php');
 .thrColHybHdr #mainContent { zoom: 1; padding-top: 15px; }
 /* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
 </style>
-<![endif]-->
-</head>
+<![endif]--></head>
 
 <body class="thrColHybHdr">
 
@@ -38,7 +23,7 @@ include_once('tng_check_session.php');
   <!-- end #header -->
   
   <div id="sidebar1">
-    <?php include_once('tng_links_post_login.php');?>
+    <?php include_once('links_no_login.html');?>
   </div>  
   <!-- end #sidebar1 -->
   
@@ -58,11 +43,30 @@ include_once('tng_check_session.php');
   </div>
   <!-- end #sidebar2 -->
   <div id="mainContent">
-    <h1 class="pageName"> Error </h1>
+    <h1 class="pageName"> Stewardship Portal </h1>
     <p class="bodyText">
-    	The form that you filled out could not be saved successfully.
+    The Stewardship Department of Tsilhqot'in National Government 
+    is developing and interactive land and resource &quot;Stewardship Portal.&quot; 
+    The Stewardship Portal is a web-based land-use information management and 
+    planning support system.
     </p>
 
+	<p class="bodyText">
+    A primary function of the Stewardship Portal is to improve the efficiency 
+    and quality of the referral process. Many of the tedius steps of the 
+    referral tracking/filing and land-use planning (e.g. mapping protected areas) 
+    are simplified through the automated functions of our spatial database. 
+    The database stores any type of land and resource infromation from reports 
+    to photos in relation to the area of land for which they are relevant.
+    </p>
+	
+     <p class="bodyText">
+     By making the power of Geographic Information Systems (GIS) 
+     accessible (cost-effective and user-friendly) for remote communities 
+     and minimizing paper handling time. The Portal is a significant step toward 
+     empowing First Nations communiies to be directly involved in the land and 
+     resource stewardship.
+     </p>
           
    </div>
 	<!-- end #mainContent -->
@@ -76,11 +80,5 @@ include_once('tng_check_session.php');
   <!-- end #footer -->
   </div>
 <!-- end #container -->
-</body>
-</html>
-<html>
-<head> </head>
-<body>
-	<h2> There was an error saving the form </h2>
 </body>
 </html>

@@ -24,7 +24,7 @@ if(isset($_POST['uname']) && isset($_POST['passwd'])){
 			$_SESSION['obj_login'] = $login;
 			// go to list forms page
 			//header("Location: tng_list_forms.php");
-				echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_list_forms.php'>";  
+				echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_login_successful.php'>";  
 	}
 }
 ?>

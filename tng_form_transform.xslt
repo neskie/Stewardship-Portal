@@ -10,11 +10,14 @@
 
 	<!-- form template -->
 	<xsl:template match="form">
-		<h2>
+		<h1 class="pageName">
 			<xsl:value-of select="form_name"/> 
-		</h2>
+		</h1>
 		<br/>
-		<xsl:apply-templates select="field"/>
+		<div class="bodyText">
+			<xsl:apply-templates select="field"/>
+		</div>
+
 	</xsl:template> 
 	<!-- end form template -->
 
@@ -24,6 +27,7 @@
 			<xsl:attribute name="class">
 				<xsl:value-of select="field_label_css_class"/>
 			</xsl:attribute>
+			
 			<xsl:value-of select="field_label"/>
 		</label>
 		<xsl:choose>
@@ -51,9 +55,7 @@
 					<xsl:attribute name="name">
 						<xsl:value-of select='concat("fieldid_", field_id)'/>
 					</xsl:attribute>
-					<xsl:attribute name="class">
-						<xsl:value-of select="field_css_class"/>
-					</xsl:attribute>
+				
 					<!-- check if the readonly parameter is set -->
 					<xsl:if test="$readonly = 'true'">
 						<xsl:attribute name="disabled">
@@ -70,6 +72,7 @@
 				<br/>
 			</xsl:when>
 			<xsl:otherwise>
+				<br/>
 				<br/>
 			</xsl:otherwise>
 		</xsl:choose>

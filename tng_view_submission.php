@@ -42,150 +42,178 @@ var sub_id = -1;
 ajax_populate_status_list();
 
 </script>
-
+<!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.thrColHybHdr #sidebar1, .thrColHybHdr #sidebar2 { padding-top: 30px; }
+.thrColHybHdr #mainContent { zoom: 1; padding-top: 15px; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]-->
 </head>
-<body >
-		<div id="leftcol"> why is is that 
-						this didnt work before but 
-						it works just fine now ....
-		</div>
-		<div id="content">
-			<form id="tng_view_submissions" 
-					name="tng_view_submissions" 
-					method="post" 
-					enctype="multipart/form-data">
-			<h2> View Submission </h2>
-			<p>
-				This page displays the details of a
-				particular Submission. To view the Form
-				that was submitted, please click on the 
-				View Form Link
-			</p>
-			<p>
-				To download any of the files or layers
-				that were a part of the Submission, please
-				click on their respective links.
-			</p>
-			
-			<h3> Submission Details </h3>
-			<br/>
-			<p>
-				<label style="width:100px" > <b> ID </b> </label>
-				<input type="text"
-						id="sub_id"
-						size="55"
-						disabled="1"/>
-				<br/>
-	
-				<label style="width:100px" > <b> Type </b> </label>
-				<input type="text"
-						id="sub_type"
-						size="55"
-						disabled="1"/>
-				<br/>
-	
-				<label style="width:100px" > <b> Title </b> </label>
-				<input type="text"
-						id="sub_title"
-						size="55"
-						disabled="1"/>
-				<br/>
-	
-				<label style="width:100px" > <b> Name </b> </label>
-				<input type="text"
-						id="sub_name"
-						size="55"/>
-				<input type="button"
-						class="button"
-						value="Update Name"
-						onClick="javascript: ajax_update_name();"/>
-				<br/>
-	
-				<label style="width:100px" > <b> Status </b> </label>
-				<select id="status_list"
-						style="width: 300px;"
-						onChange="ajax_update_status()">
-						<!-- automatically populated -->
-				</select>
-				<br/>
-	
-				<label style="width:100px" > <b> Submitted By </b> </label>
-				<input type="text"
-						id="sub_user"
-						size="55"
-						disabled="1"/>
-				<br/>
-	
-				<label style="width:100px" > <b> Assigned To </b> </label>
-				<select id="asignee_list"
-						style="width: 300px;"
-						onChange="javascript: ajax_update_assignee()">
-						<!-- automatically populated -->
-				</select>
-				<br/>
+<body class="thrColHybHdr">
 
-				<label style="width:100px" > <b> Date Submitted </b> </label>
-				<input type="text"
-						id="sub_date"
-						size="55"
-						disabled="1"/>
-				<br/>
-			</p>
-			<hr/>
-			<p>
-				<h3> Submission Form </h3>
-				<br/>
-					<a href="#form" onClick="ajax_dislpay_form()">View Form Data </a>
-				<br/>
-				<br/>
-			</p>
-			<hr/>
-			<p>
-				<h3> Submission Files </h3>
-				<ol id="sub_files">
-					<!-- automatically populated -->
-				</ol>
-				<br/>
-			</p>
-			<hr/>
-			<p>
-				<h3> Submission Layers </h3>
-				<ol id="sub_layers">
-					<!-- automatically populated -->
-				</ol>
-				<br/>
-			</p>
-			<hr/>
-			<p>
-				<h3> Ammendments </h3>
-				<div id="search_results">
-					<br/>
-					<table id="tbl_sub_children"
-							style="width: 90%;">
-						<tr>
-							<th> ID </th>
-							<th> Type </th>
-							<th> Title </th>
-							<th> Name </th>
-							<th> Status </th>
-							<th> Submitted By </th>
-							<th> Assigned To </th>
-							<th> Date Submitted </th>
-						</tr>
-					</table>
-				</div>
-				<br/>
-			</p>		
+<div id="container">
+  <div id="header">
+    <?php include_once('top_div.html'); ?>
+  </div>
+  <!-- end #header -->
+  
+  <div id="sidebar1">
+    <?php include_once('tng_links_post_login.php');?>
+  </div>  
+  <!-- end #sidebar1 -->
+  
+  <div id="sidebar2">
+    <p><span class="subHeader">Portal Access</span><br /></p>
+    <p class="smallText">
+		A user account is needed to log into the Stewardship Portal. 
+        To acquire a username and password, please send an email 
+        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
+			
+    <p><span class="subHeader">TITLE HERE</span><br />
+		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
+
+	<p><span class="subHeader">TITLE HERE</span><br />
+		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
+        
+  </div>
+  <!-- end #sidebar2 -->
+  <div id="mainContent">
+	<h1 class="pageName"> View Submission </h1>
+	<p class="bodyText">
+		This page displays the details of a
+		particular Submission. To view the Form
+		that was submitted, please click on the 
+		View Form Link
+	</p>
+	<p class="bodyText">
+		To download any of the files or layers
+		that were a part of the Submission, please
+		click on their respective links.
+	</p>
+	
+	<p class="bodyText"> <b> Submission Details </b> </p>
+	<br/>
+	<p class="bodyText">
+		<label style="width:100px" > <b> ID </b> </label>
+		<input type="text"
+				id="sub_id"
+				size="55"
+				disabled="1"/>
+		<br/>
+
+		<label style="width:100px" > <b> Type </b> </label>
+		<input type="text"
+				id="sub_type"
+				size="55"
+				disabled="1"/>
+		<br/>
+
+		<label style="width:100px" > <b> Title </b> </label>
+		<input type="text"
+				id="sub_title"
+				size="55"
+				disabled="1"/>
+		<br/>
+
+		<label style="width:100px" > <b> Name </b> </label>
+		<input type="text"
+				id="sub_name"
+				size="55"/>
+		<input type="button"
+				class="button"
+				value="Update Name"
+				onClick="javascript: ajax_update_name();"/>
+		<br/>
+
+		<label style="width:100px" > <b> Status </b> </label>
+		<select id="status_list"
+				style="width: 300px;"
+				onChange="ajax_update_status()">
+				<!-- automatically populated -->
+		</select>
+		<br/>
+
+		<label style="width:100px" > <b> Submitted By </b> </label>
+		<input type="text"
+				id="sub_user"
+				size="55"
+				disabled="1"/>
+		<br/>
+
+		<label style="width:100px" > <b> Assigned To </b> </label>
+		<select id="asignee_list"
+				style="width: 300px;"
+				onChange="javascript: ajax_update_assignee()">
+				<!-- automatically populated -->
+		</select>
+		<br/>
+
+		<label style="width:100px" > <b> Date Submitted </b> </label>
+		<input type="text"
+				id="sub_date"
+				size="55"
+				disabled="1"/>
+		<br/>
+	</p>
+	<hr/>
+	<p class="bodyText">
+		<b> Submission Form </b>
+		<br/>
+		<a href="#form" onClick="ajax_dislpay_form()">View Form Data </a>
+	</p>
+	<hr/>
+	<p class="bodyText">
+		<b> Submission Files </b>
+		<br/>
+		<ol id="sub_files" class="bodyText">
+			<!-- automatically populated -->
+		</ol>
+		<br/>
+	</p>
+	<hr/>
+	<p class="bodyText">
+		<b> Submission Layers </b>
+		<br/>
+		<ol id="sub_layers" class="bodyText">
+			<!-- automatically populated -->
+		</ol>
+		<br/>
+	</p>
+	<hr/>
+	<p class="bodyText">
+		<b> Amendments </b>
+		<br/>
+		<div id="search_results">
+			<br/>
+			<table id="tbl_sub_children"
+					style="width: 90%; border-collapse: collapse;">
+				<tr class="th_search">
+					<th> ID </th>
+					<th> Type </th>
+					<th> Title </th>
+					<th> Name </th>
+					<th> Status </th>
+					<th> Submitted By </th>
+					<th> Assigned To </th>
+					<th> Date Submitted </th>
+				</tr>
+			</table>
 		</div>
-		<div id="rightcol"> 
-			Much effort has been made to ensure that 
-			the layouts in the BlueRobot Layout Reservoir appear 
-			as intended in CSS2 compliant browsers. The content 
-			should be viewable, though unstyled, in other web browsers. 
-			If you encounter a problem that is not listed as a known 
-			issue, I am most likely not aware of it. Your help will 
-			benefit the other five or six people who visit this site. 
-		</div> 
-	</body>
+		<br/>
+	</p>		
+  </div>
+	<!-- end #mainContent -->
+	<!-- This clearing element should immediately follow 
+    the #mainContent div in order to force the 
+    #container div to contain all child floats -->
+   <br class="clearfloat" />
+   <div id="footer">
+    <p>Footer</p>
+   </div>
+  <!-- end #footer -->
+  </div>
+<!-- end #container -->
 </body>
 </html>

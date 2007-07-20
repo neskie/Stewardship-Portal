@@ -1,111 +1,98 @@
+/* Global Styles */
 
-/* 
-	author:	alim karim
-	
-	desc:	stylesheet to manage the TNG portal
-			site
-	
+/* Tips for this Hybrid layout
+1. Since the side columns em-based sizing is based on the user's default font size, you will want to be sure that background graphics in the columns take that into account. Built correctly, this is more accessible for those that need larger font sizes, since the width of the columns remains proportionate. If this is undesirable with your design, simply change the width to a pixel size and be sure to change the margins on the #mainContent div accordingly.
+2. Since the sizing of side columns in this layout are based on the 100% font size in the body element, if you decrease the text size overall by using a font-size: 80% on the body element or the #container, remember that the column widths will downsize proportionately. You may want to increase their widths, and the size of the #mainContent div's side margins, to compensate for this.
+3. If font sizing is changed in differing amounts on each div instead of on the overall design (ie: #sidebar1 is given a 70% font size and #mainContent is given an 85% font size), this will proportionately change each of the divs overall size. You may want to adjust based on your final font sizing.
+4. The #container div is not necessary for this layout at the 100% width. You may want to use it to create faux columns or limit the width of the layout.
+5. It is not neccessary to have the 100% width on the #container div since, by nature, a div takes up 100% of the available space. It is here so that if you want to decrease the size of the overall container - perhaps leaving a bit of margin on each side - this will already be available for adjustment.
 */
-
-/* divs */
-#container {
-	width: 900px;
-	margin: 0 auto;
-
-}
-#leftcol {
-	position:absolute;
-		width:150px;
-		top:20px;
-		left:20px;
-		border:1px dashed black;
-		background-color:#eee;
-		padding:10px;
-		z-index:2;
-		voice-family: "\"}\"";
-			voice-family:inherit; 
-			width:128px;
-}
-#content {
-	position:relative; /* Position is declared "relative" to gain control of stacking order (z-index). */
-		width:auto;
-		min-width:120px;
-		margin:0px 210px 20px 170px;
-		border:1px solid black;
-		background-color:white;
-		padding:10px;
-		z-index:3; /* This allows the content to overlap the right menu in narrow windows in good browsers. */
-}
-#rightcol {
-	position:absolute;
-		width:190px;
-		top:20px;
-		right:20px;
-		border:1px dashed black;
-		background-color:#eee;
-		padding:10px;
-		z-index:1; 
-	/* Again, the ugly brilliant hack. */
-		voice-family: "\"}\"";
-		voice-family:inherit; 
-		width:168px;
-}
-/* end divs*/
-
-/* general html elements */
-h1{
-	font-style:bold;
-	font-size: 16px;
-	margin:0px 0px 5px 0px;
-	padding:0px;
+.thrColHybHdr #container { 
+	width: 100%;
+	background: #FFFFFF;
+	/*margin: 0 auto;  the auto margins (in conjunction with a width) center the page if needed */
+	text-align: left; /* this overrides the text-align: center on the body element. */
+}  
+.thrColHybHdr #header { 
+	background: #DDDDDD; 
+	padding: 0 10px;  /* this padding matches the left alignment of the elements in the divs that appear beneath it. If an image is used in the #header instead of text, you may want to remove the padding. */
+} 
+.thrColHybHdr #header h1 {
+	margin: 0; /* zeroing the margin of the last element in the #header div will avoid margin collapse - an unexplainable space between divs. If the div has a border around it, this is not necessary as that also avoids the margin collapse */
+	padding: 10px 0; /* using padding instead of margin will allow you to keep the element away from the edges of the div */
 }
 
-h2{
-	font-style:bold;
-	font-size: 14px;
-	margin:0px 0px 5px 0px;
-	padding:0px;
+/* Tips for sidebar1:
+1. Be aware that if you set a font-size value on this div, the overall width of the div will be adjusted accordingly.
+2. Since we are working in ems, it's best not to use padding on the sidebar itself. It will be added to the width for standards compliant browsers creating an unknown actual width. 
+3. Space between the side of the div and the elements within it can be created by placing a left and right margin on those elements as seen in the ".thrColHybHdr #sidebar1 p" rule.
+*/
+.thrColHybHdr #sidebar1 {
+	float: left; 
+	width: 11em; /* since this element is floated, a width must be given */
+	background: #EBEBEB; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 15px 0; /* top and bottom padding create visual space within this div */
 }
-
-h3{
-	font-style:bold;
-	font-size: 12px;
-	margin:0px 0px 5px 0px;
-	padding:0px;
+.thrColHybHdr #sidebar2 {
+	float: right; 
+	width: 11em; /* since this element is floated, a width must be given */
+	background: #EBEBEB; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 15px 0; /* top and bottom padding create visual space within this div */
 }
-
-body{
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-style: normal;
-	font-size: 11px;
-	margin:20px;
-	padding:0px;	
-}
-
-br{
-	clear: left;
-}
-
-
-label{
-	background-color: #FFFFFF;
-	border: none;
-	display:inline;
-	position:relative; /* must have this - I.E screws up otherwise */
-	float:left;  /* having this without position makes label text disappear in I.E*/
-	text-align: left;
-	margin-bottom: 5px;
+.thrColHybHdr #sidebar1 h3, .thrColHybHdr #sidebar1 p, .thrColHybHdr #sidebar2 p, .thrColHybHdr #sidebar2 h3 {
+	margin-left: 10px; /* the left and right margin should be given to every element that will be placed in the side columns */
 	margin-right: 10px;
-	/*width:100px; - should be controlled by individual element */
 }
 
-p {
-	font:11px/20px verdana, arial, helvetica, sans-serif;
-	margin:0px 0px 16px 0px;
-	padding:0px;
+/* Tips for mainContent:
+1. If you give this #mainContent div a font-size value different than the #sidebar1 div, the margins of the #mainContent div will be based on its font-size and the width of the #sidebar1 div will be based on its font-size. You may wish to adjust the values of these divs.
+2. The space between the mainContent and sidebar1 is created with the left margin on the mainContent div.  No matter how much content the sidebar1 div contains, the column space will remain. You can remove this left margin if you want the #mainContent div's text to fill the #sidebar1 space when the content in #sidebar1 ends.
+3. To avoid float drop, you may need to test to determine the approximate maximum image/element size since this layout is based on the user's font sizing combined with the values you set. However, if the user has their browser font size set lower than normal, less space will be available in the #mainContent div than you may see on testing.
+4. In the Internet Explorer Conditional Comment below, the zoom property is used to give the mainContent "hasLayout." This avoids several IE-specific bugs that may occur.
+*/
+.thrColHybHdr #mainContent {
+ 	margin: 0 12em 0 12em; /* the right margin can be given in ems or pixels. It creates the space down the right side of the page. */ 
+	padding: 0 2em 0 2em; /* padding here creates white space "inside the box." */
+} 
+.thrColHybHdr #footer { 
+	padding: 0 10px; /* this padding matches the left alignment of the elements in the divs that appear above it. */
+	background:#DDDDDD;
+} 
+.thrColHybHdr #footer p {
+	margin: 0; /* zeroing the margins of the first element in the footer will avoid the possibility of margin collapse - a space between divs */
+	padding: 10px 0; /* padding on this element will create space, just as the the margin would have, without the margin collapse issue */
+}
+
+/* Miscellaneous classes for reuse */
+.fltrt { /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { /* this class can be used to float an element left in your page */
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat { /* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+
+body {
+	margin:0px;
 	}
-.Content>p {margin:0px;}
-.Content>p+p {text-indent:30px;}
+	
+label {
+	float:left;
+}
+
+td {
+	font:11px Arial, Helvetica, sans-serif;
+	color:#666666;
+	}
+
+
 
 input{
 	font-size: 11px;
@@ -121,206 +108,158 @@ select{
 	background-color: #FFFFFF;
 	border: groove;
 	border-width:thin;
-	/* width:150px; */
 }
-
-table{
-	border-width: 1px;
-	border-spacing: 2px;
-	border-style: solid;
-	border-color: gray;
-	border-collapse: collapse;
-}
-
-th{
 	
-	border-collapse: separate;
-	padding: 2px;
-	border-bottom: 1px solid;
-	border-right: 1px solid;
-	background-color: #fff2ba;
+a {
+	color: #993300;
+	}
+	
+a:hover {
+	color: #5C743D;
+	}
+	
+.br_form{
+		clear: left;
 }
+		
+/* ID Styles */
 
-td{
-	border-bottom: 1px solid;
-	border-right: 1px solid;
-	padding: 5px;
-	/* background-color: #D6D5D3; */
-}
+#navigation td {
+	border-bottom: 1px solid #F4FFE4;
+	}
+	
+#navigation a {
+	font: bold 11px Arial, Helvetica, sans-serif;
+	color: #D5EDB3;
+	line-height:16px;
+	letter-spacing:.1em;
+	text-decoration: none;
+	display:block;
+	padding:8px 6px 10px 20px;
+	}
+	
+#navigation a:hover {
+	background: #99CC66;
+	color:#993300;
+	}
+	
+#logo 	{
+	font:24px Arial, Helvetica, sans-serif;
+	color: #5C743D;
+	letter-spacing:.2em;
+	line-height:30px;
+	}
 
-/* end general html elements */
-/* ------------------------------------------------------------------- */
-/* form specific css classes */
-/* ------------------------------------------------------------------- */
+#tagline 	{	
+	font:11px Arial, Helvetica, sans-serif;
+	color: #993300;
+	letter-spacing:.4em;
+	line-height:18px;
+	}
 
-/*
-	header label
-*/
-.lbl_header{
-	font-size: 12px;
-	font-weight: bold;
-	/* background-color: #339966;  */
-	margin-left: 5px;
-	margin-bottom: 15px;
-	width: 560px;
-	float:left;
-}
+#monthformat {
+	border-bottom: 1px dashed #5C743D;
+	}
+		
+#dateformat {
+	font:11px Arial, Helvetica, sans-serif;
+	color: #993300;
+	letter-spacing:.2em;
+	}
+	
+#dateformat a {
+	font:11px Arial, Helvetica, sans-serif;
+	color: #993300;
+	font-weight:bold;
+	letter-spacing:.1em;
+	text-decoration:none;
+	}
+	
+#dateformat a:hover {
+	color: #F4FFE4;
+	letter-spacing:.1em;
+	}
+	
+/* Class Styles */
+	
+.bodyText, .th_search {
+	font:11px Arial, Helvetica, sans-serif;
+	color:#666666;
+	line-height:20px;
+	margin-top:0px;
+	}
+	
+.pageName{
+	font: 18px Arial, Helvetica, sans-serif;
+	color: #99CC66;
+	line-height:26px;
+	letter-spacing:.21em;
+	}
+	
+.subHeader {
+	font:bold 11px Arial, Helvetica, sans-serif;
+	color: #993300;
+	line-height:22px;
+	letter-spacing:.2em;
+	}
 
-/*
-	header label for entire page
-*/
-.lbl_page_header{
-	font-size: 20px;
-	font-weight: bold;
-	/* background-color: #339966; */
-	margin-bottom: 10px;
-	margin-bottom: 10px;
-	width: 660px;
-	float:left;
+.quote {
+	font: 20px Arial, Helvetica, sans-serif;
+	color: #759DA1;
+	line-height:30px;
+	}
+	
+.smallText {
+	font: 10px Arial, Helvetica, sans-serif;
+	color: #666666;
+	line-height: 22px;
+	}
+	
+.navText {
+	font: 11px Arial, Helvetica, sans-serif;
+	color: #003366;
+	line-height:16px;
+	letter-spacing:.1em;
+	text-decoration: none;
+	}
+
+.th_search {
+	border:1px solid #DCDCDC;
+	background-color: #D5EDB3;
 	text-align: center;
 }
 
-/*
-	regular labels for the refferral form
-*/
-.lbl_regular, .lbl_checkbox{
-	font-size: 11px;
-	font-weight: normal;
-	background-color: #FFFFFF;
-	border: none;
-	/*width: 195px;*/
-	width: 35%;
-	float: left;
-	text-align: left;
-	margin-bottom: 7px;
+.td_search {
+	padding: 5px;
+	border:1px solid #DCDCDC;
+	text-align: center;
+}	
+
+.form_text_area, .txt_area_file_description{
+	border: groove;
+	border-width:thin;
+	/* width: 345px; */
+	width: 40%;
+	margin-top: 5px;
+	margin-bottom: 5px;
 	margin-left: 5px;
+	margin-right: 0px;
+	height: 20px;
+}
+
+.lbl_regular, .lbl_checkbox{
+	width: 30%;
 }
 
 .lbl_checkbox{
 	font-style: italic;
 }
 
-/*
-	other general labels
-*/
-.lbl_general{
+.lbl_header{
 	font-size: 12px;
-	font-weight: normal;
-	background-color: #FFFFFF;
-	border: none;
-	width: 100px;
-	float: left;
-	text-align: left;
-	margin-bottom: 2px;
-}
-
-/*
-	wide labels - for paragraphs
-	of text
-*/
-.lbl_wide{
-	font-size: 12px;
-	font-weight: normal;
-	background-color: #FFFFFF;
-	border: none;
-	width: 600px;
-	float: left;
-	text-align: left;
-	margin-bottom: 2px;
-	margin-right: 10px;
-}
-
-/*
-	text to be held in left or right
-	divs
-*/
-.lbl_div{
-	font-size: 11px;
-	font-weight: normal;
-	background-color: #FFFFFF;
-	border: none;
-	width: 90px;
-	float: left;
-	text-align: left;
-	margin-bottom: 2px;
-}
-
-
-/*
-	common text area properties
-*/
-.txt_area_section_a, .txt_area_section_b, .txt_area_file_description{
-	font-size: 11px;
-	/*background-color: #CCCCCC;*/
-	border: groove;
-	border-width:thin;
-	/* width: 345px; */
-	width: 60%;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	font-weight: bold;
 	margin-left: 5px;
-	margin-right: 0px;
+	margin-bottom: 15px;
+	width: 80%;
+	float:left;
 }
-
-/*
-	referral form section A text areas
-*/
-.txt_area_section_a{
-	height: 15px;
-}
-
-/* 
-	referral form section B text areas 
-*/
-.txt_area_section_b{
-	height: 40px;
-}
-
-/* 
-	referral form description boxes
-	for file submissions
-*/
-.txt_area_file_description{
-	height: 40px;
-	float: left;
-	width: 450px;
-	margin-bottom: 5px;
-}
-.input_regular{
-	font-size: 11px;
-	font-style: normal;
-	float: left;
-	width: 200px;
-	background-color: #FFFFFF;
-	border: groove;
-	border-width:thin;
-	margin-top: 5px;
-	margin-bottom: 2px;
-	/* margin-left: 5px; */
-	margin-right: 0px;
-}
-	
-.input_file{
-	font-size: 11px;
-	font-style: normal;
-	margin-left: 5px;
-}
-
-.input_checkbox{
-	vertical-align: middle;
-}
-
-.button {
-	font-size: 11px;
-	background-color: #CCCCCC;
-	border-top-width: double;
-	border-right-width: double;
-	border-bottom-width: double;
-	border-left-width: double;
-	border-top-style: groove;
-	border-right-style: groove;
-	border-bottom-style: groove;
-	border-left-style: groove;
-	margin-top: 5px;
-	margin-left: 2px;
-}	
