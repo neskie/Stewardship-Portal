@@ -13,7 +13,9 @@
 		 &nbsp;<br /></td>
         </tr>
         <tr>
-          <td width="165"><a href="javascript:;" class="navText">Stewardship Home</a></td>
+          <td width="165">
+			<a href="javascript:window.location='tng_login_successful.php';" 
+				class="navText">Stewardship Home</a></td>
         </tr>
         <tr>
           <td width="165">
@@ -54,6 +56,12 @@
           <td width="165">
 			<a href="javascript:window.location='tng_view_schema.php';" 
 				class="navText">View Available Schemas </a>
+		  </td>
+        </tr>
+		<tr>
+          <td width="165">
+			<a href="javascript:window.location='tng_create_form.php';" 
+				class="navText">Create Form </a>
 		  </td>
         </tr>
       </table>

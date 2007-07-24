@@ -19,9 +19,9 @@ include_once('tng_check_session.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
-<title>Create Schema</title>
+<title>Create Form</title>
 <script src="tng_ajax_utils.js"> </script>
-<script src="tng_create_schema.js"> </script>
+<script src="tng_create_form.js"> </script>
 <!--[if IE]>
 <style type="text/css"> 
 /* place css fixes for all versions of IE in this conditional comment */
@@ -49,56 +49,44 @@ include_once('tng_check_session.php');
     <p class="smallText">
 		A user account is needed to log into the Stewardship Portal. 
         To acquire a username and password, please send an email 
-        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
-			
-    <p><span class="subHeader">TITLE HERE</span><br />
-		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-
-	<p><span class="subHeader">TITLE HERE</span><br />
-		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-        
+        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a>
+	</p>        
   </div>
   <!-- end #sidebar2 -->
   <div id="mainContent">
-	<form id="tng_create_schema" 
-			name="tng_create_schema" 
+	<form id="tng_create_form" 
+			name="tng_create_form" 
 			method="post" 
 			enctype="multipart/form-data">
-		<h1 class="pageName"> Create Schema </h1>
+		<h1 class="pageName"> Form </h1>
 		<ul class="bodyText">
 			<li> 
-				Enter a name for the schema you wish to 
+				Enter a name for the Form you wish to 
 				create.
 			</li>
 			<br/>
 			<li> 
-				Select the type of geometry that this schema
-				will be associated with.
+				Add Field objects to the Form representing the 
+				fields that the Form will contain. Note that
+				each Field should have a Name,  a Data Type and a Rank.
+				<br>
+				The Rank determines where in the page the Field will
+				be displayed when a user is filling out the Form. 
+				The lower the rank, the closer to the top
+				the Field will be displayed.
 			</li>
 			<br/>
 			<li> 
-				Add attributes to the schema representing the attributes
-				that are expected for this schema. Note that
-				each attribute should have a name and a data type.
-			</li>
-			<br/>
-			<li> 
-				Click on Create Schema to create the schema
+				Click on Create Form to create the Form.
 			</li>
 			
 		</ul>
 		<hr/>
 		<br/>
 		<p class="bodyText">
-			<label style="width:105px"> <b> Schema Name: </b></label>
-			<input type="text" id="schema_name" name="schema_name" size="45"/>
+			<label style="width:105px"> <b> Form Name: </b></label>
+			<input type="text" id="form_name" name="form_name" size="45"/>
 			<br/>
-			<label style="width:105px"> <b> Geometry Type: </b></label>
-			<select id="geom_type" class="input" style="width:250px">
-				<option id="point" value="point"> Point </option>
-				<option id="line" value="line"> Line </option>
-				<option id="polygon" value="polygon"> Polygon </option>
-			</select>
 		</p>
 		<p class="bodyText">
 			<b> Attributes: </b>
@@ -110,15 +98,16 @@ include_once('tng_check_session.php');
 			</div>
 			<br/>
 			<input type="button"
-					value="Add Attribute"
+					value="Add Field"
 					onClick="javascript: add_field()"/>
 		</p>
 		<br/>
 		<br/>
 		<input type="button"
 				class="button"
-				value="Create Schema"
-				onClick="javascript: ajax_check_schema_name()"/>
+				value="Create Form"
+				onClick="javascript: ajax_check_form_name()"/>
+		<br/>
 		<br/>
 	</form>
 	</div>
