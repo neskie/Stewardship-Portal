@@ -64,6 +64,12 @@
 				class="navText">Create Form </a>
 		  </td>
         </tr>
+		<tr>
+          <td width="165">
+			<a href="javascript:window.location='tng_link_schema_form.php';" 
+				class="navText">Associate Schema with Form </a>
+		  </td>
+        </tr>
       </table>
 </body>
 </html>

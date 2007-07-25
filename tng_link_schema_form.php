@@ -12,7 +12,6 @@ desc:	webpage to give the user an interface to
 header('Pragma: no-cache'); 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-
 // include script to check for 
 // login session variable
 include_once('tng_check_session.php');
@@ -22,15 +21,13 @@ include_once('tng_check_session.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
-<title>Manage Permissions</title>
+<title>Link Schema to Form</title>
 <script src="tng_ajax_utils.js"> </script>
-<script src="tng_manage_permissions.js"> </script>
+<script src="tng_link_schema_form.js"> </script>
 <script language="javascript">
-
-// the first time around, we should display
-// all users. this is done by sending
-// a blank string to the ajax_search_uname function.
-ajax_search_uname("");
+// when the page loads, we should
+// populate the list of forms
+ajax_populate_forms();
 
 </script>
 <!--[if IE]>
@@ -60,73 +57,61 @@ ajax_search_uname("");
     <p class="smallText">
 		A user account is needed to log into the Stewardship Portal. 
         To acquire a username and password, please send an email 
-        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
-			
-    <p><span class="subHeader">TITLE HERE</span><br />
-		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-
-	<p><span class="subHeader">TITLE HERE</span><br />
-		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-        
+        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a>
+	</p>		     
   </div>
   <!-- end #sidebar2 -->
   <div id="mainContent">
-	<form id="tng_select_layers" 
-		name="tng_select_layers" 
+	<form id="tng_link_schema" 
+		name="tng_link_schema" 
 		method="post" 
 		enctype="multipart/form-data">
-		<h1 class="pageName"> Manage Permissions </h1>
-			<p class="bodyText"> To begin, click on a user name and select
-				the object that you wish to grant or revoke
-				permissions to.
-			</p>
-			<p class="bodyText"> To search list of users by name, enter the 
-				username in the field below.
-			</p>
+		<h1 class="pageName"> Link Schema to Form </h1>
 			<p class="bodyText">
-			<label style="width:100px;" for="uname"> Name: </label>
-			<input type="text"
-					name="uname" 
-					id="uname"
-					size="45"
-					onKeyUp="javascript: ajax_search_uname(this.value);"/> 
+				This page allows you to associate a Schema with a Form.
+				<br/>
+				Once a Form is selected from the list below, you will be
+				able to see the list of linked and unlinked Schemas with
+				respect to the selected Form.
+				<br/>
+				To associate a Schema with the selected Form, select the Schema
+				from the Unlinked Schemas box and click the the Down toggle arrow
+				button to move it to the Linked Schemas box.
+				<br/>
+				To remove an associated Schema from the selected Form, select the Schema
+				from the Linked Schemas box and click the the Up toggle arrow
+				button to move it to the Unlinked Schemas box.
 			</p>
+			<br/>
 			<p class="bodyText">
-			<label style="width:100px;" for="user_list"> User List: </label>
-			<select id="user_list" 
-					name="user_list" 
+			<label style="width:100px;" for="user_list"> Form: </label>
+			<select id="form_list" 
+					name="form_list" 
 					style="width: 250px;" 
-					size="5" 
-					onChange="javascript: ajax_populate_object();">
+					onChange="javascript: ajax_populate_schemas();">
 			<!-- this will be auto populated by javascript/ajax -->
 			</select>
 			</p>
-		
+			
 			<p class="bodyText">
-			<label style="width:100px;"> Object: </label>
-			<select id="manageable_objects" name="manageable_objects"
-					style="width:250px;" onChange="javascript: ajax_populate_object();">
-				<option value="none"> </option>
-				<option value="layer"> layers </option>
-				<option value="form"> forms </option>
-				<option value="group"> groups </option>
-			</select>
-			</p>
-		
-			<p class="bodyText">
-				<label style="width:100px;"> Disallowed Objects: </label>
-				<select id="obj_list_disallowed" name="obj_list_disallowed" style="width:250px;" size="5">
+				<label style="width:100px;"> Unlinked Schemas: </label>
+				<select id="unlinked_schema_list" 
+						name="unlinked_schema_list" 
+						style="width:250px;" size="5">
 						<!-- this will be auto populated by javascript/ajax -->
 				</select>
 			</p>
 			<p class="bodyText">
 				<label style="width:100px;"> Toggle: </label> 
-				<img src="images/down_arrow.gif" onClick="javascript: ajax_toggle_permission('grant')"/>
-				<img src="images/up_arrow.gif" onClick="javascript: ajax_toggle_permission('revoke')"/>
+				<img src="images/down_arrow.gif" onClick="javascript: ajax_toggle_linkage('link')"/>
+				<img src="images/up_arrow.gif" onClick="javascript: ajax_toggle_linkage('unlink')"/>
 			</p>
 			<p class="bodyText">	
-				<label style="width:100px" for="obj_list_allowed"> Allowed Objects: </label>
-				<select id="obj_list_allowed" name="obj_list_allowed" style="width:250px;" size="5">
+				<label style="width:100px" for="obj_list_allowed"> Linked Schemas: </label>
+				<select id="linked_schema_list" 
+						name="linked_schema_list" 
+						style="width:250px;" 
+						size="5">
 						<!-- this will be auto populated by javascript/ajax -->
 				</select>
 			</p>

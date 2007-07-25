@@ -34,6 +34,7 @@ function ajax_get_schema_details(){
 function handler_get_schemas(){
 	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
 		populate_list_from_xml(xmlHttp.responseText, 'schema_list');
+
 	}
 }
 
@@ -71,10 +72,11 @@ function populate_list_from_xml(xml, list_id){
 		// works, the <id> node then has a text node
 		// child, which is why we need to go one more
 		// level down before getting the node value.
-		var id = objects[i].childNodes[0].childNodes[0].nodeValue;
-		var value = objects[i].childNodes[1].childNodes[0].nodeValue;
+		var id = objects[i-1].childNodes[0].childNodes[0].nodeValue;
+		var value = objects[i-1].childNodes[1].childNodes[0].nodeValue;
 		list.options[i] = new Option(value, id);
 		list.options[i].id = id; // need to set the id explicitly 
+		
 	}
 }
 

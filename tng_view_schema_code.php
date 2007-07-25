@@ -125,10 +125,9 @@ function get_schema_details($attr_table_id){
 							. "tng_spatial_attribute_table.spatial_table_id = tng_spatial_data.spatial_table_id "
 				. "WHERE "
 					. "tng_spatial_attribute_table.attr_table_id = " . $attr_table_id;
+					
 	$dbconn =& new DBConn();
-
 	$dbconn->connect();
-
 	$result = pg_query($dbconn->conn, $sql_str);
 	if(!$result){
 		echo "An error occurred while executing the query " . pg_last_error($dbconn->conn);

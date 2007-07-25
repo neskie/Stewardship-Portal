@@ -103,11 +103,11 @@ if(!isset($_POST['form_submitted'])){
 		if(($sub_id = $form->save_form($login->uid, $parent_sub_id)) != -1 ){
 			//header("Location: tng_form_saved.html");
 			send_confirmation_email($sub_id, $login->email);
-			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_saved.html'>";    
+			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_saved.php'>";    
 		}
 		else{
 			//header("Location: tng_form_not_saved.html");
-			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_not_saved.html'>";    
+			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_not_saved.php'>";    
 		}
 		exit();
 	}
