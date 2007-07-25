@@ -240,11 +240,11 @@ a:hover {
 	border-width:thin;
 	/* width: 345px; */
 	width: 40%;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	/*margin-top: 5px;
+	margin-bottom: 5px;*/
 	margin-left: 5px;
 	margin-right: 0px;
-	height: 20px;
+	height: 25px;
 }
 
 .lbl_regular, .lbl_checkbox{
