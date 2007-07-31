@@ -107,11 +107,13 @@ class Form{
 						. "tng_form_field.field_rank, "
 						. "tng_form_field.field_label_css_class, "
 						. "tng_form_field.field_css_class, "
+						. "CAST(tng_form_field.field_searchable AS BOOLEAN) AS field_searchable, "
 						. "tng_field_submission.field_value "
 					. "FROM "
 						. "tng_form_field "
-						. "LEFT JOIN tng_field_submission ON tng_form_field.field_id = tng_field_submission.field_id " 
-															."AND tng_field_submission.form_submission_id = " . $submission_id . " "
+						. "LEFT JOIN tng_field_submission " 
+							. "ON tng_form_field.field_id = tng_field_submission.field_id " 
+								. "AND tng_field_submission.form_submission_id = " . $submission_id . " "
 					. "WHERE "
 						. "form_id = " . $this->id
 					. " ORDER BY field_rank ASC";
@@ -135,7 +137,8 @@ class Form{
 										pg_fetch_result($result, $i, 4),
 										pg_fetch_result($result, $i, 5),
 										pg_fetch_result($result, $i, 6),
-										pg_fetch_result($result, $i, 7));
+										pg_fetch_result($result, $i, 7),
+										pg_fetch_result($result, $i, 8));
 			}
 		}	
 	}
@@ -157,6 +160,7 @@ class Form{
 	///			<field_rank>			1				</field_rank>
 	///			<field_label_css_class>	label css class </field_label_css_class>
 	///			<field_css_class>		field css class </field_css_class>
+	///			<field_searchable>		true			 </field_searchable>
 	///			<field_value>			4878 1st ave 	</field_value>
 	///		</field>
 	///		<field>
@@ -167,6 +171,7 @@ class Form{
 	///			<field_rank>			2				</field_rank>
 	///			<field_label_css_class>	label css class </field_label_css_class>
 	///			<field_css_class>		field css class	</field_css_class>
+	///			<field_searchable>		false			 </field_searchable>
 	///			<field_value>			48 2nd ave	 	</field_value>
 	///		</field>
 	/// <form>
@@ -180,15 +185,16 @@ class Form{
 		// loop through all fields
 		$num_fields = count($this->fields);
 		for($i = 0; $i < $num_fields; $i++){
-			$xml_txt .= "<field>\n"
-						. "<field_id>" 				. $this->fields[$i]->id 				. "</field_id>\n"
-						. "<field_name>" 			. $this->fields[$i]->name 				. "</field_name>\n"
-						. "<field_type>" 			. $this->fields[$i]->type 				. "</field_type>\n"
-						. "<field_label>" 			. $this->fields[$i]->label 				. "</field_label>\n"
-						. "<field_rank>" 			. $this->fields[$i]->rank 				. "</field_rank>\n"
-						. "<field_label_css_class>"	. $this->fields[$i]->label_css_class	. "</field_label_css_class>\n"
-						. "<field_css_class>" 		. $this->fields[$i]->css_class 			. "</field_css_class>\n"
-						. "<field_value>" 			. $this->fields[$i]->value				. "</field_value>\n"
+			$xml_txt .= "<field>"
+						. "<field_id>" 				. $this->fields[$i]->id 				. "</field_id>"
+						. "<field_name>" 			. $this->fields[$i]->name 				. "</field_name>"
+						. "<field_type>" 			. $this->fields[$i]->type 				. "</field_type>"
+						. "<field_label>" 			. $this->fields[$i]->label 				. "</field_label>"
+						. "<field_rank>" 			. $this->fields[$i]->rank 				. "</field_rank>"
+						. "<field_label_css_class>"	. $this->fields[$i]->label_css_class	. "</field_label_css_class>"
+						. "<field_css_class>" 		. $this->fields[$i]->css_class 			. "</field_css_class>"
+						. "<field_searchable>" 		. $this->fields[$i]->searchable			. "</field_searchable>"
+						. "<field_value>" 			. $this->fields[$i]->value				. "</field_value>"
 						. "</field>\n";
 		}
 		

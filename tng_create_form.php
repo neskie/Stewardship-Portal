@@ -2,10 +2,10 @@
 /*---------------------------------------------------------------
 author:	alim karim
 date:	May 14, 2007
-file:	tng_create_schema.php
+file:	tng_create_form.php
 
 desc:	webpage allowing administrator to create
-		spatial schemas
+		forms
 ---------------------------------------------------------------*/
 header('Pragma: no-cache'); 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1

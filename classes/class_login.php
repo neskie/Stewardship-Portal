@@ -77,5 +77,21 @@ class Login{
 		$this->dbconn->disconnect();
 		return $validate;
 	}
+	
+	///
+	/// is_admin()
+	/// check whether the user logged in is an
+	/// admin user or not.
+	/// for now, just check the user name.
+	/// a more appropriate method would be to check 
+	/// in the db if the given user is in the admin
+	/// group
+	///
+	function is_admin(){
+		if($this->uname == "tng")
+			return "true";
+		else
+			return "false";
+	}
 }
 ?>

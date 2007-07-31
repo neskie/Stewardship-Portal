@@ -229,11 +229,15 @@ a:hover {
 	text-align: center;
 }
 
-.td_search {
+.td_search, .td_search_center {
 	padding: 5px;
 	border:1px solid #DCDCDC;
-	text-align: center;
+	text-align: left;
 }	
+
+.td_search_center {
+	text-align: left;
+}
 
 .form_text_area, .txt_area_file_description{
 	border: groove;

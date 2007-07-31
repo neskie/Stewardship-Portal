@@ -21,6 +21,7 @@ if(isset($_POST['uname']) && isset($_POST['passwd'])){
 			//echo "login succeeded for userid: " . $login->uid;
 			// set $this->permission here (func call)
 			// set session variable
+			unset($_SESSION['obj_login']);
 			$_SESSION['obj_login'] = $login;
 			// go to list forms page
 			//header("Location: tng_list_forms.php");
