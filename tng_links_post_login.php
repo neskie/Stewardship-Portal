@@ -20,7 +20,7 @@
         <tr>
           <td width="165">
 			<a href="javascript:window.location='tng_list_forms.php';" 
-				class="navText">View Forms</a>
+				class="navText">Fill A Form</a>
 			</td>
         </tr>
         <tr>
@@ -35,6 +35,11 @@
 		  </td>
         </tr>
 		<tr>
+          <td width="165"><a href="javascript:window.location='tng_view_form_details.php';" 
+				class="navText">View Form Fields</a>
+		  </td>
+        </tr>
+		<tr>	
           <td width="165">
 			<a href="javascript:window.location='tng_manage_permissions.php';" 
 				class="navText">Manage Permissions</a>
