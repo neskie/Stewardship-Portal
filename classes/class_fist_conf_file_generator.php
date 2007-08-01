@@ -128,6 +128,7 @@ class Fist_Conf_File_Generator{
 				$layer = ms_newLayerObj($map);
 				$layer->set("name", $this->viewable_layers[$i]->layer_name);
 				$layer->set("status", MS_OFF);
+				$layer->set("template", "nepas.html");
 				$this->set_ms_layer_type($layer, $this->viewable_layers[$i]);
 				$layer->set("connectiontype", MS_POSTGIS);
 				$layer->set("connection", $this->dbconn->mapserver_conn_str);
@@ -195,9 +196,8 @@ class Fist_Conf_File_Generator{
 	function set_ms_data_string(&$ms_layer, $db_layer){
 		$data_str = "the_geom from "
 						. "(" 
-							. "SELECT " 
-								. "the_geom, "
-								.  $db_layer->geom_pk_col_name
+							. "SELECT  " 
+								. "* "
 							. " FROM " 
 								. $db_layer->view_name . " "
 							. "WHERE " 
@@ -205,6 +205,12 @@ class Fist_Conf_File_Generator{
 						. ") "
 						. "AS foo USING UNIQUE " .$db_layer->geom_pk_col_name . " "
 						. "USING SRID=-1";
+						
+		/* - query used for testing - no layer id specified.
+		$data_str = "the_geom FROM " . $db_layer->view_name . " "
+						. "AS foo USING UNIQUE " .$db_layer->geom_pk_col_name . " "
+						. "USING SRID=-1";
+		*/
 		$ms_layer->set("data", $data_str);
 	}
 	
