@@ -93,5 +93,39 @@ class Login{
 		else
 			return "false";
 	}
+	
+	///
+	/// check to see if the user logged in
+	/// belongs to the tng group
+	///
+	function is_tng_user(){
+		$is_tng = false;
+		$sql_str = "SELECT "
+						. "tng_group.gname "
+					. "FROM "
+						. "tng_group_users "
+						. "INNER JOIN tng_group ON tng_group_users.gid = tng_group.gid "
+					. "WHERE "
+						. "tng_group_users.uid = "  . $this->uid . " ";
+
+		$this->dbconn->connect();
+		$result = pg_query($this->dbconn->conn, $sql_str);
+		if(!$result){
+			echo "An error occurred while executing the query"
+				. pg_last_error($this->dbconn->conn) . "\n"
+				. $sql_str;
+			$this->dbconn->disconnect();
+		}else{ // successfuly ran the query
+			$n_groups = pg_num_rows($result);
+			for($i = 0; $i < $n_groups; $i++){
+				if(pg_fetch_result($result, $i, 'gname') == "tng"){
+					$is_tng = true;
+					break;
+				}
+			}
+			$this->dbconn->disconnect();
+		}
+		return $is_tng;
+	}
 }
 ?>

@@ -363,8 +363,34 @@ function perform_search($where_clause){
 	if(substr_count($where_clause, "field_id") == 1)
 		$sql_str .= "INNER JOIN vi_field_search "
 						. "ON vi_submission_search.sub_id = vi_field_search.sub_id ";
+
+	// if the user is not in the tng
+	// group, then only show submissions made
+	// by users in the same group(s) as the
+	// logged in user.
+	if(!$_SESSION['obj_login']->is_tng_user()){
+		$where_clause .= "AND "
+						. "uid_submitted IN ("
+							. "SELECT "
+						    	. "DISTINCT tng_group_users.uid "
+							. "FROM " 
+								. "tng_group_users "
+							. "WHERE "  
+								. "gid IN (" 
+									. "SELECT " 
+										. "gid " 
+									. "FROM " 
+										. "tng_group_users " 
+									. "WHERE " 
+										. "uid = " . $_SESSION['obj_login']->uid . " "
+									. ")"
+							. ")";
+	}
 						
 	$sql_str .= $where_clause;
+	
+	//echo $sql_str;
+	//return;
 		
 	$dbconn =& new DBConn();
 	$dbconn->connect();
