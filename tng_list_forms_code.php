@@ -63,18 +63,20 @@ function fetch_form_list($uid){
 	global $form_list_size;
 	// permissions should be incorporated here
 	$sql_str = "SELECT "
-				. "form_id, "
-				. "form_name "
+				. "tng_form.form_id, "
+				. "tng_form.form_name "
 			. "FROM "
-				. "tng_form ";
+				. "tng_form "
+				. "INNER JOIN tng_process_form_permissions ON tng_form.form_id = tng_process_form_permissions.form_id "
+			. "WHERE "
+				. "tng_process_form_permissions.uid = " . $_SESSION['obj_login']->uid . " ";
 	
 	$dbconn = new DBConn();
-	
 	$dbconn->connect();
 	
 	$result = pg_query($dbconn->conn, $sql_str);
 	if(!$result){
-			echo "An error occurred while executing the query - tng_list_forms.php:25 " . pg_last_error($dbconn->conn);
+			echo "An error occurred while executing the query " . pg_last_error($dbconn->conn);
 			$dbconn->disconnect();
 	}else{ // successfuly ran the query
 		$form_list_size = pg_num_rows($result);
