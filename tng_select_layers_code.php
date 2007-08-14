@@ -81,8 +81,8 @@ function &get_conf_file_generator(){
 	// note: this object should be destroyed
 	// once the mapping agent is launched
 	if(!isset($_SESSION['fist_file_gen'])){
-		$mapfile = "/home/karima/public_html/fist/sites/example_world/mapfiles/example_default.map";
-		$layerconf_file = "/home/karima/public_html/fist/sites/example_world/config/layer-config.xml.bak";
+		$mapfile = "/home/karima/public_html/fist/sites/tng_portal/mapfiles/tng_portal.map";
+		$layerconf_file = "/home/karima/public_html/fist/sites/tng_portal/config/layer-config.xml";
 		$mapservconf_file = "/home/karima/public_html/fist/config/map-service-config.xml";
 		$output_dir = "/tmp/";
 		$login = $_SESSION['obj_login'];
@@ -90,7 +90,7 @@ function &get_conf_file_generator(){
 													$mapfile, 
 													$layerconf_file,
 													$mapservconf_file,
-													"example_world_lin", 
+													"tng_portal", 
 													$output_dir);
 		// get viewable layers
 		if(!$fist_file_gen->get_viewable_layers()){

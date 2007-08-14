@@ -10,6 +10,10 @@ desc:	webpage that will be displayed upon
 header('Pragma: no-cache'); 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+// include necessary classes used by this page
+// OR scripts that are included BEFORE 
+// start_session() is called
+include_once('classes/class_login.php');
 include_once('tng_check_session.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

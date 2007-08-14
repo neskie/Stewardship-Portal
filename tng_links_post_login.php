@@ -39,6 +39,18 @@
 				class="navText">View Form Fields</a>
 		  </td>
         </tr>
+		<tr>
+          <td width="165">
+			<a href="javascript:window.location='tng_view_schema.php';" 
+				class="navText">View Available Schemas </a>
+		  </td>
+        </tr>
+		<?php
+			if($_SESSION['obj_login']->is_admin() == "false"){
+				echo "</table>";
+				return;
+			}
+		?>
 		<tr>	
           <td width="165">
 			<a href="javascript:window.location='tng_manage_permissions.php';" 
@@ -55,12 +67,6 @@
           <td width="165">
 			<a href="javascript:window.location='tng_create_schema.php';" 
 				class="navText">Create Spatial Schema </a>
-		  </td>
-        </tr>
-		<tr>
-          <td width="165">
-			<a href="javascript:window.location='tng_view_schema.php';" 
-				class="navText">View Available Schemas </a>
 		  </td>
         </tr>
 		<tr>

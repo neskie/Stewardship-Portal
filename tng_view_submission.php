@@ -11,7 +11,10 @@ desc:	webpage to search through different submissions
 header('Pragma: no-cache'); 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-
+// include necessary classes used by this page
+// OR scripts that are included BEFORE 
+// start_session() is called
+include_once('classes/class_login.php');
 // include script to check for 
 // login session variable
 include_once('tng_check_session.php');
@@ -37,10 +40,6 @@ var sub_id = -1;
 		echo "sub_id = " . $_GET['sub_id'];
 ?>
 
-
-//ajax_refresh_lists();
-ajax_populate_status_list();
-
 </script>
 <!--[if IE]>
 <style type="text/css"> 
@@ -51,7 +50,7 @@ ajax_populate_status_list();
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr">
+<body class="thrColHybHdr" onLoad="ajax_refresh_lists();ajax_populate_status_list();">
 
 <div id="container">
   <div id="header">

@@ -85,7 +85,10 @@ class Login{
 	/// for now, just check the user name.
 	/// a more appropriate method would be to check 
 	/// in the db if the given user is in the admin
-	/// group
+	/// group.
+	/// note that since this function may be used to 
+	/// assign the value to a JS variable, it is 
+	/// necessary to return a string and not a boolean
 	///
 	function is_admin(){
 		if($this->uname == "tng")

@@ -10,6 +10,10 @@ desc:	webpage allowing administrator to create
 header('Pragma: no-cache'); 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+// include necessary classes used by this page
+// OR scripts that are included BEFORE 
+// start_session() is called
+include_once('classes/class_login.php');
 // include script to check for 
 // login session variable
 include_once('tng_check_session.php');
