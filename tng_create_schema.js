@@ -135,7 +135,6 @@ function handler_check_schema_name(){
 			var params = ajax_create_params();
 			if(params != ""){
 				var post_params = "ajax_action=create_schema&" + params;
-				alert(post_params);
 				create_http_request();
 				send_http_request(handler_schema_success, "POST", target_url, post_params);
 			}
@@ -188,7 +187,7 @@ function ajax_create_params(){
 		if(field_names.indexOf(f_name) != -1){
 			alert("Attribute name <" + f_name + "> has been used more than once.\n"
 				+ "Please make sure all attribute names are unique");
-			return "";
+			//return "";
 		}
 		
 		field_names = field_names + ":" + f_name;
@@ -235,6 +234,9 @@ function check_special_chars(attribute){
 ///
 function handler_schema_success(){
 	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-		alert("in success handler " + xmlHttp.responseText);
+		if(xmlHttp.responseText == "true")
+			alert("The Schema was created successfully");
+		else
+			alert("An error occurred while creating the schema.\n" + xmlHttp.responseText);
 	}
 }

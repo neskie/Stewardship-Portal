@@ -289,6 +289,7 @@ function create_physical_table($table_name, $geom_type, $attr_table_id, $fields)
 ///
 function create_view($view_name, $schema_name, $geom_type, $fields){
 	global $schema_creator_conn_str;
+	$layer_table_name = "tng_spatial_layer";
 	
 	$sql_str = "SELECT "
 				. "table_name, "
@@ -317,7 +318,8 @@ function create_view($view_name, $schema_name, $geom_type, $fields){
 						. "SELECT \n"
 							. $spatial_table_name . "." . $pk_col_name . ",\n"
 							. $spatial_table_name . ".the_geom,\n"
-							. $spatial_table_name . ".layer_id,\n";
+							. $spatial_table_name . ".layer_id,\n"
+							. $layer_table_name . ".form_submission_id AS submission_id,\n";
 							
 	$field_names = array_keys($fields);
 	$n_fields = count($fields);
@@ -331,7 +333,9 @@ function create_view($view_name, $schema_name, $geom_type, $fields){
 	$sql_str .= "FROM "
 				. $schema_name . "\n"
 				. "INNER JOIN " . $spatial_table_name 
-					. " ON " . $schema_name . "." . $pk_col_name . " = " . $spatial_table_name . "." . $pk_col_name;
+					. " ON " . $schema_name . "." . $pk_col_name . " = " . $spatial_table_name . "." . $pk_col_name . " "
+				. "INNER JOIN " . $layer_table_name 
+					. " ON " . $spatial_table_name . "." . "layer_id = " . $layer_table_name . ".layer_id";
 	
 	$dbconn->conn_str = $schema_creator_conn_str;
 	$dbconn->connect();
