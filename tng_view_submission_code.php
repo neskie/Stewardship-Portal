@@ -7,7 +7,7 @@ file:	tng_search_submissions_code.php
 desc:	code behind submission search page.
 ---------------------------------------------------------------*/
 include_once('classes/class_login.php');
-include_once('classes/class_dbconn.php');
+include_once('classes/class_submission.php');
 
 session_start();
 
@@ -336,6 +336,13 @@ function &get_files($sub_id){
 ///
 function &get_layers($sub_id){
 	$layers = array();
+	// create a new subnmission object and check
+	// to see if layers are allowed to be
+	// downloaded for that particular submission type.
+	$sub_obj = new Submission($sub_id);
+	if($sub_obj != NULL && !$sub_obj->permit_layer_download())
+		return $layers;
+		
 	$sql_str = "SELECT "
 				. "layer_id, "
 				. "layer_name "

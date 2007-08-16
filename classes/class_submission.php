@@ -40,8 +40,10 @@ class Submission{
 		$this->submission_files = array();
 		$this->submission_layers = array();
 		// child submission objects
-		$this->child_submissions = array();
-		
+		$this->child_submissions = array();	
+	}
+	
+	function load_sub_details(){
 		if(!$this->get_submission_attributes())
 			return NULL;
 		if(!$this->get_child_submissions())
@@ -50,9 +52,7 @@ class Submission{
 			return NULL;
 		if(!$this->get_submission_layers())
 			return NULL;
-		
 	}
-	
 	
 	///
 	/// get_submission_attributes()
@@ -297,6 +297,33 @@ class Submission{
 		return $xml_txt; 
 	}
 	
-	
+	///
+	/// permit_layer_download()
+	/// check to see if the form that created this submission
+	/// has the allow_layer_download flag set to true.
+	///
+	function permit_layer_download(){
+		$allow = false;
+		$sql_str = "SELECT "
+						. "tng_form.allow_layer_download "
+					. "FROM "
+						. "tng_form_submission "
+						. "INNER JOIN tng_form ON tng_form_submission.form_id = tng_form.form_id "
+					. "WHERE "
+						. "tng_form_submission.form_submission_id = " . $this->sub_id;
+		
+		$this->dbconn->connect();
+		$result = pg_query($this->dbconn->conn, $sql_str);
+		if(!$result){
+			echo "An error occurred while executing the query - " . $sql_str ." - " . pg_last_error($this->dbconn->conn);
+			$this->dbconn->disconnect();
+			return false;
+		}
+
+		if(pg_fetch_result($result, 0, 'allow_layer_download') == "t")
+			$allow = true;
+		$this->dbconn->disconnect();				
+		return $allow;
+	}
 }
 ?>

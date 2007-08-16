@@ -69,6 +69,7 @@ if(!isset($_POST['elt_selected'])){ // first time form is being loaded
 			echo "could not create submission object";
 			return false;
 		}
+		$submissions[$i]->load_sub_details();
 	}
 
 	//$dbconn->disconnect();
