@@ -26,16 +26,18 @@ if(!isset($_SESSION['obj_login'])){
 			// check if a schema exists
 			// with the same name
 			case "check_schema_name":
-				$result = check_schema_name(strtolower($_POST['schema_name']));
-				if($result)
-					echo "true";
-				else
-					echo "false";
+				echo check_schema_name(strtolower($_POST['schema_name']));
+			break;
+			// check if the field names sent in are
+			// SQL keywords
+			case "check_field_sql_name":
+				$n_fields = $_POST['n_fields'];
+				$xml_response = check_field_sql_keywords($n_fields, $_POST);
+				echo $xml_response;
 			break;
 			// the caller wishes to create
 			// a schema
 			case "create_schema":
-				
 				$schema_name = strtolower($_POST['schema_name']);
 				$geom_type = $_POST['geom_type'];
 				$n_fields = $_POST['n_fields'];
@@ -54,11 +56,11 @@ if(!isset($_SESSION['obj_login'])){
 ///
 /// check_schema_name()
 /// check if schema name already
-/// exists
+/// exists (return 1) or if the schema name is a
+/// SQL keyword (return 2).
+/// return 0 if no matches found
 ///
 function check_schema_name($schema_name){
-	$schema_exists = true;
-	
 	$sql_str = "SELECT "
 					. "attr_table_id "
 				. "FROM "
@@ -66,9 +68,7 @@ function check_schema_name($schema_name){
 				. "WHERE "
 					. "attr_table_name = '" . $schema_name . "'";
 	$dbconn =& new DBConn();
-
 	$dbconn->connect();
-
 	$result = pg_query($dbconn->conn, $sql_str);
 	if(!$result){
 		echo "An error occurred while executing the query " . pg_last_error($dbconn->conn);
@@ -76,14 +76,85 @@ function check_schema_name($schema_name){
 		return NULL;
 	}
 	
-	if(pg_num_rows($result) == 0)
-		$schema_exists = false;
-
+	// schema with the same name exits.
+	if(pg_num_rows($result) > 0){
+		$dbconn->disconnect();
+		return 1;
+	}
 	$dbconn->disconnect();
-	
-	return $schema_exists; 
+	if(check_string_sql_keyword(strtoupper($schema_name)))
+		return 2;
+		
+	return 0; // success
 }
 
+///
+/// check_sql_keywords()
+/// go through the array and for each
+/// item, check if the name is an SQL
+/// keyword. these are stored in a table
+/// in the db.
+///
+function check_field_sql_keywords($n_fields, $post_vars){
+	$xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
+		 		. "<result>";
+	$is_sql = "false";
+	$f_name = "";
+	
+	$fields = array();
+	// populate fields array with names,
+	// no need to extract type.
+	collect_fields($fields, $n_fields, $post_vars, false);
+	$f_names = array_keys($fields);
+	
+	
+	for($i = 0; $i < $n_fields; $i++){
+		// keyword match found
+		if(check_string_sql_keyword(strtoupper($f_names[$i]))){
+			$is_sql = "true";
+			$f_name = $f_names[$i];
+			break;
+		}
+	}
+	$xml .="<is_sql>" . $is_sql . "</is_sql>";
+	$xml .="<f_name>" . $f_name . "</f_name>";
+	$xml .= "</result>";
+	return $xml;
+}
+
+function check_string_sql_keyword($string){
+	$is_keyword = false;
+	$sql_str = "SELECT "
+					. "id "
+				. "FROM "
+					. "tng_sql_keywords "
+				. "WHERE "
+					. "(" 
+						. " postgresql = 'reserved' "
+						. "OR "
+						. "sql_2003 = 'reserved' "
+						. "OR "
+						. "sql_1999 = 'reserved' "
+						. "OR "
+						. "sql_92 = 'reserved' "
+					. ") "
+					. "AND "
+					. "keyword = '". $string . "'";
+	$dbconn =& new DBConn();
+	$dbconn->connect();
+	$result = pg_query($dbconn->conn, $sql_str);
+	if(!$result){
+		echo "An error occurred while executing the query " . pg_last_error($dbconn->conn);
+		$dbconn->disconnect();
+		return NULL;
+	}
+	// keyword match found
+	if(pg_num_rows($result) > 0)
+		$is_keyword = true;
+	$dbconn->disconnect();
+	
+	return $is_keyword;
+}
 ///
 /// create_schema()
 /// create a new spatial schema
@@ -114,13 +185,16 @@ function create_schema($schema_name, $geom_type, $n_fields, $post_vars){
 /// field_1_name = xxx 
 /// field_1_type = yyy
 ///
-function collect_fields(&$fields, $n_fields, $post_vars){
+function collect_fields(&$fields, $n_fields, $post_vars, $extract_type = true){
 	$prefix = "field_";
 	$name_suffix = "_name";
 	$type_suffix = "_type";
 	for($i = 0; $i < $n_fields; $i++){
 		$f_name = $post_vars[$prefix . $i . $name_suffix];
-		$fields[$f_name] = $post_vars[$prefix . $i . $type_suffix];
+		if($extract_type)
+			$fields[$f_name] = $post_vars[$prefix . $i . $type_suffix];
+		else
+			$fields[$f_name] = "";
 	}
 }
 

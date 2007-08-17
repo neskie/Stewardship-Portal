@@ -92,6 +92,38 @@ function delete_field(field_id){
 }
 
 ///
+/// check_special_chars()
+/// check if a string contains
+/// special characters
+///
+function check_special_chars(attribute){
+	if(attribute == ""
+		|| attribute.indexOf(' ') != -1
+		|| attribute.indexOf('!') != -1
+		|| attribute.indexOf('@') != -1
+		|| attribute.indexOf('#') != -1
+		|| attribute.indexOf('$') != -1
+		|| attribute.indexOf('%') != -1
+		|| attribute.indexOf('^') != -1
+		|| attribute.indexOf('&') != -1
+		|| attribute.indexOf('*') != -1
+		|| attribute.indexOf('(') != -1
+		|| attribute.indexOf(')') != -1
+		|| attribute.indexOf('<') != -1
+		|| attribute.indexOf('>') != -1
+		|| attribute.indexOf('?') != -1
+		|| attribute.indexOf('/') != -1
+	)
+		return false;
+	else
+		return true;
+}
+
+/// -------------------------------------------------------------------------------
+/// ajax functions
+/// -------------------------------------------------------------------------------
+
+///
 /// ajax_check_schema_name()
 /// check for schema with existing
 /// name. the handler for the
@@ -112,35 +144,50 @@ function ajax_check_schema_name(){
 	var post_params = "ajax_action=check_schema_name&schema_name=" + s_name;
 	create_http_request();
 	send_http_request(handler_check_schema_name, "POST", target_url, post_params);
-	//alert(params);
 }
 
+
 ///
-/// handler_check_schema_name()
-/// see if the name check for the schema
-/// was successful. if so, then create
-/// another request to actually create
-/// the schema
-///
-function handler_check_schema_name(){
-	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-		var schema_name = document.getElementById('schema_name').value;
-		if(xmlHttp.responseText == "true"){
-			alert("A schema with name <" 
-				+ schema_name
-				+ "> already exists.\nPlease choose a different name");
-		}else{
-			// otherwise there is no existing schema with
-			// the same name. proceed to create the schema
-			var params = ajax_create_params();
-			if(params != ""){
-				var post_params = "ajax_action=create_schema&" + params;
-				create_http_request();
-				send_http_request(handler_schema_success, "POST", target_url, post_params);
-			}
+/// ajax_check_schema_name()
+/// send request to check if any field
+/// is an sql keyword
+function ajax_check_field_sql_name(){
+	var post_params = "ajax_action=check_field_sql_name&";
+	var field_div = document.getElementById('fields');
+	// get all child divs belonging
+	// to parent div
+	var child_divs = field_div.getElementsByTagName('div');
+	post_params	+= "n_fields=" + child_divs.length + "&";
+	var field_names = ":";
+	for(var i = 0; i < child_divs.length; i++){
+		f_name = child_divs[i].getElementsByTagName('input')[0].value;
+		if(f_name == "id" || f_name == "ID"){
+			alert("Attribute " + (i + 1) + " cannot be named 'id' because\n" 
+				+ "it is an internally reserved field name.");
+				return;
 		}
+		// check for special characters
+		if(!check_special_chars(f_name)){
+			alert("Attribute " + (i + 1) + " cannot contain spaces\n" 
+				+ "or characters [!, @, #, $, %, ^, &, *, (, ), <, >, ?, /].");
+				return;
+		}
+		// check for duplicate field names
+		if(field_names.indexOf(":" + f_name + ":") != -1){
+			alert("Attribute name <" + f_name + "> has been used more than once.\n"
+				+ "Please make sure all attribute names are unique");
+			return;
+		}
+		
+		field_names += f_name + ":";
+		post_params += "field_" + i + "_name=" + f_name ;
+		if( i < child_divs.length - 1)
+			post_params +="&";
 	}
+	create_http_request();
+	send_http_request(handler_check_field_sql_name, "POST", target_url, post_params);
 }
+
 ///
 /// ajax_create_params()
 /// collect the field names and
@@ -174,24 +221,8 @@ function ajax_create_params(){
 	// the button (delete). since the button is added
 	// AFTER field_name, [0] is the index we want.
 	// see add_field function for details.	
-	var field_names = "";	
 	for(var i = 0; i < child_divs.length; i++){
 		var f_name = child_divs[i].getElementsByTagName('input')[0].value;
-		// check special chars
-		if(!check_special_chars(f_name)){
-			alert("Attribute " + (i + 1) + " cannot contain spaces\n" 
-				+ "or characters [!, @, #, $, %, ^, &, *, (, ), <, >, ?, /].");
-			return "";
-		}
-		// check for duplicate field names
-		if(field_names.indexOf(f_name) != -1){
-			alert("Attribute name <" + f_name + "> has been used more than once.\n"
-				+ "Please make sure all attribute names are unique");
-			//return "";
-		}
-		
-		field_names = field_names + ":" + f_name;
-		
 		params = params + "field_" + i + "_name=" + f_name + "&";
 		params = params + "field_" + i + "_type=" + child_divs[i].getElementsByTagName('select')[0].value;
 		if(i < child_divs.length - 1)
@@ -200,33 +231,62 @@ function ajax_create_params(){
 	return params;
 }
 
+/// -------------------------------------------------------------------------------
+/// ajax handlers
+/// -------------------------------------------------------------------------------
+
 ///
-/// check_special_chars()
-/// check if a string contains
-/// special characters
+/// handler_check_schema_name()
+/// see if the name check for the schema
+/// was successful. if so, call the method
+/// to send a request to check if any of the
+/// fields is an SQL keyword
 ///
-function check_special_chars(attribute){
-	if(attribute == ""
-		|| attribute.indexOf(' ') != -1
-		|| attribute.indexOf('!') != -1
-		|| attribute.indexOf('@') != -1
-		|| attribute.indexOf('#') != -1
-		|| attribute.indexOf('$') != -1
-		|| attribute.indexOf('%') != -1
-		|| attribute.indexOf('^') != -1
-		|| attribute.indexOf('&') != -1
-		|| attribute.indexOf('*') != -1
-		|| attribute.indexOf('(') != -1
-		|| attribute.indexOf(')') != -1
-		|| attribute.indexOf('<') != -1
-		|| attribute.indexOf('>') != -1
-		|| attribute.indexOf('?') != -1
-		|| attribute.indexOf('/') != -1
-	)
-		return false;
-	else
-		return true;
+function handler_check_schema_name(){
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+		var schema_name = document.getElementById('schema_name').value;
+		if(xmlHttp.responseText == "1"){
+			alert("A schema with name <" 
+				+ schema_name
+				+ "> already exists.\nPlease choose a different name");
+		}else if(xmlHttp.responseText == "2"){
+			alert("The name <" 
+				+ schema_name
+				+ "> is a SQL keyword and cannot be used.\nPlease choose a different name");
+		}else if(xmlHttp.responseText == "0"){ // no match for existing schema or keyword
+			// call method to check for SQL keywords
+			// in the field names
+			ajax_check_field_sql_name();
+		}
+	}
 }
+
+///
+/// handler_check_field_sql_name()
+/// examine the response to see if any of the
+/// field names entered are sql keywords. if no
+/// keywords are found, then send a request to
+/// create the field parameters and send the
+/// actual request.
+///
+function handler_check_field_sql_name(){
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+		create_xml_doc(xmlHttp.responseText);
+		var is_sql = xmlDoc.getElementsByTagName("is_sql")[0].childNodes[0].nodeValue;
+		if(is_sql == "true"){
+			var f_name = xmlDoc.getElementsByTagName("f_name")[0].childNodes[0].nodeValue;
+			alert("<" + f_name + "> is a SQL keyword and cannot be used as a Field name");
+		}else{ // no sql keywords found. send a request to create the schema
+			var params = ajax_create_params();
+			if(params != ""){
+				var post_params = "ajax_action=create_schema&" + params;
+				create_http_request();
+				send_http_request(handler_schema_success, "POST", target_url, post_params);
+			}
+		}
+	}
+}
+
 ///
 /// handler_schema_success()
 /// Display message to show if schema
