@@ -231,7 +231,7 @@ function ajax_create_params(){
 ///
 function check_special_chars(attribute){
 	if(attribute == ""
-		|| attribute.indexOf(' ') != -1
+		//|| attribute.indexOf(' ') != -1
 		|| attribute.indexOf('!') != -1
 		|| attribute.indexOf('@') != -1
 		|| attribute.indexOf('#') != -1
