@@ -23,7 +23,7 @@ if(!isset($_SESSION['obj_login'])){
 			// check if a form exists
 			// with the same name
 			case "check_form_name":
-				$result = check_form_name(strtolower($_POST['form_name']));
+				$result = check_form_name($_POST['form_name']);
 				if($result)
 					echo "true";
 				else
@@ -32,7 +32,7 @@ if(!isset($_SESSION['obj_login'])){
 			// the caller wishes to create
 			// a form
 			case "create_form":
-				$form_name = strtolower($_POST['form_name']);
+				$form_name = $_POST['form_name'];
 				$n_fields = $_POST['n_fields'];
 				$result = create_form($form_name, $n_fields, $_POST);
 				if($result)
