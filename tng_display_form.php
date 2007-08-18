@@ -19,6 +19,7 @@ include('tng_display_form_code.php');
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 <title>Fill Form</title>
+<script language="javascript" src="tng_ajax_utils.js"> </script>
 <script language="javascript">
 var file_count = 0;
 var file_prefix = 'file_';
@@ -68,6 +69,38 @@ function add_file_input(){
 	file_div.appendChild(end_tag);	
 }
 
+///
+/// ajax_validate_parent()
+/// send an ajax request to check
+/// if the parent ID entered is valid
+/// i.e. the ID exists in the DB and that it
+/// does not have a parent of its own
+///
+function ajax_validate_parent(){
+	// first check to see if this is a 
+	// valid integer
+	var pid = document.getElementById('parent_submission').value;
+	// blank pid means this submission does not
+	// have a parent. proceed to submitting the form.
+	if(pid == ""){
+		submit_form();
+	}else{
+		if(!/^\d+$/.test(pid)){
+			alert("The Parent Submission ID must be an integer.\n"
+				+ "Please enter a valid Parent Submission ID");
+			return;
+		}else{ 
+			// valid int, send request
+			// to see if the pid is valid
+			// and does not have a parent
+			var post_params = "ajax_action=check_pid&pid=" + pid;
+			var target = 'tng_display_form_code.php';
+			create_http_request();
+			send_http_request(handler_validate_parent, "POST", target, post_params);
+		}
+	}
+	
+}
 ///
 /// submit_form()
 /// submit the form if file validation
@@ -123,6 +156,36 @@ function validate_files(){
 		return true;
 	else
 		return false;
+}
+
+/// ----------------------------------------------------------------------
+/// ajax handlers
+/// ----------------------------------------------------------------------
+
+///
+/// handler_validate_parent()
+/// process the response from the request
+/// sent to validate the PID.
+/// schema of the XML result:
+/// <result> invalid_pid </result>
+///
+function handler_validate_parent(){
+	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+		create_xml_doc(xmlHttp.responseText);
+		// no text node below the <result>
+		// node means that all checks were passed.
+		if(xmlDoc.getElementsByTagName("result")[0].childNodes.length == 0)
+			submit_form();
+		else{
+			var response = xmlDoc.getElementsByTagName("result")[0].childNodes[0].nodeValue;
+			if(response == "invalid_pid")
+				alert("The Parent ID you entered is not valid.");
+			else if(response == "is_child")
+				alert("The Parent ID you entered is a Submission Ammendment\n"
+					+ "and cannot be used as a Parent. Please enter a valid\n"
+					+ "Parent ID");
+		}
+	}
 }
 
 </script>
@@ -205,7 +268,7 @@ function validate_files(){
 					<?php if($_SESSION['readonly'] == 'true') echo "disabled"; ?>
 					/>
 			<input type="button" 
-					onclick="submit_form()" 
+					onclick="javascript: ajax_validate_parent()" 
 					value="Submit" 
 					class="button" 
 					<?php if($_SESSION['readonly'] == 'true') echo "disabled"; ?> 

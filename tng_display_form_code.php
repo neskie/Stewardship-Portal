@@ -30,15 +30,25 @@ $generated_form_html = "";
 if(!isset($_SESSION['readonly']))
 	$_SESSION['readonly'] = 'false';
 
-///
-/// main method
-/// if the form_submitted post variable 
-/// not is set, then
-/// this is the first time this form is being
-/// called i.e. it is not a post back
-///
-///
-if(!isset($_POST['form_submitted'])){
+if(isset($_POST['ajax_action'])){ // receiving an AJAX request
+	switch($_POST['ajax_action']){
+		// check for valid pid
+		case "check_pid":
+			$xml;
+			$form = $_SESSION['obj_form'];
+			$form->check_pid($_POST['pid'], $xml);
+			echo $xml;
+		break;
+	}
+}else if(!isset($_POST['form_submitted'])){
+	///
+	/// main method
+	/// if the form_submitted post variable 
+	/// not is set, then
+	/// this is the first time this form is being
+	/// called i.e. it is not a post back
+	///
+	///
 	global $xml_data;
 	global $xslt_file;
 	global $xslt_data;

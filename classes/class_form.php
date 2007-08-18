@@ -264,7 +264,13 @@ class Form{
 	///
 	function save_form($uid, $pid){
 		$form_submission_id = -1;
-		$parent_id = -1;
+		$parent_id = $pid;
+		// note that we do not perform a validation
+		// on the PID because this is taken care of
+		// BEFORE the save_form method is called from
+		// the calling script.
+		// see tng_display_form_code.php for details.
+		/*
 		if($pid != -1){
 			// check if a valid submission id
 			// was provided for the parent.
@@ -275,7 +281,7 @@ class Form{
 			else
 				$parent_id = $pid;
 		}
-			
+		*/	
 		// create a form submission record and get
 		// the id of the record.
 		$sql_str = "INSERT INTO tng_form_submission "
@@ -335,19 +341,19 @@ class Form{
 	/// to, we must check to see if the id is valid
 	/// i.e. whether it exists in the db
 	///
-	function check_pid($pid){
+	function check_pid($pid, &$xml_str){
 		$res = false;
-		
+		$xml_str = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
+		// check to see if a submission exists with
+		// the given id 
 		$sql_str = "SELECT "
 						. "form_submission_id "
 					. "FROM "
 						. "tng_form_submission "
 					. "WHERE "
 						. "form_submission_id  = " . $pid;
-					$this->dbconn->connect();
-
+		$this->dbconn->connect();
 		$result = pg_query($this->dbconn->conn, $sql_str);
-
 		if(!$result){
 			echo "An error occurred while executing the query " 
 				. $sql_str . " - "
@@ -356,11 +362,40 @@ class Form{
 			return false;
 		}
 		
-		if(pg_num_rows($result) == 1)
-			$res = true;
-		
+		if(pg_num_rows($result) == 0){
+			$xml_str .= "<result>invalid_pid</result>";
+			$this->dbconn->disconnect();
+			return $res;
+		}
 		$this->dbconn->disconnect();
+		// at this point we know that the ID
+		// is valid. now check to see if it
+		// has its own parent or not
+		$sql_str = "SELECT "
+						. "form_submission_id "
+					. "FROM "
+						. "tng_form_submission "
+					. "WHERE "
+						. "pid = -1 "
+						. "AND "
+						. "form_submission_id  = " . $pid;
+						
+		$this->dbconn->connect();
+		$result = pg_query($this->dbconn->conn, $sql_str);
+		if(!$result){
+			echo "An error occurred while executing the query " 
+				. $sql_str . " - "
+				. pg_last_error($this->dbconn->conn);
+			$this->dbconn->disconnect();
+			return false;
+		}
 		
+		// no records found. this means its a child
+		if(pg_num_rows($result) == 0)
+			$xml_str .= "<result>is_child</result>";
+		else // passed
+			$xml_str .= "<result></result>";
+		$this->dbconn->disconnect();
 		return $res;
 	}
 	
