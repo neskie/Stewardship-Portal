@@ -46,10 +46,11 @@ if(isset($_SESSION['obj_login'])){
 				$fname = $_POST['ajax_fname'];
 				$lname = $_POST['ajax_lname'];
 				$email = $_POST['ajax_email'];
+				$active = $_POST['ajax_active'];
 				$new_passwd = "";
 				if(isset($_POST['ajax_newpasswd']))
 					$new_passwd = $_POST['ajax_newpasswd'];
-				update_user($uid, $new_passwd, $fname, $lname, $email);
+				update_user($uid, $new_passwd, $fname, $lname, $email, $active);
 			break;
 			// the caller wishes to add a new
 			// user to the db
@@ -59,7 +60,8 @@ if(isset($_SESSION['obj_login'])){
 				$fname = $_POST['ajax_fname'];
 				$lname = $_POST['ajax_lname'];
 				$email = $_POST['ajax_email'];
-				add_user($uname, $passwd, $fname, $lname, $email);
+				$active = $_POST['ajax_active'];
+				add_user($uname, $passwd, $fname, $lname, $email, $active);
 				// regenerate the user list
 				// and send back the new list
 				// as xml
@@ -152,7 +154,8 @@ function get_user_details($uid){
 				. "uname, "
 				. "fname, "
 				. "lname, "
-				. "email "
+				. "email, "
+				. "active "
 			. "FROM "
 				. "tng_user "
 			. "WHERE "
@@ -174,8 +177,12 @@ function get_user_details($uid){
 					. "<uname>" . pg_fetch_result($result, 0, 'uname') . "</uname>"
 					. "<fname>" . pg_fetch_result($result, 0, 'fname') . "</fname>"
 					. "<lname>" . pg_fetch_result($result, 0, 'lname') . "</lname>"
-					. "<email>" . pg_fetch_result($result, 0, 'email') . "</email>"
-				. "</user>";
+					. "<email>" . pg_fetch_result($result, 0, 'email') . "</email>";
+	if(pg_fetch_result($result, 0, 'active') == "t")
+		$xml .= "<active>true</active>";
+	else
+		$xml .= "<active>false</active>";
+	$xml .= "</user>";
 	$dbconn->disconnect();
 	return $xml;
 }
@@ -184,13 +191,14 @@ function get_user_details($uid){
 /// update_user()
 /// update user attributes
 ///
-function update_user($uid, $new_passwd = "", $fname, $lname, $email){
+function update_user($uid, $new_passwd = "", $fname, $lname, $email, $active){
 	$sql_str = "UPDATE "
 					. "tng_user "
 				. "SET "
 					. "fname = '" . $fname . "', "
 					. "lname = '" . $lname . "', "
-					. "email = '" . $email . "' ";
+					. "email = '" . $email . "', "
+					. "active = '" . $active . "' ";
 					
 	if($new_passwd != ""){
 		$md5_pass = md5($new_passwd);
@@ -216,7 +224,7 @@ function update_user($uid, $new_passwd = "", $fname, $lname, $email){
 /// create a user record in the
 /// tng_user table
 ///
-function add_user($uname, $passwd, $fname, $lname, $email){
+function add_user($uname, $passwd, $fname, $lname, $email, $active){
 	$md5_passwd = md5($passwd);
 	
 	$sql_str = "INSERT INTO tng_user "
@@ -225,7 +233,8 @@ function add_user($uname, $passwd, $fname, $lname, $email){
 						. "passwd, "
 						. "fname, "
 						. "lname, "
-						. "email "
+						. "email,  "
+						. "active "
 					. ") "
 					. "VALUES "
 					. "("
@@ -233,7 +242,8 @@ function add_user($uname, $passwd, $fname, $lname, $email){
 						. "'" . $md5_passwd . "', "
 						. "'" . $fname . "', "
 						. "'" . $lname . "', "
-						. "'" . $email . "' "
+						. "'" . $email . "', "
+						. "'" . $active . "' "
 					. ")";
 					
 	$dbconn =& new DBConn();

@@ -43,7 +43,8 @@ class Login{
 					. "tng_user.passwd, "
 					. "tng_user.fname, "
 					. "tng_user.lname, "
-					. "tng_user.email "
+					. "tng_user.email, "
+					. "tng_user.active "
 				. "FROM "
 					. "tng_user "
 				. "WHERE " 
@@ -59,8 +60,10 @@ class Login{
 			$this->dbconn->disconnect();
 		}else{ // successfuly ran the query
 			// if no rows are found, then no match exists 
-			// for the provided user name
-			if(pg_num_rows($result) != 0){
+			// for the provided user name.
+			// also, make sure the current user is 'active'
+			if(pg_num_rows($result) != 0
+			&& pg_fetch_result($result, 0, 'active') == "t"){
 				$db_passwd = pg_fetch_result($result, 0, 'passwd');
 				// check if password matches, if
 				// it does, set validate to true and

@@ -97,6 +97,9 @@ include_once('tng_check_session.php');
 			<br/>
 			<label style="width:100px"> Email Address: </label>
 			<input type="text" id="email" name="email" size="45"/>
+			<br/>
+			<label style="width:100px"> Active: </label>
+			<input type="checkbox" id="active" name="active"/>
 		</p>
 		<input type="button" 
 				class="button" 

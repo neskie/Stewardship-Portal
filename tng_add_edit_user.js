@@ -30,6 +30,7 @@ function ajax_add_edit_user(){
 	var fname = document.getElementById('fname').value;
 	var lname = document.getElementById('lname').value;
 	var email = document.getElementById('email').value;
+	var active = document.getElementById('active').checked;
 	var action = document.getElementById('button1').value;
 		
 	if(uname == ""){
@@ -71,7 +72,8 @@ function ajax_add_edit_user(){
 						+ "&ajax_passwd=" + passwd
 						+ "&ajax_fname=" + fname
 						+ "&ajax_lname=" + lname
-						+ "&ajax_email=" + email;
+						+ "&ajax_email=" + email
+						+ "&ajax_active=" + active;
 		send_http_request(xmlHttp_handle_ulist_populate, "POST", target_url, post_params);
 	}else if(action == "Save"){
 		var user_list = document.getElementById('user_list');
@@ -79,7 +81,8 @@ function ajax_add_edit_user(){
 		post_params = "ajax_action=update_user&ajax_uid=" + uid
 					+ "&ajax_fname=" + fname
 					+ "&ajax_lname=" + lname
-					+ "&ajax_email=" + email;
+					+ "&ajax_email=" + email
+					+ "&ajax_active=" + active;
 		// check if a new password was entered
 		if(passwd != "")
 			post_params += "&ajax_newpasswd=" + passwd;
@@ -97,6 +100,9 @@ function ajax_update_user(){
 	var user_list = document.getElementById('user_list');
 	var uname = user_list.options[user_list.selectedIndex].innerHTML;
 	var uid = user_list.options[user_list.selectedIndex].id;
+	// cleanup fields before repopulating
+	// with new data
+	cleanup();
 	document.getElementById('button1').value = "Save";
 	create_http_request();
 	post_params = "ajax_action=get_user_details"
@@ -122,6 +128,7 @@ function handler_ajax_update_user(){
 		var fname = document.getElementById('fname');
 		var lname = document.getElementById('lname');
 		var email = document.getElementById('email');
+		var active = document.getElementById('active');
 		// note there is no check for 
 		// childnodes for the uname
 		// element, because each user 
@@ -138,6 +145,12 @@ function handler_ajax_update_user(){
 		// set email
 		if(xmlDoc.getElementsByTagName("email")[0].childNodes.length > 0)
 			email.value = xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue;
+		// set active checkbox. no need to check for
+		// length of child nodes, because we are 
+		// guaranteed to have a value for this
+		// attribute
+		if(xmlDoc.getElementsByTagName("active")[0].childNodes[0].nodeValue == "true")
+			active.checked = true;
 	}
 }
 ///
@@ -223,4 +236,5 @@ function cleanup(){
 		document.getElementById('fname').value = "";
 		document.getElementById('lname').value = "";
 		document.getElementById('email').value = "";
+		document.getElementById('active').checked = false;
 }
