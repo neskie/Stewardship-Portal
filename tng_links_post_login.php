@@ -19,14 +19,14 @@
         </tr>
         <tr>
           <td width="165">
-			<a href="javascript:window.location='tng_list_forms.php';" 
-				class="navText">Fill A Form</a>
+			<a href="javascript:window.location='tng_search_submissions.php';" 
+				class="navText">Find Submissions</a>
 			</td>
         </tr>
-        <tr>
+		<tr>
           <td width="165">
-			<a href="javascript:window.location='tng_search_submissions.php';" 
-				class="navText">Search Submissions</a>
+			<a href="javascript:window.location='tng_list_forms.php';" 
+				class="navText">Fill A Form</a>
 			</td>
         </tr>
         <tr>
@@ -35,14 +35,19 @@
 		  </td>
         </tr>
 		<tr>
+          <td width="165">
+			<a href="javascript:window.location='tng_view_schema.php';" 
+				class="navText">View Available Schemas </a>
+		  </td>
+        </tr>
+		<tr>
           <td width="165"><a href="javascript:window.location='tng_view_form_details.php';" 
 				class="navText">View Form Fields</a>
 		  </td>
         </tr>
 		<tr>
-          <td width="165">
-			<a href="javascript:window.location='tng_view_schema.php';" 
-				class="navText">View Available Schemas </a>
+          <td width="165"><a href="javascript:window.location='tng_logout.php';" 
+				class="navText">Logout</a>
 		  </td>
         </tr>
 		<?php
@@ -54,6 +59,12 @@
 				return;
 			}
 		?>
+		<tr>
+          <td width="165">
+			<a href="javascript:window.location='tng_add_edit_user.php';" 
+				class="navText">User Management</a>
+		  </td>
+        </tr>
 		<tr>	
           <td width="165">
 			<a href="javascript:window.location='tng_manage_permissions.php';" 
@@ -62,20 +73,14 @@
         </tr>
 		<tr>
           <td width="165">
-			<a href="javascript:window.location='tng_add_edit_user.php';" 
-				class="navText">User Management</a>
+			<a href="javascript:window.location='tng_create_form.php';" 
+				class="navText">Create Form </a>
 		  </td>
         </tr>
 		<tr>
           <td width="165">
 			<a href="javascript:window.location='tng_create_schema.php';" 
 				class="navText">Create Spatial Schema </a>
-		  </td>
-        </tr>
-		<tr>
-          <td width="165">
-			<a href="javascript:window.location='tng_create_form.php';" 
-				class="navText">Create Form </a>
 		  </td>
         </tr>
 		<tr>
