@@ -11,6 +11,10 @@ include_once('classes/class_login.php');
 include_once('classes/class_dbconn.php');
 include_once('classes/class_submission_file.php');
 include_once('classes/class_submission_layer.php');
+// check session before anything
+session_start();
+if(!isset($_SESSION['obj_login']))
+	return;
 
 if(isset($_GET['type'])){
 	$obj_id = $_GET['id'];

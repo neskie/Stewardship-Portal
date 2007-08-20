@@ -302,9 +302,15 @@ function display_form($sub_id){
 ///
 function &get_files($sub_id){
 	$files = array();
+	// note that the file ID is concatenated 
+	// with the name because the user may
+	// need the ID to add to a shapefile
+	// which links to a picture.
+	// i.e. the shapefile will contain a url with this
+	// id to the tng_dowload_sub_file script
 	$sql_str = "SELECT "
 				. "file_submission_id, "
-				. "file_name "
+				. "'[' || file_submission_id || ']: ' || file_name AS file_name "
 			. "FROM "
 				. "tng_file_submission "
 			. "WHERE "
