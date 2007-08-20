@@ -33,6 +33,7 @@ include_once('tng_check_session.php');
 </style>
 <![endif]-->
 </head>
+<!-- onLoad, send request to fetch a list of available schemas -->
 <body class="thrColHybHdr" onload="ajax_get_schemas()">
 	<div id="container">
 	  <div id="header">

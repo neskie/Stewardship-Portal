@@ -46,6 +46,9 @@
 		  </td>
         </tr>
 		<?php
+			if(!isset($_SESSION['obj_login']))
+				return;
+			
 			if($_SESSION['obj_login']->is_admin() == "false"){
 				echo "</table>";
 				return;

@@ -45,7 +45,8 @@ include_once('tng_check_session.php');
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr" onload="ajax_get_forms()">
+<!-- onLoad, send request to get the list of forms -->
+<body class="thrColHybHdr" onLoad="ajax_get_forms()">
 	<div id="container">
 	  <div id="header">
 	    <?php include_once('top_div.html'); ?>

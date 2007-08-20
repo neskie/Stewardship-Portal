@@ -14,6 +14,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 // OR scripts that are included BEFORE 
 // start_session() is called
 include_once('classes/class_login.php');
+include_once('tng_check_session.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -23,11 +24,7 @@ include_once('classes/class_login.php');
 <title> User Management</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_add_edit_user.js"> </script>
-<script language="javascript">
-// the first time around, we should display
-// all users. 
-ajax_get_users();
-</script>
+
 <!--[if IE]>
 <style type="text/css"> 
 /* place css fixes for all versions of IE in this conditional comment */
@@ -37,7 +34,8 @@ ajax_get_users();
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr">
+<!-- issue call to get all users when the page loads -->
+<body class="thrColHybHdr" onLoad="ajax_get_users();">
 
 <div id="container">
   <div id="header">

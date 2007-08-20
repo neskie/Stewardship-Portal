@@ -29,7 +29,7 @@ include_once('tng_check_session.php');
 // the first time around, we should display
 // all available layers. any previous lists
 // held in a session variable should be cleared.
-ajax_refresh_layers();
+
 
 </script>
 <!--[if IE]>
@@ -41,7 +41,9 @@ ajax_refresh_layers();
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr">
+<!-- onLoad, display all available layers. any previous lists
+	held in a session variable should be cleared.-->
+<body class="thrColHybHdr" onLoad="ajax_refresh_layers();">
 	<div id="container">
   		<div id="header">
     		<?php include_once('top_div.html'); ?>

@@ -28,12 +28,7 @@ include_once('tng_check_session.php');
 <title>Link Schema to Form</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_link_schema_form.js"> </script>
-<script language="javascript">
-// when the page loads, we should
-// populate the list of forms
-ajax_populate_forms();
 
-</script>
 <!--[if IE]>
 <style type="text/css"> 
 /* place css fixes for all versions of IE in this conditional comment */
@@ -43,7 +38,8 @@ ajax_populate_forms();
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr">
+<!-- onLoad, call method to populate form list -->
+<body class="thrColHybHdr" onLoad="ajax_populate_forms();">
 
 <div id="container">
   <div id="header">

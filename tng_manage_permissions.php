@@ -28,14 +28,6 @@ include_once('tng_check_session.php');
 <title>Manage Permissions</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_manage_permissions.js"> </script>
-<script language="javascript">
-
-// the first time around, we should display
-// all users. this is done by sending
-// a blank string to the ajax_search_uname function.
-ajax_search_uname("");
-
-</script>
 <!--[if IE]>
 <style type="text/css"> 
 /* place css fixes for all versions of IE in this conditional comment */
@@ -45,7 +37,9 @@ ajax_search_uname("");
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr">
+<!-- onLoad display all users. this is done by sending
+	a blank string to the ajax_search_uname function.-->
+<body class="thrColHybHdr" onLoad="ajax_search_uname('');">
 
 <div id="container">
   <div id="header">
