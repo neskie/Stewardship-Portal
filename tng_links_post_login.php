@@ -65,6 +65,12 @@
 				class="navText">User Management</a>
 		  </td>
         </tr>
+			<tr>
+	          <td width="165">
+				<a href="javascript:window.location='tng_create_group.php';" 
+					class="navText">Add Group</a>
+			  </td>
+	        </tr>
 		<tr>	
           <td width="165">
 			<a href="javascript:window.location='tng_manage_permissions.php';" 
