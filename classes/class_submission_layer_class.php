@@ -18,6 +18,7 @@ class Submission_Layer_Class{
 	var $class_name;
 	var $class_expr;
 	var $class_symbol;
+	var $class_symbol_size;
 	var $class_color_r;
 	var $class_color_g;
 	var $class_color_b;
@@ -47,6 +48,7 @@ class Submission_Layer_Class{
 					. "class_name, "
 					. "class_expr, "
 					. "class_symbol, "
+					. "class_symbol_size, "
 					. "class_color_r, "
 					. "class_color_g, "
 					. "class_color_b "
@@ -67,12 +69,13 @@ class Submission_Layer_Class{
 		
 		// successfuly ran the query
 		// store layer attributes
-		$this->class_name = pg_fetch_result($result, 0, 0);
-		$this->class_expr = pg_fetch_result($result, 0, 1);
-		$this->class_symbol = pg_fetch_result($result, 0, 2);
-		$this->class_color_r = pg_fetch_result($result, 0, 3);
-		$this->class_color_g = pg_fetch_result($result, 0, 4);
-		$this->class_color_b = pg_fetch_result($result, 0, 5);
+		$this->class_name = pg_fetch_result($result, 0, 'class_name');
+		$this->class_expr = pg_fetch_result($result, 0, 'class_expr');
+		$this->class_symbol = pg_fetch_result($result, 0, 'class_symbol');
+		$this->class_symbol_size = pg_fetch_result($result, 0, 'class_symbol_size');
+		$this->class_color_r = pg_fetch_result($result, 0, 'class_color_r');
+		$this->class_color_g = pg_fetch_result($result, 0, 'class_color_g');
+		$this->class_color_b = pg_fetch_result($result, 0, 'class_color_b');
 		
 		$this->dbconn->disconnect();
 		

@@ -21,7 +21,7 @@ include_once('tng_check_session.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="style.css" type="text/css" />
-<title>Form Not Saved</title>
+<title>Form Saved</title>
 
 <!--[if IE]>
 <style type="text/css"> 

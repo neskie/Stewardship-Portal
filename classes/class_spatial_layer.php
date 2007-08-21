@@ -541,6 +541,18 @@ class SpatialLayer{
 			}else{
 				$layer_id = pg_fetch_result($result, 0, 0);
 				$this->dbconn->disconnect();
+				$symbol = "";
+				$symbol_size = "NULL";
+				// check if this is a point layer.
+				// if so, set the symbol as circle
+				// and the size as 4. without specifying these, 
+				// the points will be drawn extremely small in size
+				// on the map viewer
+				if($this->geom_type == "point"){
+					$symbol = "circle";
+					$symbol_size = 4;
+				}
+			
 				// once the layer record has been created,
 				// grant this user the permission to see
 				// the layer.
@@ -563,7 +575,9 @@ class SpatialLayer{
 									. "class_name, "
 									. "class_color_r, "
 									. "class_color_b, "
-									. "class_color_g "
+									. "class_color_g, "
+									. "class_symbol, "
+									. "class_symbol_size "
 								. ") "
 								. "VALUES "
 									. "( "
@@ -571,7 +585,9 @@ class SpatialLayer{
 										. "'default_class', "
 										. "46, "
 										. "139, "
-										. "87"
+										. "87, "
+										. "'" . $symbol . "', "
+										. $symbol_size . " "
 									.");";
 				
 				$this->dbconn->connect();

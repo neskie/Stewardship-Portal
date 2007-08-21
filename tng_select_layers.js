@@ -155,5 +155,6 @@ function populate_list_from_xml(xml, list_id){
 function launch_mapper(){
 	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
 		eval(xmlHttp.responseText);
+		window.location.reload();
 	}
 }

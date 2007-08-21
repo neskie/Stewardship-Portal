@@ -145,7 +145,10 @@ class Fist_Conf_File_Generator{
 					$style->color->setRGB($this->viewable_layers[$i]->layer_classes[$j]->class_color_r,
 											$this->viewable_layers[$i]->layer_classes[$j]->class_color_g,
 											$this->viewable_layers[$i]->layer_classes[$j]->class_color_b);
-				
+					if($this->viewable_layers[$i]->layer_classes[$j]->class_symbol != "")
+						$style->set("symbolname", $this->viewable_layers[$i]->layer_classes[$j]->class_symbol);
+					if($this->viewable_layers[$i]->layer_classes[$j]->class_symbol_size != "")
+						$style->set("size", $this->viewable_layers[$i]->layer_classes[$j]->class_symbol_size);
 				}
 			}
 		}
