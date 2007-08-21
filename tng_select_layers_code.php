@@ -15,6 +15,7 @@ session_start();
 
 $xslt_file = "tng_layer_transform.xslt";
 $fist_file_gen =& get_conf_file_generator();
+$mapserv_name = "TNG-Stewardship-Portal";
 
 // form is being loaded first time or
 // it is being loaded through ajax
@@ -56,10 +57,11 @@ if(isset($_SESSION['obj_login'])){
 	// mapping agent.
 	else if(isset($_POST['ajax_launch_fist'])){ 
 		global $fist_file_gen;
+		global $mapserv_name;
 		if(launch_mapper($fist_file_gen)){
 			// echo javascript out to open the fist in
 			// a new window
-			$js_str = "window.open('http://142.207.69.203/~karima/fist/htdocs/fistMain.php?site=example_world_lin'); ";
+			$js_str = "window.open('http://142.207.69.203/fist/fistMain.php?site=" .$mapserv_name .  "'); ";
 			echo $js_str;
 		}
 	}
@@ -81,16 +83,20 @@ function &get_conf_file_generator(){
 	// note: this object should be destroyed
 	// once the mapping agent is launched
 	if(!isset($_SESSION['fist_file_gen'])){
-		$mapfile = "/home/karima/public_html/fist/sites/tng_portal/mapfiles/tng_portal.map";
-		$layerconf_file = "/home/karima/public_html/fist/sites/tng_portal/config/layer-config.xml";
-		$mapservconf_file = "/home/karima/public_html/fist/config/map-service-config.xml";
+		//$mapfile = "/home/karima/public_html/fist/sites/example_world/mapfiles/example_default.map";
+		//$layerconf_file = "/home/karima/public_html/fist/sites/example_world/config/layer-config.xml.bak";
+		//$mapservconf_file = "/home/karima/public_html/fist/config/map-service-config.xml";
+		$mapfile = "/opt/fist/sites/tng_portal/mapfiles/tng_portal.map";
+		$layerconf_file = "/opt/fist/sites/tng_portal/config/layer-config.xml";
+		$mapservconf_file = "/opt/fist/config/map-service-config.xml";
+		global $mapserv_name;
 		$output_dir = "/tmp/";
 		$login = $_SESSION['obj_login'];
 		$fist_file_gen =& new Fist_Conf_File_Generator($login->uid, 
 													$mapfile, 
 													$layerconf_file,
 													$mapservconf_file,
-													"tng_portal", 
+													$mapserv_name, 
 													$output_dir);
 		// get viewable layers
 		if(!$fist_file_gen->get_viewable_layers()){
@@ -213,7 +219,7 @@ function launch_mapper($fist_file_gen){
 	// destroy the conf file generator object
 	// so that the process can be started afresh
 	// when the user comes back to select layers
-	//unset($_SESSION['fist_file_gen']);
+	unset($_SESSION['fist_file_gen']);
 	return true;
 }
 ?>
