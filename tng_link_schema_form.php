@@ -19,6 +19,11 @@ include_once('classes/class_login.php');
 // include script to check for 
 // login session variable
 include_once('tng_check_session.php');
+// only allow access if the logged in user
+// is an admin user
+if($_SESSION['obj_login']->is_admin() == "false")
+	echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_login_successful.php'>";
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
