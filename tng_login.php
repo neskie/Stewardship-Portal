@@ -70,8 +70,7 @@ include('tng_login_code.php');
   <br class="clearfloat" />
    
 	<div id="footer">
-    	<p>Footer</p>
-    </div>
+    	<?php include_once('links_footer.html');?></div>
   	<!-- end #footer -->
   
 	</div>

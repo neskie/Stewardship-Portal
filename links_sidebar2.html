@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<HEAD>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+var theImages = new Array() 
+
+theImages[0] = 'images/Image1.jpg'
+theImages[1] = 'images/Image2.jpg'
+theImages[2] = 'images/Image3.jpg'
+theImages[3] = 'images/Image4.jpg'
+
+var j = 0
+var p = theImages.length;
+var preBuffer = new Array()
+for (i = 0; i < p; i++){
+   preBuffer[i] = new Image()
+   preBuffer[i].src = theImages[i]
+}
+var whichImage = Math.round(Math.random()*(p-1));
+function showImage(){
+document.write('<img src="'+theImages[whichImage]+'">');
+}
+
+</script>
+</HEAD>
+<link rel="stylesheet" href="../adobe_test/mm_health_nutr.css" type="text/css" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<table border="0" cellspacing="0" cellpadding="0" width="165" id="navigation">
+  <tr>
+		  
+    <td bgcolor="#EBEBEB"> 
+<p><span class="subHeader">Portal Access</span><br /></p>
+    		
+      <p class="smallText">A user account is needed to log into the Stewardship 
+        Portal. Click on the link below, download and complete the word document 
+        and email it to the <a href="mailto:tsdgis@tsilhqotin.ca">portal administrato</a>r 
+        to receive access to the portal.</p>
+      <p class="smallText">Download Access Form</p>
+      <SCRIPT LANGUAGE="JavaScript">
+
+showImage();
+</script>
+
+	<td></tr>
+          
+      </table>
+</body>
+</html>

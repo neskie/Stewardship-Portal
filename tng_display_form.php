@@ -212,19 +212,8 @@ function handler_validate_parent(){
   <!-- end #sidebar1 -->
   
   <div id="sidebar2">
-    <p><span class="subHeader">Portal Access</span><br /></p>
-    <p class="smallText">
-		A user account is needed to log into the Stewardship Portal. 
-        To acquire a username and password, please send an email 
-        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
-			
-    <p><span class="subHeader">TITLE HERE</span><br />
-		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-
-	<p><span class="subHeader">TITLE HERE</span><br />
-		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-        
-  </div>
+    <?php include_once('links_sidebar2.html');?>
+</div>
   <!-- end #sidebar2 -->
   <div id="mainContent">
 	<form id="tng_display_form" 
@@ -285,8 +274,7 @@ function handler_validate_parent(){
     #container div to contain all child floats -->
    <br class="clearfloat" />
    <div id="footer">
-    <p>Footer</p>
-   </div>
+    <?php include_once('links_footer.html');?></div>
   <!-- end #footer -->
   </div>
 <!-- end #container -->

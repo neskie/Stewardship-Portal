@@ -49,18 +49,7 @@ include_once('tng_check_session.php');
 		  <!-- end #sidebar1 -->
 
 		  <div id="sidebar2">
-		    <p><span class="subHeader">Portal Access</span><br /></p>
-		    <p class="smallText">
-				A user account is needed to log into the Stewardship Portal. 
-		        To acquire a username and password, please send an email 
-		        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
-
-		    <p><span class="subHeader">TITLE HERE</span><br />
-				Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-
-			<p><span class="subHeader">TITLE HERE</span><br />
-				Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-
+		     <?php include_once('links_sidebar2.html');?>
 		 </div>
 		 <!-- end #sidebar2 -->
 		 
@@ -233,7 +222,7 @@ include_once('tng_check_session.php');
 	    #container div to contain all child floats -->
 	   <br class="clearfloat" />
 	   <div id="footer">
-	    <p>Footer</p>
+	    <?php include_once('links_footer.html');?></div>
 	   </div>
 	  <!-- end #footer -->
 	  </div>

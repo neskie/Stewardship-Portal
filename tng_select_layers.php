@@ -10,11 +10,8 @@ desc:	webpage to give the user a list of available
 header('Pragma: no-cache'); 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-// include necessary classes used by this page
-// OR scripts that are included BEFORE 
-// start_session() is called
-include_once('classes/class_login.php');
-include_once('tng_check_session.php');
+
+//include_once('tng_select_layers_code.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -29,7 +26,7 @@ include_once('tng_check_session.php');
 // the first time around, we should display
 // all available layers. any previous lists
 // held in a session variable should be cleared.
-
+ajax_refresh_layers();
 
 </script>
 <!--[if IE]>
@@ -41,9 +38,7 @@ include_once('tng_check_session.php');
 </style>
 <![endif]-->
 </head>
-<!-- onLoad, display all available layers. any previous lists
-	held in a session variable should be cleared.-->
-<body class="thrColHybHdr" onLoad="ajax_refresh_layers();">
+<body class="thrColHybHdr">
 	<div id="container">
   		<div id="header">
     		<?php include_once('top_div.html'); ?>
@@ -56,32 +51,21 @@ include_once('tng_check_session.php');
   		<!-- end #sidebar1 -->
   
   		<div id="sidebar2">
-    		<p><span class="subHeader">Portal Access</span><br /></p>
-		    <p class="smallText">
-				A user account is needed to log into the Stewardship Portal. 
-		        To acquire a username and password, please send an email 
-		        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
-			
-		    <p><span class="subHeader">TITLE HERE</span><br />
-				Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-
-			<p><span class="subHeader">TITLE HERE</span><br />
-				Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-        
-  		</div>
+    		<?php include_once('links_sidebar2.html');?>
+</div>
   		<!-- end #sidebar2 -->
 		<div id="mainContent">
-		    <h1 class="pageName"> Available Layers </h1>
+		    <h1 class="pageName"> View Layers </h1>
 			<form id="tng_select_layers" 
 					name="tng_select_layers" 
 					method="post" 
 					enctype="multipart/form-data" 
 					action="tng_select_layers_code.php">
 				<p class="bodyText"> The list below shows the layers that you have permission to view. Please 
-					select the layers that you wish to appear in the mapping agent.
+					mark the checkboxes for the layer(s) that you wish to appear in the Map viewer, then hit the "Launch Map Viewer" button.
 				</p>
-				<p class="bodyText"> To search the available layers by name, enter the 
-					name of the layer in the field below.
+				<p class="bodyText"> To narrow the available layers by name, enter any part of the 
+					name of the layer in the field below and hit the "Refresh List" button.
 				</p>
 				<p class="bodyText"> Name: 
 				<input type="text"
@@ -115,8 +99,7 @@ include_once('tng_check_session.php');
 	    #container div to contain all child floats -->
 	   <br class="clearfloat" />
 	   <div id="footer">
-	    <p>Footer</p>
-	   </div>
+	    <?php include_once('links_footer.html');?></div>
 	  <!-- end #footer -->
 	  </div>
 	<!-- end #container -->

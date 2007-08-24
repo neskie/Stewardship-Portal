@@ -53,23 +53,12 @@ function submit_form(action_value){
 		<!-- end #sidebar1 -->
 		
 		<div id="sidebar2">
-		    <p><span class="subHeader">Portal Access</span><br /></p>
-		    <p class="smallText">
-				A user account is needed to log into the Stewardship Portal. 
-		        To acquire a username and password, please send an email 
-		        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
-
-		    <p><span class="subHeader">TITLE HERE</span><br />
-				Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-
-			<p><span class="subHeader">TITLE HERE</span><br />
-				Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-
-		</div>
+		    <?php include_once('links_sidebar2.html');?>
+</div>
 		<!-- end #sidebar2 -->
 		
 		<div id="mainContent">
-		    <h1 class="pageName"> Fill Form </h1>
+		    <h1 class="pageName"> View Forms </h1>
 			<form id="tng_list_forms" method="POST" action="tng_list_forms.php">
 				<p class="bodyText">
 					In this section, you can select a Form to be filled for
@@ -102,8 +91,7 @@ function submit_form(action_value){
 		   #container div to contain all child floats -->
 		<br class="clearfloat" />
 		<div id="footer">
-			<p>Footer</p>
-		</div>
+			<?php include_once('links_footer.html');?></div>
 		<!-- end #footer -->
 	</div>
 	<!-- end #container -->
