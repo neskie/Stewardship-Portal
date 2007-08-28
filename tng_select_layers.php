@@ -12,6 +12,13 @@ header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 //include_once('tng_select_layers_code.php');
+// include necessary classes used by this page
+// OR scripts that are included BEFORE 
+// start_session() is called
+include_once('classes/class_login.php');
+// include script to check for 
+// login session variable
+include_once('tng_check_session.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -26,7 +33,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 // the first time around, we should display
 // all available layers. any previous lists
 // held in a session variable should be cleared.
-ajax_refresh_layers();
+//ajax_refresh_layers();
 
 </script>
 <!--[if IE]>
@@ -38,7 +45,7 @@ ajax_refresh_layers();
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr">
+<body class="thrColHybHdr" onLoad="ajax_refresh_layers();">
 	<div id="container">
   		<div id="header">
     		<?php include_once('top_div.html'); ?>
@@ -46,13 +53,13 @@ ajax_refresh_layers();
   		<!-- end #header -->
   
   		<div id="sidebar1">
-    		<?php include_once('tng_links_post_login.php');?>
+    			<?php include_once('tng_links_post_login.php');?>
   		</div>  
   		<!-- end #sidebar1 -->
   
   		<div id="sidebar2">
-    		<?php include_once('links_sidebar2.html');?>
-</div>
+    			<?php include_once('links_sidebar2.html');?>
+		</div>
   		<!-- end #sidebar2 -->
 		<div id="mainContent">
 		    <h1 class="pageName"> View Layers </h1>
@@ -99,7 +106,8 @@ ajax_refresh_layers();
 	    #container div to contain all child floats -->
 	   <br class="clearfloat" />
 	   <div id="footer">
-	    <?php include_once('links_footer.html');?></div>
+	    <?php include_once('links_footer.html');?>
+	   </div>
 	  <!-- end #footer -->
 	  </div>
 	<!-- end #container -->
