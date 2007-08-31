@@ -174,6 +174,9 @@ function &get_user_list(){
 /// of objects(users, forms, layers, etc) 
 /// limited by $prefix (if any)
 /// provided by the user.
+/// NOTE - mary has requested that this be changed
+/// so that the string matching is done anywhere
+/// within the object name.
 /// note that $obj_list is a name-value pair
 /// array, where the name of the object is the key
 /// and the id of the object is the value
@@ -186,7 +189,8 @@ function generate_object_list_xml($obj_list, $prefix){
 	
 	for($i = 0; $i < $n_objects; $i++){
 		if($prefix == ""
-			|| substr($obj_names[$i], 0, strlen($prefix)) == $prefix
+			//|| substr($obj_names[$i], 0, strlen($prefix)) == $prefix
+			|| substr_count($obj_names[$i], $prefix) > 0
 			){
 				$xml .= "<object>"
 						. "<id>"
