@@ -131,7 +131,8 @@ function generate_layer_xml($viewable_layers, $prefix){
 			. "<layers>";
 	for($i = 0; $i < $n_layers; $i++){
 		if($prefix == ""
-			|| substr($viewable_layers[$i]->layer_name, 0, strlen($prefix)) == $prefix
+			//|| substr($viewable_layers[$i]->layer_name, 0, strlen($prefix)) == $prefix
+			|| substr_count($viewable_layers[$i]->layer_name, $prefix) > 0
 			){
 			$xml .= "<layer>"
 				. "<id>"

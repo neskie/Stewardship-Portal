@@ -30,6 +30,7 @@ include_once('class_spatial_layer.php');
 
 class Form{
 	var $id;
+	var $sub_pid; /* parent id of submission created by this form*/
 	var $name;
 	var $fields;
 	var $files;
@@ -43,6 +44,7 @@ class Form{
 	///
 	function Form($id, $submission_id = -1){
 		$this->id = $id;
+		$this->sub_pid = -1;
 		$this->fields = array();
 		$this->files = array();
 		$this->dbconn = new DBConn();
@@ -264,7 +266,7 @@ class Form{
 	///
 	function save_form($uid, $pid){
 		$form_submission_id = -1;
-		$parent_id = $pid;
+		$this->sub_pid = $pid;
 		// note that we do not perform a validation
 		// on the PID because this is taken care of
 		// BEFORE the save_form method is called from
@@ -295,7 +297,7 @@ class Form{
 						. "( "
 							. $uid . ", "
 							. $this->id . ", "
-							. $parent_id . ", "
+							. $this->sub_pid . ", "
 							. "1 " // status = new
 						. "); "
 						. "SELECT " 
@@ -328,7 +330,7 @@ class Form{
 			}
 		}	
 		$this->dbconn->disconnect();
-		$this->update_title($form_submission_id, $parent_id, $uid);
+		$this->update_title($form_submission_id, $uid);
 		$this->save_files($form_submission_id);
 		
 		return $form_submission_id;	
@@ -406,7 +408,7 @@ class Form{
 	/// will have some meaning e.g
 	/// 450 - Forestry Referral - john smith
 	///
-	function update_title($sub_id, $pid, $uid){
+	function update_title($sub_id, $uid){
 		$form_name = "";
 		$u_name = "";
 		$sub_title = "";
@@ -449,8 +451,8 @@ class Form{
 		
 		$sub_title = "ID: " . $sub_id . " - ";
 		
-		if($pid != -1)
-			$sub_title .= "Amendment to ID: " . $pid . " - ";
+		if($this->sub_pid != -1)
+			$sub_title .= "Amendment to ID: " . $this->sub_pid . " - ";
 			
 		$sub_title .= $form_name . " - " . $u_name;
 		
@@ -541,18 +543,33 @@ class Form{
 					// if the layer object was successfully
 					// created, then validate the layer
 					if($spatial_layer != NULL){
-						if(!$spatial_layer->validate_layer())
+						if($spatial_layer->validate_layer()){
+							// create a name for the new layer
+							$basename = basename("/tmp/" . $prefix . $this->files[$i][1]);
+							$dst_layer_name = substr($basename, strpos($basename, "_") + 1, 
+												strpos($basename, ".shp") - strpos($basename,"_") - 1);
+							// prefix date
+							$dst_layer_name = "[" . date("M d Y") . "] " . $dst_layer_name;
+							// if this submission has a valid parent, then
+							// prefix the layer name with the parent's id.
+							// otherwise prefix it with the current
+							// submission id
+							if($this->sub_pid != -1)
+								$dst_layer_name = $this->sub_pid . ": " . $dst_layer_name;
+							else
+								$dst_layer_name = $form_submission_id . ": " . $dst_layer_name;
+							
+							if(!$spatial_layer->add_layer_to_db($dst_layer_name)){
+								echo "the shape file " 
+									. basename($this->files[$i][1]) 
+									. " could not be loaded";
+							}	
+						}else{
 							echo "the shape file " 
 								. $this->files[$i][1]
 								. " does not match the standard schema";
-						// if the layer passes validation, then
-						// load it into the db
-						else if(!$spatial_layer->add_layer_to_db())
-							echo "the shape file " 
-								. basename($this->files[$i][1]) 
-								. " could not be loaded"; 
-					}
-					
+						}
+					}	
 				}
 			// look for non spatial files
 			}else if (substr_count($this->files[$i][1], ".dbf") == 0

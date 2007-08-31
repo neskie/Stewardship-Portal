@@ -49,6 +49,12 @@ include_once('tng_check_session.php');
   <div id="sidebar2">
 	<?php include_once('links_sidebar2.html');?>      
   </div>
+  <div id="mainContent">
+    <h1 class="pageName"> Form Saved Successfully </h1>
+    <p class="bodyText">
+    	The form that you filled out was saved successfully.
+    </p>
+  </div>
 	<!-- end #mainContent -->
 	<!-- This clearing element should immediately follow 
     the #mainContent div in order to force the 

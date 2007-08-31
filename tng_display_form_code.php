@@ -95,7 +95,7 @@ if(isset($_POST['ajax_action'])){ // receiving an AJAX request
 	// expired
 	if(!isset($_SESSION['obj_form'])){
 		echo "session expired ";
-		header("Location: tng_login.php");
+		echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_login.php'>";
 	}else{ // session not expired
 		$form = $_SESSION['obj_form'];
 		$login = $_SESSION['obj_login'];
