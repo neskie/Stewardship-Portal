@@ -46,6 +46,11 @@
 		  </td>
         </tr>
 		<tr>
+          <td width="165"><a href="javascript:window.location='tng_doc_links.php';" 
+				class="navText">Document Downloads</a>
+		  </td>
+        </tr>
+		<tr>
           <td width="165"><a href="javascript:window.location='tng_logout.php';" 
 				class="navText">Logout</a>
 		  </td>
