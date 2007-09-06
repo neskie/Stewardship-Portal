@@ -57,9 +57,10 @@ include_once('tng_check_session.php');
 			enctype="multipart/form-data">
 			<h1 class="pageName"> View Schema </h1>
 			<p class="bodyText">
-				Select the schema you wish to view from the 
-				list below.
+				The Stewardship Portal requires that all shapefiles submitted meet specific formatting requirements, known as schemas, which have already been established.  If you’re having trouble uploading shapefiles to the portal, please view the schema requirements for the data-type you’re trying to upload.</p>  
+	<p class="bodyText">Select the schema you wish to view from the list below.  
 			</p>
+      <p></p>
 			<p class="bodyText">
 				<label style="width: 100px"> <b> Schema </b> </label>
 				<select id="schema_list"
@@ -87,6 +88,13 @@ include_once('tng_check_session.php');
 				</ul>
 			</p>
 		</form>
+</br>
+<p></p>
+<p></p>
+
+<p class="bodyText"><i>Please note: “varchar” = “text” or “string”.  Lengths of text fields are irrelevant to the portal’s database. </i></p> 
+<p class="bodyText"><i>Also remember that each component of the shapefiles needs to be uploaded separately, not in a zipfile.  You need to add the .shp, .dbf, .shx, (and others) to the portal as individual files.</i></p>
+<p class="bodyText"><i>If you feel additional schemas need to be made or modified, please contact the portal administrator to discuss the issue.</i></p>
 		</div>
 		<!-- end #mainContent -->
 		<!-- This clearing element should immediately follow 

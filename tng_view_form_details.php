@@ -59,13 +59,10 @@ include_once('tng_check_session.php');
 	  <!-- end #sidebar1 -->
 
 	  <div id="sidebar2">
-	    <p><span class="subHeader">Portal Access</span><br /></p>
-	    <p class="smallText">
-			A user account is needed to log into the Stewardship Portal. 
-	        To acquire a username and password, please send an email 
-	        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
-	  </div>
-	  <!-- end #sidebar2 -->
+	    <?php include_once('links_sidebar2.html');?>
+	  </div>  
+	  <!-- end #sidebar -->
+
 	  <div id="mainContent">
 		<form id="tng_view_form" 
 			name="tng_view_form" 
@@ -73,7 +70,8 @@ include_once('tng_check_session.php');
 			enctype="multipart/form-data">
 			<h1 class="pageName"> View Form Details </h1>
 			<p class="bodyText">
-				Select the form you wish to view from the 
+				Please note that the changes made here are instant. 
+Select the form you wish to view from the 
 				list below.
 			</p>
 			<p class="bodyText">
@@ -108,10 +106,13 @@ include_once('tng_check_session.php');
 	    the #mainContent div in order to force the 
 	    #container div to contain all child floats -->
 	   <br class="clearfloat" />
-	   <div id="footer">
-	    <p>Footer</p>
-	   </div>
+	  
+ <div id="footer">
+	    <?php include_once('links_footer.html');?>
+	  </div>  
 	  <!-- end #footer -->
+
+
 	  </div>
 	<!-- end #container -->
 </body>

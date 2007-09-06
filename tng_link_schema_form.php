@@ -61,27 +61,18 @@ if($_SESSION['obj_login']->is_admin() == "false")
     <?php include_once('links_sidebar2.html');?> 
   </div>
   <!-- end #sidebar2 -->
+
   <div id="mainContent">
 	<form id="tng_link_schema" 
 		name="tng_link_schema" 
 		method="post" 
 		enctype="multipart/form-data">
 		<h1 class="pageName"> Link Schema to Form </h1>
-			<p class="bodyText">
-				This page allows you to associate a Schema with a Form.
-				<br/>
-				Once a Form is selected from the list below, you will be
-				able to see the list of linked and unlinked Schemas with
-				respect to the selected Form.
-				<br/>
-				To associate a Schema with the selected Form, select the Schema
-				from the Unlinked Schemas box and click the the Down toggle arrow
-				button to move it to the Linked Schemas box.
-				<br/>
-				To remove an associated Schema from the selected Form, select the Schema
-				from the Linked Schemas box and click the the Up toggle arrow
-				button to move it to the Unlinked Schemas box.
-			</p>
+			<p class="bodyText">This page allows the portal administrator to associate one or more schemas with a form.</p>
+                  <p class="bodyText">Once a form is selected in the drop-down “Form:” list below, you will be able to see the list of linked and unlinked schemas with respect to that selected form.</p> 
+                  <p class="bodyText">To associate a schema with the selected form, select the schema from the <b>Unlinked Schemas</b> box and click the DOWN ARROW toggle button to move it to the <b>Linked Schemas</b> box.</p> 
+                  <p class="bodyText">To remove an associated schema from the selected form, select the schema from the <b>Linked Schemas</b> box and click the UP ARROW toggle button to move it to the <b>Unlinked Schemas</b> box.</p>
+                  <p class="bodyText"><i>One form can have multiple schemas associated with it, and one schema can be reused and be associated with multiple forms, if appropriate.</i></p>
 			<br/>
 			<p class="bodyText">
 			<label style="width:100px;" for="user_list"> Form: </label>

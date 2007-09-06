@@ -37,7 +37,7 @@ include_once('tng_check_session.php');
 
 <div id="container">
   <div id="header">
-    <?php include_once('top_div.html'); ?>
+    <?php include_once('top_div.html');?>
   </div>
   <!-- end #header -->
   

@@ -63,18 +63,12 @@ if($_SESSION['obj_login']->is_admin() == "false")
 			method="post" 
 			enctype="multipart/form-data">
 		<h1 class="pageName"> User Management </h1>
-		<p class="bodyText">
-			To add a user to the system, enter the desired user name
-			for the new user and the password and click the 
-			"Add User" button.
+		<p class="bodyText">To add a user to the system, complete all the fields, toggle the Active button “ON”, and click the "Add User" button. 
 		</p>
-		<p class="bodyText"> 
-			To reset the password for an existing user, select the
-			user from the list below and click the "Reset Password"
-			button. Enter the new password in the password field
-			and click the "Save" button to save changes.
-		</p>
-		<p class="bodyText">
+            <p class="bodyText">No email message is automatically sent to the user’s email address, so the administrator needs to contact the user and let him/her know what password has been assigned.  A user cannot change his/her password without contacting the administrator. </p> 
+		<p class="bodyText"> To reset the password for an existing user, edit an email address or other user information, select the user from the list below and click the “Edit User” button.  Enter the new information in the appropriate field(s), and click the "Save" button to save changes.  Note that their password is not displayed, and leaving that field blank will not over-write the existing password, so emails etc can be updated without affecting that user’s ability to log on.  </p>
+		
+            <p class="bodyText">
 			<label style="width:100px" for="uname"> User Name: </label>
 			<input type="text" id="uname" name="uname" size="45"/>
 			<br/>
