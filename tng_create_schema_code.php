@@ -438,7 +438,7 @@ function grant_permissions($table_name, $view_name){
 				. "TO tng_readwrite, tng_readonly; "
 				. "GRANT INSERT ON " . $table_name . " "
 				. "TO tng_readwrite; "
-				. "GRANT UPDATE ON " . $table_name . "_id_seq "
+				. "GRANT SELECT, UPDATE ON " . $table_name . "_id_seq "
 				. "TO tng_readwrite; "
 				. "GRANT ALL PRIVILEGES ON " . $table_name . ", " . $view_name . " "
 				. "TO tng_admin";

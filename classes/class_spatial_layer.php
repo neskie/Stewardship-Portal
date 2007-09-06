@@ -108,6 +108,14 @@ class SpatialLayer{
 				return false;
 			}
 			
+			// another subtle bug: [09.06.2007]
+			// when the layer has only one feature, calling
+			// GetNextFeature returns null. it seems that
+			// when the layer is opened, the pointer automatically
+			// points to the first feature, so calling GetNext
+			// would result in a null feature if there is only
+			// one feature in the layer.
+			OGR_L_ResetReading($this->ogr_src_layer);
 			// first the number of attributes should match
 			// between the layer's attributes and the
 			// attribute table schema
@@ -124,7 +132,7 @@ class SpatialLayer{
 			// we have to CONTINUE searching.
 			if($n_src_attributes != count($this->attr_table_schema))
 				continue; //return false;
-	
+						
 			// now we know that the number of attributes
 			// matches. verify the names of each of the attributes
 			// attr_table_schema array acts as a hash table in
