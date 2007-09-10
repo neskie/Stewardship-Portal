@@ -93,7 +93,9 @@ class Submission_Layer{
 	///
 	function convert_to_shapefile(){
 		$output_dir = "/tmp/";
-		$basename = $this->layer_name;
+		// replace any special characters
+		// added while creating the layer name
+		$basename = str_replace(array(" ", "[", "]", ":"), "_", $this->layer_name);
 		$shapefile =  $basename . ".shp" ;
 		$zipfile = $basename . ".zip" ;
 		

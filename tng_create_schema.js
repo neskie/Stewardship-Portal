@@ -96,27 +96,11 @@ function delete_field(field_id){
 /// check if a string contains
 /// special characters
 ///
-function check_special_chars(attribute){
-	if(attribute == ""
-		|| attribute.indexOf(' ') != -1
-		|| attribute.indexOf('!') != -1
-		|| attribute.indexOf('@') != -1
-		|| attribute.indexOf('#') != -1
-		|| attribute.indexOf('$') != -1
-		|| attribute.indexOf('%') != -1
-		|| attribute.indexOf('^') != -1
-		|| attribute.indexOf('&') != -1
-		|| attribute.indexOf('*') != -1
-		|| attribute.indexOf('(') != -1
-		|| attribute.indexOf(')') != -1
-		|| attribute.indexOf('<') != -1
-		|| attribute.indexOf('>') != -1
-		|| attribute.indexOf('?') != -1
-		|| attribute.indexOf('/') != -1
-	)
-		return false;
-	else
-		return true;
+function check_special_chars(str){
+	// use a regular expression to check if
+	// the string contains only the
+	// characters [a-zA-z_0-9] i.e \w
+	return /^[\w]+$/.test(str);
 }
 
 /// -------------------------------------------------------------------------------
