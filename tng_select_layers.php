@@ -25,7 +25,7 @@ include_once('tng_check_session.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
-<title>Available Layers</title>
+<title>Map Layers</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_select_layers.js"> </script>
 
@@ -62,7 +62,7 @@ include_once('tng_check_session.php');
 		</div>
   		<!-- end #sidebar2 -->
 		<div id="mainContent">
-		    <h1 class="pageName"> View Layers </h1>
+		    <h1 class="pageName"> Map Layers </h1>
 			<form id="tng_select_layers" 
 					name="tng_select_layers" 
 					method="post" 

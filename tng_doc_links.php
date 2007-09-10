@@ -21,12 +21,12 @@ session_start();
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="style.css" type="text/css" />
-<title>Document Links</title>
+<title>Document Downloads</title>
 
 <!--[if IE]>
 <style type="text/css"> 
 /* place css fixes for all versions of IE in this conditional comment */
-.thrColHybHdr #sidebar1, .thrColHybHdr #sidebar2 { padding-top: 30px; }
+.thrColHybHdr #sidebar1, .thrColHybHdr #sidebar3 { padding-top: 30px; }
 .thrColHybHdr #mainContent { zoom: 1; padding-top: 15px; }
 /* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
 </style>
@@ -52,19 +52,33 @@ session_start();
   </div>  
   <!-- end #sidebar1 -->
   
-  <div id="sidebar2">
-	<?php include_once('links_sidebar2.html');?>      
+  <div id="sidebar3">
+	<?php include_once('links_sidebar_alternate.html');?>      
   </div>
+  <!-- end #sidebar3 -->
+
   <div id="mainContent">
-    <h1 class="pageName"> Document Links </h1>
+    <h1 class="pageName"> Document Downloads </h1>
     <p class="bodyText">
     	The documents below are available for download.
     </p>
 	<p class="bodyText">
 		<ol>
-			<li class="bodyText">
-				<a href="portal_docs/forestry_block-specific_information_document.doc"> Forestry Referral Block Info </a>
+		      <li class="bodyText">
+				<p><a href="PortalUserLoginFields.doc"> Portal Access </a></p>
+                        <p>A user account is needed to log into the Stewardship Portal. Click on the link above, download and complete the word document then email it to the <a href="mailto:tsdgis@tsilhqotin.ca ">Portal 
+                      Administrator</a> to receive access to the portal.</p>
 			</li>
+                  <li class="bodyText">
+				<p><a href="portal_docs/forestry_block-specific_information_document.doc"> Forestry Referral Block Info </a></p>
+                        <p>Please complete and attach this to your main forestry referral submission.</p>
+			</li>
+                  <li class="bodyText">
+				<p><a href="TSDTNGPhotographFieldSheet_revised.doc"> Photograph GPS Field Sheet </a></p>
+                        <p>Print this form and take it to the field to document GPS Waypoints and photo numbers. </p>
+			</li>
+
+
 		</ol>
 	</p>
   </div>

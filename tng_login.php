@@ -32,10 +32,10 @@ include('tng_login_code.php');?>
   </div>  
   <!-- end #sidebar1 -->
   
-  <div id="sidebar2">
-    <?php include_once('links_sidebar2.html');?>      
+  <div id="sidebar3">
+    <?php include_once('links_sidebar_alternate.html');?>      
   </div>
-  <!-- end #sidebar2 -->
+  <!-- end #sidebar3 -->
 
   <div id="mainContent">
     <h1 class="pageName"> Stewardship Portal Login </h1>

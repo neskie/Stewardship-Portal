@@ -21,7 +21,7 @@ include_once('tng_check_session.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
-<title>View Schema</title>
+<title>View Available Schemas</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_view_schema.js"> </script>
 <!--[if IE]>
@@ -55,7 +55,7 @@ include_once('tng_check_session.php');
 			name="tng_view_schema" 
 			method="post" 
 			enctype="multipart/form-data">
-			<h1 class="pageName"> View Schema </h1>
+			<h1 class="pageName"> View Available Schemas </h1>
 			<p class="bodyText">
 				The Stewardship Portal requires that all shapefiles submitted meet specific formatting requirements, known as schemas, which have already been established.  If you’re having trouble uploading shapefiles to the portal, please view the schema requirements for the data-type you’re trying to upload.</p>  
 	<p class="bodyText">Select the schema you wish to view from the list below.  

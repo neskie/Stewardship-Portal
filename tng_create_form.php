@@ -62,7 +62,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 			name="tng_create_form" 
 			method="post" 
 			enctype="multipart/form-data">
-		<h1 class="pageName"> Form </h1>
+		<h1 class="pageName">Create Form </h1>
 		<ul class="bodyText">
 			<li> 
 				Enter a name for the Form you wish to 
@@ -121,8 +121,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
     #container div to contain all child floats -->
    <br class="clearfloat" />
    <div id="footer">
-     <?php include_once('links_footer.html');?></div>
-   </div>
+    <?php include_once('links_footer.html');?></div>
   <!-- end #footer -->
   </div>
 <!-- end #container -->	

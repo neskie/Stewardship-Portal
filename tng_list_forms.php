@@ -22,7 +22,7 @@ include_once('tng_list_forms_code.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
-<title>Select Action</title>
+<title>Fill A Form</title>
 <script language="javascript">
 
 function submit_form(action_value){
@@ -58,7 +58,7 @@ function submit_form(action_value){
 		<!-- end #sidebar2 -->
 		
 		<div id="mainContent">
-		    <h1 class="pageName"> View Forms </h1>
+		    <h1 class="pageName"> Fill A Form </h1>
 			<form id="tng_list_forms" method="POST" action="tng_list_forms.php">
 				<p class="bodyText">
 					In this section, you can select a Form to be filled for

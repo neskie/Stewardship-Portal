@@ -28,7 +28,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
-<title>Create Schema</title>
+<title>Create Spatial Schema</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_create_schema.js"> </script>
 <!--[if IE]>
@@ -62,7 +62,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 			name="tng_create_schema" 
 			method="post" 
 			enctype="multipart/form-data">
-		<h1 class="pageName"> Create Schema </h1>
+		<h1 class="pageName"> Create Spatial Schema </h1>
 		<ul class="bodyText">
 			<li> 
 				Enter a name for the schema you wish to 

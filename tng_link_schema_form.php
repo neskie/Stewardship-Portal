@@ -30,7 +30,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
-<title>Link Schema to Form</title>
+<title>Associate Schema With Form</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_link_schema_form.js"> </script>
 
@@ -67,7 +67,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 		name="tng_link_schema" 
 		method="post" 
 		enctype="multipart/form-data">
-		<h1 class="pageName"> Link Schema to Form </h1>
+		<h1 class="pageName"> Associate Schema With Form </h1>
 			<p class="bodyText">This page allows the portal administrator to associate one or more schemas with a form.</p>
                   <p class="bodyText">Once a form is selected in the drop-down “Form:” list below, you will be able to see the list of linked and unlinked schemas with respect to that selected form.</p> 
                   <p class="bodyText">To associate a schema with the selected form, select the schema from the <b>Unlinked Schemas</b> box and click the DOWN ARROW toggle button to move it to the <b>Linked Schemas</b> box.</p> 

@@ -28,7 +28,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
-<title>Manage Permissions</title>
+<title>Add Group</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_create_group.js"> </script>
 <!--[if IE]>
@@ -54,18 +54,8 @@ if($_SESSION['obj_login']->is_admin() == "false")
   <!-- end #sidebar1 -->
   
   <div id="sidebar2">
-    <p><span class="subHeader">Portal Access</span><br /></p>
-    <p class="smallText">
-		A user account is needed to log into the Stewardship Portal. 
-        To acquire a username and password, please send an email 
-        to:<a href="mailto:tsdgis@tsilqotin.ca">Portal Administrator</a></p>
-			
-    <p><span class="subHeader">TITLE HERE</span><br />
-		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-
-	<p><span class="subHeader">TITLE HERE</span><br />
-		Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam. </p>
-        
+    <?php include_once('links_sidebar2.html');?>
+       
   </div>
   <!-- end #sidebar2 -->
   <div id="mainContent">
@@ -73,7 +63,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 		name="create_group" 
 		method="post" 
 		enctype="multipart/form-data">
-		<h1 class="pageName"> Create Group </h1>
+		<h1 class="pageName"> Add Group </h1>
 			<p class="bodyText"> 
 				
 			</p>

@@ -25,7 +25,7 @@ include_once('tng_check_session.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
-<title>View Form Details</title>
+<title>View Form Fields</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_view_form_details.js"> </script>
 <script language="javascript">
@@ -68,7 +68,7 @@ include_once('tng_check_session.php');
 			name="tng_view_form" 
 			method="post" 
 			enctype="multipart/form-data">
-			<h1 class="pageName"> View Form Details </h1>
+			<h1 class="pageName"> View Form Fields </h1>
 			<p class="bodyText">
 				Please note that the changes made here are instant. 
 Select the form you wish to view from the 
