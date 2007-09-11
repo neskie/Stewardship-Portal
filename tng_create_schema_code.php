@@ -13,7 +13,8 @@ include_once('classes/class_dbconn.php');
 session_start();
 
 // globals
-$schema_creator_conn_str = "host=127.0.0.1 dbname=tng_dev user=tng_schema_creator password=tng_schema_creator";
+$db_conn =& new DBConn();
+$schema_creator_conn_str = $db_conn->schema_creator_conn_str;
 
 // form is being loaded first time or
 // it is being loaded through ajax
