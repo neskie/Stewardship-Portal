@@ -372,8 +372,14 @@ class SpatialLayer{
 					// set the name of the attribute
 					// as the key, and the type of the
 					// attribute as the value of the
-					// key
-					$this->attr_table_schema[pg_fetch_result($result, $i, 0)] = pg_fetch_result($result, $i, 1);
+					// key.
+					// note that the attr name is
+					// converted to lower case
+					// before storing because
+					// of string comparison issues when
+					// trying to match field names from the
+					// shapefile to the attribute name
+					$this->attr_table_schema[strtolower(pg_fetch_result($result, $i, 0))] = pg_fetch_result($result, $i, 1);
 
 				$this->dbconn->disconnect();
 				$success = true;
