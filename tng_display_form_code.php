@@ -67,26 +67,63 @@ if(isset($_POST['ajax_action'])){ // receiving an AJAX request
 	// posted back
 	$_SESSION['obj_form'] = $form;
 	$xml_data = $form->generate_xml();
-	// for debugging only - write out xml to file
-	//$file = fopen("/tmp/xml.txt", "w");
-	//fwrite($file, $xml_data);
-	//fclose($file);
-	// read xslt stylesheet into local variable
-	$file = fopen($xslt_file, "r");
-	$xslt_data = fread($file, filesize($xslt_file));
-	fclose($file);
-	// create new xlst processor
-	$xslt_processor = xslt_create();
-	// store array arguments to be passed
-	// to the xslt processor
-	// see http://ca3.php.net/manual/en/function.xslt-process.php
-	// for further explanation
-	$xslt_args = array('/_xml' => $xml_data, '/_xsl' => $xslt_data);
-	// store parameters to be passed to
-	// xslt. in this case we want to instruct
-	// it to not produce the html as read only
-	$xslt_params = array('readonly' => $_SESSION['readonly']);
-	$generated_form_html = xslt_process($xslt_processor, 'arg:/_xml', 'arg:/_xsl', NULL, $xslt_args, $xslt_params);
+	$generated_form_html = "";
+	// check what version of php we are running.
+	// this is needed since php5 does not have the
+	// xslt_create function - no sablotron.
+	if(phpversion() < 5.0){
+		// for debugging only - write out xml to file
+		//$file = fopen("/tmp/xml.txt", "w");
+		//fwrite($file, $xml_data);
+		//fclose($file);
+		// read xslt stylesheet into local variable
+		$file = fopen($xslt_file, "r");
+		$xslt_data = fread($file, filesize($xslt_file));
+		fclose($file);
+		// create new xlst processor
+		$xslt_processor = xslt_create();
+		// store array arguments to be passed
+		// to the xslt processor
+		// see http://ca3.php.net/manual/en/function.xslt-process.php
+		// for further explanation
+		$xslt_args = array('/_xml' => $xml_data, '/_xsl' => $xslt_data);
+		// store parameters to be passed to
+		// xslt. in this case we want to instruct
+		// it to not produce the html as read only
+		$xslt_params = array('readonly' => $_SESSION['readonly']);
+		$generated_form_html = xslt_process($xslt_processor, 'arg:/_xml', 'arg:/_xsl', NULL, $xslt_args, $xslt_params);
+	}else{
+		// php5 version of code.
+		// both the xml string and the 
+		// xslt stylesheet are loaded
+		// into DOMDocument objects
+		$xml = new DOMDocument;
+		$xml->loadXML($xml_data);
+	
+		$xsl = new DOMDocument;
+		$xsl->load($xslt_file);
+	
+		// create xslt processor
+		$proc = new XSLTProcessor;
+		$proc->importStyleSheet($xsl);
+		// set parameters
+		$proc->setParameter('', 'readonly', $_SESSION['readonly']);
+		// perform transformation and store
+		// results to file. note that i could
+		// not find a way to store the results
+		// into a local variable. one option was 
+		// to use sb_output(), but this does not
+		// work in our case - the results are 
+		// echoed straight out. we need to capture	
+		// the result and echo it within a 	
+		// particular section of the html page.
+		$rand_file = "/tmp/" . uniqid(true);	
+		$proc->transformToURI($xml, $rand_file);
+		$file = fopen($rand_file, "r");
+		$generated_form_html = fread($file, filesize($rand_file));
+		fclose($file);
+		unlink($rand_file);
+	}
 	
 }else{ // form_submitted has been set,
 	//the page has been posted back.
@@ -113,7 +150,13 @@ if(isset($_POST['ajax_action'])){ // receiving an AJAX request
 		if(($sub_id = $form->save_form($login->uid, $parent_sub_id)) != -1 ){
 			//header("Location: tng_form_saved.html");
 			send_confirmation_email($sub_id, $login->email);
-			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_saved.php'>";    
+			//echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_saved.php'>";
+			// set session variable
+			// so that the target page is 
+			// aware that the request is made from
+			// a previous page and is not a 'typed in' url.
+			$_SESSION['assign_sub_perm_referrer'] = "tng_display_form.php";
+			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_assign_sub_perm.php?sub_id=" . $sub_id ."'>";        
 		}
 		else{
 			//header("Location: tng_form_not_saved.html");

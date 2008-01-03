@@ -226,7 +226,7 @@ function ajax_simple_search(){
 		alert("Please enter a valid number for the Submission ID");
 		return;
 	}
-	var where_clause = "WHERE sub_id = " + sub_id;
+	var where_clause = "WHERE vi_submission_search.sub_id = " + sub_id;
 	create_http_request();
 	var post_params = "ajax_action=perform_search&where_clause=" + where_clause; 
 	send_http_request(handler_search_results, "POST", target_url, post_params);

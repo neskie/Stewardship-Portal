@@ -347,6 +347,7 @@ function perform_search($where_clause){
 	$xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
 		 		. "<submissions>";
 	$sql_str = "SELECT "
+				. "DISTINCT "
 				. "vi_submission_search.sub_id, "
 				. "sub_type, "
 				. "sub_title, "
@@ -356,14 +357,25 @@ function perform_search($where_clause){
 				. "assigned_to, "
 				. "sub_date "
 			. "FROM "
-				. "vi_submission_search ";
+				. "vi_submission_search "
+				. "LEFT JOIN tng_submission_permission " 
+					. "ON vi_submission_search.sub_id = tng_submission_permission.sub_id ";
+			
 	// if the user wishes to include a specific field
 	// search, include the view that accomplishes
 	// this.
 	if(substr_count($where_clause, "field_id") == 1)
 		$sql_str .= "INNER JOIN vi_field_search "
 						. "ON vi_submission_search.sub_id = vi_field_search.sub_id ";
-
+	
+	// if the user is not in the tng
+	// group, then only show submissions that
+	// the user has permission to
+	if(!$_SESSION['obj_login']->is_tng_user())
+		$where_clause .= " AND "
+				. "tng_submission_permission.uid = " . $_SESSION['obj_login']->uid . " ";
+				
+	/*
 	// if the user is not in the tng
 	// group, then only show submissions made
 	// by users in the same group(s) as the
@@ -386,7 +398,7 @@ function perform_search($where_clause){
 									. ")"
 							. ")";
 	}
-						
+	*/					
 	$sql_str .= $where_clause;
 	
 	//echo $sql_str;

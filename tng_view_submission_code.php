@@ -46,7 +46,7 @@ if(isset($_SESSION['obj_login'])){
 			break;
 			// get details
 			case "get_sub_details":
-				$where_clause = "WHERE sub_id = " . $_POST['sub_id'];
+				$where_clause = "WHERE vi_submission_search.sub_id = " . $_POST['sub_id'];
 				$xml = perform_search($where_clause);
 				echo $xml;
 			break;
@@ -87,6 +87,12 @@ if(isset($_SESSION['obj_login'])){
 			case "update_sub_asignee":
 				update_sub_asignee($_POST['sub_id'], $_POST['uid_assigned']);
 				// nothing echoed back. see method.
+			break;
+			// set session variable before redirecting
+			// to assign_sub_permission
+			case "set_assign_perm_session":
+				$_SESSION['assign_sub_perm_referrer'] = "tng_view_submission.php";
+				// nothing echoed back.
 			break;
 		}
 	}
@@ -232,7 +238,8 @@ function perform_search($where_clause){
 	$xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
 		 		. "<submissions>";
 	$sql_str = "SELECT "
-				. "sub_id, "
+				. "DISTINCT "
+				. "vi_submission_search.sub_id, "
 				. "sub_type, "
 				. "sub_title, "
 				. "sub_name, "
@@ -242,7 +249,17 @@ function perform_search($where_clause){
 				. "sub_date "
 			. "FROM "
 				. "vi_submission_search "
-			. $where_clause;
+				. "LEFT JOIN tng_submission_permission " 
+					. "ON vi_submission_search.sub_id = tng_submission_permission.sub_id ";
+	// if the user is not in the tng
+	// group, then only show child 
+	// submissions that the user 
+	// has permission to
+	if(!$_SESSION['obj_login']->is_tng_user())
+		$where_clause .= " AND "
+				. "tng_submission_permission.uid = " . $_SESSION['obj_login']->uid . " ";
+				
+	$sql_str .= $where_clause;
 		
 	$dbconn =& new DBConn();
 	$dbconn->connect();

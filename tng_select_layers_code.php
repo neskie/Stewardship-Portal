@@ -91,13 +91,12 @@ function &get_conf_file_generator(){
 		$mapservconf_file = "/opt/fist/config/map-service-config.xml";
 		global $mapserv_name;
 		$output_dir = "/tmp/";
-		$login = $_SESSION['obj_login'];
-		$fist_file_gen =& new Fist_Conf_File_Generator($login->uid, 
-													$mapfile, 
-													$layerconf_file,
-													$mapservconf_file,
-													$mapserv_name, 
-													$output_dir);
+		$fist_file_gen =& new Fist_Conf_File_Generator($_SESSION['obj_login'], 
+								$mapfile, 
+								$layerconf_file,
+								$mapservconf_file,
+								$mapserv_name, 
+								$output_dir);
 		// get viewable layers
 		if(!$fist_file_gen->get_viewable_layers()){
 			echo "could not get viewable layers";

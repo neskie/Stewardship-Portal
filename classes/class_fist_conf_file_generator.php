@@ -15,13 +15,14 @@ desc:	to generate configuration files needed
 			- generate the mapservice-config xml file
 ---------------------------------------------------------------*/
 include_once('class_dbconn.php');
+include_once('class_login.php');
 include_once('class_submission_layer.php');
 
 dl('php_mapscript.so');
 
 class Fist_Conf_File_Generator{
 	var $dbconn;
-	var $uid;
+	var $login;
 	var $default_map_file;
 	var $default_layerconf_file;
 	var $default_mapservconf_file;
@@ -36,7 +37,7 @@ class Fist_Conf_File_Generator{
 	/// instantiate dbconn object
 	/// set member variables
 	///
-	function Fist_Conf_File_Generator($uid, 
+	function Fist_Conf_File_Generator($login, 
 									$default_map_file, 
 									$default_layerconf_file, 
 									$default_mapservconf_file,
@@ -47,7 +48,7 @@ class Fist_Conf_File_Generator{
 			die('Could not create connection object - class_login.php:23');
 		// connection successful
 		$this->viewable_layers = array();
-		$this->uid = $uid;
+		$this->login = $login;
 		$this->dest_dir = $dest_dir;
 		$this->default_map_file = $default_map_file;
 		$this->default_layerconf_file = $default_layerconf_file;
@@ -67,12 +68,23 @@ class Fist_Conf_File_Generator{
 	///
 	function get_viewable_layers(){
 		$sql_str = "SELECT "
+						. "DISTINCT " 
+						. "tng_spatial_layer.layer_id "
+					. "FROM "
+						. "tng_spatial_layer "
+						. "INNER JOIN tng_submission_permission ON tng_spatial_layer.form_submission_id = tng_submission_permission.sub_id ";
+		if(!$this->login->is_tng_user())
+			$sql_str .= "WHERE "
+							. "tng_submission_permission.uid = " . $this->login->uid;
+		/*
+		$sql_str = "SELECT "
 						. "tng_spatial_layer.layer_id "
 					. "FROM "
 						. "tng_spatial_layer "
 						. "INNER JOIN tng_layer_permission ON tng_spatial_layer.layer_id = tng_layer_permission.layer_id "
 					. "WHERE "
 						. "tng_layer_permission.uid = " . $this->uid;
+		*/
 		$this->dbconn->connect();
 
 		$result = pg_query($this->dbconn->conn, $sql_str);

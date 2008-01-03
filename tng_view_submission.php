@@ -25,10 +25,10 @@ include_once('tng_check_session.php');
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 <title>View Submission Details</title>
+<script src="prototype.js"></script>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_view_submission.js"> </script>
 <script language="javascript">
-var target_url = "tng_view_submission_code.php";
 var sub_id = -1;
 // small php snippet to obtain
 // submission id from the GET array
@@ -168,6 +168,16 @@ var sub_id = -1;
 			<!-- automatically populated -->
 		</ol>
 		<br/>
+	</p>
+	<hr/>
+	<p class="bodyText">
+		<?php
+			// if the administrator is logged
+			// in, allow them access to 
+			// assign_sub_perm page
+			if($_SESSION['obj_login']->is_admin() == "true")
+				echo "<a href='#form' onClick='change_sub_perm(sub_id)'> Change Submission Permissions </a>";
+		?>
 	</p>
 	<hr/>
 	<p class="bodyText">

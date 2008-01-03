@@ -18,9 +18,9 @@ class DBConn{
 	/// initialize connection string
 	///
 	function DBConn(){
-		$this->conn_str = "host=127.0.0.1 dbname=tng_dev user=tng_readwrite password=tng_readwrite";
-		$this->mapserver_conn_str = "host=127.0.0.1 dbname=tng_dev user=tng_readonly password=tng_readonly";
-		$this->schema_creator_conn_str = "host=127.0.0.1 dbname=tng_dev user=tng_schema_creator password=tng_schema_creator";
+		$this->conn_str = "host=127.0.0.1 dbname=tng_dev_20071004_tspp user=tng_readwrite password=tng_readwrite";
+		$this->mapserver_conn_str = "host=127.0.0.1 dbname=tng_dev_20071004_tspp user=tng_readonly password=tng_readonly";
+		$this->schema_creator_conn_str = "host=127.0.0.1 dbname=tng_dev_20071004_tspp user=tng_schema_creator password=tng_schema_creator";
 	}
 	
 	///

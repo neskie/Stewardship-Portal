@@ -1,3 +1,5 @@
+var target_url = "tng_view_submission_code.php";
+
 ///
 /// populate_list_from_xml()
 /// take the xml arg and populate a select
@@ -155,6 +157,31 @@ function set_list_index(list_id, elt_value){
 			break;
 		}
 	}
+}
+
+///
+/// change_sub_perm()
+/// navigate to the page which allows the
+/// administrator to change the permissions
+/// of the current submission.
+///
+function change_sub_perm(sub_id){
+	// issue ajax request to set the session
+	// variable which is checked on the
+	// assign_sub_perm page. once the
+	// request completes, redirect to the
+	// assign_sub_perm page		
+	new Ajax.Request(target_url, 
+					{
+  					method:'post',
+  					contentType: "application/x-www-form-urlencoded",
+  					parameters: {ajax_action: 'set_assign_perm_session'},
+  					requestHeaders: {Accept: 'text/html'}, 
+					onSuccess: function(transport){
+    								window.location = "tng_assign_sub_perm.php?sub_id=" + sub_id;
+ 								},
+  					onFailure: function (transport) { alert ("an error occurred."); }			
+					});
 }
 
 ///
