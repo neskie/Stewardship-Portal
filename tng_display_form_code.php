@@ -149,7 +149,7 @@ if(isset($_POST['ajax_action'])){ // receiving an AJAX request
 			$parent_sub_id = $_POST['parent_submission'];
 		if(($sub_id = $form->save_form($login->uid, $parent_sub_id)) != -1 ){
 			//header("Location: tng_form_saved.html");
-			send_confirmation_email($sub_id, $login->email);
+			send_confirmation_email($sub_id, $parent_sub_id, $login);
 			//echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_saved.php'>";
 			// set session variable
 			// so that the target page is 
@@ -224,12 +224,36 @@ function collect_form_data(&$form){
 /// send mail to user confirming that
 /// the submission was successful
 ///
-function send_confirmation_email($sub_id, $email_to){
+function send_confirmation_email($sub_id, $pid, $login){
 	$subject = "Submission Successful - " . $sub_id;
-	$message = "You have successfully made a Submission to the TNG Portal.\n"
-				. "The ID for your Submission is: " . $sub_id . ".\n"
-				. "This email is for notification purposes only. " 
-				. "Please do not respond to it.\n";
-	mail($email_to, $subject, wordwrap($message, 70));
+	if ($pid != -1)  
+		$subject .= " - amendment to: " . $pid;
+		
+	$message = " Thank you, " . $login-> fname . " " . $login->lname . ", " 
+		. "for your Submission to the TNG Portal.\n\n"
+		. "The ID for this Submission is:" ;
+	if ($pid == -1) 
+		$message .= $sub_id; 
+	else
+		$message .= $pid; 
+	
+	$message .= ".\n\n"
+		. "To identify who has been assigned to your file, " 
+		. "enter ";
+	if ($pid == -1)
+		$message .= $sub_id;
+	else 
+		$message .= $pid ;
+	
+	$message .= " on the Find Submissions page at " 
+		. "www.tngportal.ca.  Then contact that person directly at 250-392-3918.\n\n"
+		. "This email is for notification purposes only, please do not respond to it.\n\n"
+		. "Thank you,\n\n"
+		. "The Tsilhqotin Stewardship Department.\n";
+		
+	$headers = 'From: portaladmin@tsilqhotin.ca' . "\r\n"
+   			; //. 'Cc:' . 'tsdgis@tsilhqotin.ca';
+    			
+	mail($login->email, $subject, wordwrap($message, 70), $headers);
 }
 ?>
