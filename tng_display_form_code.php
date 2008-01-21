@@ -252,7 +252,7 @@ function send_confirmation_email($sub_id, $pid, $login){
 		. "The Tsilhqotin Stewardship Department.\n";
 		
 	$headers = 'From: portaladmin@tsilqhotin.ca' . "\r\n"
-   			; //. 'Cc:' . 'tsdgis@tsilhqotin.ca';
+   		  . 'Cc: ' . 'portaladmin@tsilhqotin.ca' . "\r\n";
     			
 	mail($login->email, $subject, wordwrap($message, 70), $headers);
 }

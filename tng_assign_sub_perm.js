@@ -31,12 +31,14 @@ function populate_user_group_list(list_elt){
   						requestHeaders: {Accept: 'application/json'}, 
 						onSuccess: function(transport){
     								var response = transport.responseText.evalJSON(true);
-    								var count = response.length;
+    								var count = response.length;;
+									var group_contains_logged_in_user = false;
     								for(var i = 0; i < count; i++){
+										group_contains_logged_in_user = false;
           								var group = response[i];
 										var group_elt = new Element('li', {class: "bodyText"});
 										var group_chk = new Element('input', {	type: 'checkbox', 
-																				id: group.gid, 
+																				id:  group.gid, 
 																				name: "group",
 																				onChange: "javascript: group_check(this)"
 																			} );
@@ -48,15 +50,12 @@ function populate_user_group_list(list_elt){
 										for(var j = 0; j < u_count; j++){
 											var u_elt = new Element('li');
 											var chk = new Element('input', {	type: 'checkbox', 
-																				id: group.users[j].uid,
+																				id:  group.users[j].uid,
 																				name: "user_chk",
 																				checked: (group.users[j].selected) ? true:false
 																			});
-											// if this is a new submission and 
-											// if the box represents the logged
-											// in user, then make sure it is checked
-											if(is_new_sub && group.users[j].uid == uid)
-												chk.writeAttribute({checked:true});
+											if(group.users[j].uid == uid)
+												group_contains_logged_in_user = true;//chk.writeAttribute({checked:true});
 											u_elt.insert(chk);
 											u_elt.innerHTML = u_elt.innerHTML + "&nbsp;" + group.users[j].uname;
 											u_list.insert(u_elt);
@@ -64,7 +63,34 @@ function populate_user_group_list(list_elt){
 										
 										group_elt.insert(u_list);
 										list_elt.insert(group_elt);
+										
+										// if this is a new submission, and this group
+										// contains the user making the submission, 
+										// check all other users within that group 
+										if(is_new_sub && group_contains_logged_in_user){
+											// get all child checkbox elts
+											 var g_users = group_elt.select("[type=checkbox]");
+											  for (var j = 0; j < g_users.length; j++)
+												g_users[j].writeAttribute({checked: true});
+											// finally mark the group as checked	
+											group_chk.writeAttribute({checked: true});
+										}
+										
+										// disable tng group/users
+										if(group.gid == 1){
+											var g_users = group_elt.select("[type=checkbox]");
+											// if this is a new submission, also check the
+											// members of the tng group
+											for(var j = 0; j < g_users.length; j++){
+												g_users[j].writeAttribute({disabled: 1, checked: is_new_sub});
+												//if(is_new_sub)
+												//	g_users[j].writeAttribute({checked: true});
+											}
+											group_chk.writeAttribute({disabled: 1, checked: true});
+										}
           							}
+									
+									
 									
   								},
   						onFailure: function ( transport ) { alert ("an error occurred."); }			
@@ -131,7 +157,10 @@ function submit_users(form_elt){
 	  							},
   					requestHeaders: {Accept: 'text/html'}, 
 					onSuccess: function(transport){
-    							alert(transport.responseText);
+    							if(/error/.test(transport.responseText))
+									alert(transport.responseText);
+								else
+									window.location = "tng_form_saved.php";
  						},
   					onFailure: function (transport) { alert ("an error occurred."); }			
 					});

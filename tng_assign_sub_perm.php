@@ -38,7 +38,7 @@ include_once('tng_check_session.php');
 	if(isset($_SESSION['assign_sub_perm_referrer'])){
 		if($_SESSION['assign_sub_perm_referrer'] == "tng_display_form.php")
 			echo "is_new_sub = true;";
-		unset($_SESSION['assign_sub_perm_referrer'] );
+		//unset($_SESSION['assign_sub_perm_referrer'] );
 	}
 	else{
 		echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_login_successful.php'>"; 
