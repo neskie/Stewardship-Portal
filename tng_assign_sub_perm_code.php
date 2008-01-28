@@ -9,7 +9,11 @@ desc:	backend script to allow users to select
 ---------------------------------------------------------------*/
 include_once('classes/class_login.php');
 include_once('classes/class_dbconn.php');
-
+// since php4 does not have built in json support,
+// make sure the json extension is loaded
+if(phpversion() < 5.0)
+	dl('json.so');
+	
 session_start();
 
 // do not process any requests if the 
