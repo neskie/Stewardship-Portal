@@ -264,7 +264,11 @@ class Form{
 	/// ogr to insert them into the corresponding
 	/// spatial table.
 	///
-	function save_form($uid, $pid){
+	/// trac ticket #5 : the third arg is an array
+	/// which stores the list of files (spatial or
+	/// otherwise) which could not be loaded.
+	///
+	function save_form($uid, $pid, &$failed_files){
 		$form_submission_id = -1;
 		$this->sub_pid = $pid;
 		// note that we do not perform a validation
@@ -331,7 +335,7 @@ class Form{
 		}	
 		$this->dbconn->disconnect();
 		$this->update_title($form_submission_id, $uid);
-		$this->save_files($form_submission_id);
+		$this->save_files($form_submission_id, $failed_files);
 		
 		return $form_submission_id;	
 	}
@@ -523,8 +527,12 @@ class Form{
 	/// server. note that the path for saving the files
 	/// is hard coded. this should be changed so that
 	/// it is read from some table in the db.
+	/// 
+	/// trac ticket #5 : the second argument is an array to store the 
+	/// names of the files that fail to load. this is information
+	/// needs to be passed on to the user.
 	///
-	function save_files($form_submission_id){
+	function save_files($form_submission_id, &$failed_files){
 		$upload_path = "/home/karima/public_html/trunk/tng_uploads/";
 		$length = count($this->files);
 		
@@ -565,6 +573,7 @@ class Form{
 									. " could not be loaded";
 							}	
 						}else{
+							array_push($failed_files, $this->files[$i][1]);
 							echo "the shape file " 
 								. $this->files[$i][1]
 								. " does not match the standard schema";
@@ -575,8 +584,10 @@ class Form{
 			}else if (substr_count($this->files[$i][1], ".dbf") == 0
 					&& substr_count($this->files[$i][1], ".shx") == 0){			
 				$upload_name = $prefix .  $this->files[$i][1] ;
-				if(!move_uploaded_file($this->files[$i][0], $upload_path . $upload_name))
+				if(!move_uploaded_file($this->files[$i][0], $upload_path . $upload_name)){
+					array_push($failed_files, $this->files[$i][1]);
 					echo "the file " . $this->files[$i][1] . " could not be uploaded.<br>";
+				}
 				else
 					$this->create_file_record($form_submission_id, $this->files[$i][1], $upload_path . $upload_name);
 			}

@@ -22,7 +22,32 @@ include_once('tng_check_session.php');
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="style.css" type="text/css" />
 <title>Form Saved</title>
-
+<script src="prototype.js"> </script>
+<script type="text/javascript">
+	var failed_files = new Array();
+	<?php
+		// small snippet to set populate local array with 
+		// any files that failed to load into the portal.
+		foreach($_SESSION['failed_files'] as $file)
+			echo "failed_files.push('" . $file . "');\n";
+		
+		unset($_SESSION['failed_files']);	
+	?>
+	
+	///
+	/// init()
+	/// populate html failed file list
+	/// from array
+	///
+	function init(){
+		for(var i = 0; i < failed_files.length; i++){
+			var li = new Element('li', {class: "bodyText"});
+			li.update(failed_files[i]);
+			$('failed_list').insert(li);
+		}
+	}
+	
+</script>
 <!--[if IE]>
 <style type="text/css"> 
 /* place css fixes for all versions of IE in this conditional comment */
@@ -33,7 +58,7 @@ include_once('tng_check_session.php');
 <![endif]-->
 </head>
 
-<body class="thrColHybHdr">
+<body class="thrColHybHdr" onLoad="init()">
 
 <div id="container">
   <div id="header">
@@ -54,6 +79,14 @@ include_once('tng_check_session.php');
     <p class="bodyText">
     	The form that you filled out was saved successfully.
     </p>
+	<p class="bodyText">
+		Any files listed below failed to load into the Portal. If the
+		list contains a shapefile, please make sure it matches a valid
+		schema in the Portal.
+		<ul id="failed_list">
+			<!-- automatically populated -->
+		</ul>
+	</p>
   </div>
 	<!-- end #mainContent -->
 	<!-- This clearing element should immediately follow 

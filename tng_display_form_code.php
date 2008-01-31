@@ -140,6 +140,7 @@ if(isset($_POST['ajax_action'])){ // receiving an AJAX request
 		collect_form_data($form);
 		// try to save the form
 		$parent_sub_id = -1;
+		$failed_files = array();
 		// note that only an isset test 
 		// is not enough. the user may type
 		// something and then erase the value,
@@ -147,9 +148,12 @@ if(isset($_POST['ajax_action'])){ // receiving an AJAX request
 		// being submitted.
 		if(isset($_POST['parent_submission']) && $_POST['parent_submission'] != "")
 			$parent_sub_id = $_POST['parent_submission'];
-		if(($sub_id = $form->save_form($login->uid, $parent_sub_id)) != -1 ){
+		if(($sub_id = $form->save_form($login->uid, $parent_sub_id, $failed_files)) != -1 ){
 			//header("Location: tng_form_saved.html");
-			send_confirmation_email($sub_id, $parent_sub_id, $login);
+			send_confirmation_email($sub_id, $parent_sub_id, $login, $failed_files);
+			// set session variable to hold failed files. these
+			// are reported on tng_form_saved.php.
+			$_SESSION['failed_files'] = $failed_files;
 			//echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_saved.php'>";
 			// set session variable
 			// so that the target page is 
@@ -224,7 +228,7 @@ function collect_form_data(&$form){
 /// send mail to user confirming that
 /// the submission was successful
 ///
-function send_confirmation_email($sub_id, $pid, $login){
+function send_confirmation_email($sub_id, $pid, $login, $failed_files){
 	$subject = "Submission Successful - " . $sub_id;
 	if ($pid != -1)  
 		$subject .= " - amendment to: " . $pid;
@@ -246,11 +250,21 @@ function send_confirmation_email($sub_id, $pid, $login){
 		$message .= $pid ;
 	
 	$message .= " on the Find Submissions page at " 
-		. "www.tngportal.ca.  Then contact that person directly at 250-392-3918.\n\n"
-		. "This email is for notification purposes only, please do not respond to it.\n\n"
+				. "www.tngportal.ca.  Then contact that person directly at 250-392-3918.\n\n";
+				
+	if(count($failed_files) > 0){
+		$message .= "The following files could not be loaded into the Portal.\n"
+				. "For any failed shapefiles, please ensure that they match a valid schema.\n"
+				."--------------------------------------------------------\n";
+				foreach ($failed_files as $file)
+					$message .=  "- " . $file . "\n";
+		$message .="--------------------------------------------------------\n\n";
+	}
+		
+	$message .= "This email is for notification purposes only, please do not respond to it.\n\n"
 		. "Thank you,\n\n"
 		. "The Tsilhqotin Stewardship Department.\n";
-		
+			
 	$headers = 'From: portaladmin@tsilqhotin.ca' . "\r\n"
    		  . 'Cc: ' . 'portaladmin@tsilhqotin.ca' . "\r\n";
     			
