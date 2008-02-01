@@ -1,0 +1,45 @@
+/*--------------------------------------------------------------
+author:	alim karim
+date:	Feb 01, 2008
+file:	print.css
+
+desc:	simple stylesheet to allow forms in the portal to be
+	printed on paper.
+	
+	
+--------------------------------------------------------------*/
+
+/* reset font to something that will look good on paper */
+body, p, td, th, ul, a {
+	background-color: #fff;
+	color: #000;
+	font-family: "Times New Roman", Garamond, serif;
+	font-size: 10pt;
+}
+
+/* do not display the right and left menus or the
+ header */
+#sidebar1, #sidebar2, #header {
+	display: none;
+}
+
+/* resize labels since we have a bit more room to work with */
+.lbl_regular, .lbl_checkbox{
+	width: 35% !important;
+}
+
+/* resize text areas */
+.form_text_area, .txt_area_file_description{
+	/* width: 345px; */
+	width: 50% !important;
+}
+
+/* the main div that is to be printed */
+#mainContent {
+	width: 100%;
+	/* note the important argument here is necessary */
+	margin: 0 0 0 0 !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+}
