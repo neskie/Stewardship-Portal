@@ -533,7 +533,7 @@ class Form{
 	/// needs to be passed on to the user.
 	///
 	function save_files($form_submission_id, &$failed_files){
-		$upload_path = "/home/karima/public_html/trunk/tng_uploads/";
+		$upload_path = "tng_uploads/";
 		$length = count($this->files);
 		
 		for($i = 0; $i < $length; $i++){
