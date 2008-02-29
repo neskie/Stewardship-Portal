@@ -61,7 +61,9 @@ if(isset($_SESSION['obj_login'])){
 		if(launch_mapper($fist_file_gen)){
 			// echo javascript out to open the fist in
 			// a new window
-			$js_str = "window.open('http://142.207.69.203/fist/fistMain.php?site=" .$mapserv_name .  "'); ";
+			//$js_str = "window.open('http://142.207.69.203/fist/fistMain.php?site=" .$mapserv_name .  "'); ";
+			// switching to OL based viewer - see #13
+			$js_str = "window.open('http://geoborealis.ca:81/~akarim/openmap-trunk/openmap.php'); ";
 			echo $js_str;
 		}
 	}
@@ -201,6 +203,15 @@ function launch_mapper($fist_file_gen){
 		echo "could not generate map file";
 		return false;
 	}
+	 
+	// -----------------------------------------------------------
+	// this is the only code that needs to be changed to switch
+	// between the fist to the new mapviewer. 
+	// since the new viewer only needs a mapfile, there is no
+	// need to generate layer-config or mapservice-config files.
+	// see #13 for details
+	
+	/*
 	// generate layer-config.xml
 	if($fist_file_gen->generate_layerconf_file() == NULL){
 		echo "could not generate layer config file";
@@ -212,6 +223,20 @@ function launch_mapper($fist_file_gen){
 		echo "could not generate mapservice config file";
 		return false;
 	}
+	*/
+	// -----------------------------------------------------------
+	
+	// required session variables ('map_path' and 'layers')
+	// for new mapviewer
+	$_SESSION['map_path'] = $fist_file_gen->output_mapfile;
+	unset($_SESSION['layers']);
+	$layers = array();
+	$n_layers = count($fist_file_gen->viewable_layers);
+	for($i = 0; $i < $n_layers; $i++){
+		if($fist_file_gen->viewable_layers[$i]->display == "true")
+			array_push($layers, $fist_file_gen->viewable_layers[$i]->layer_name);
+	}
+	$_SESSION['layers'] = $layers;
 	// set session variable so that the fist 
 	// can see the file path
 	$_SESSION['fist_extern_mapserv_config'] = $mapserv_conf_new;
