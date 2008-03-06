@@ -217,7 +217,7 @@ function create_schema_record($schema_name, $view_name, $geom_type, $attributes)
 			. "FROM "
 				. "tng_spatial_data "
 			. "WHERE "
-				. "geometry_type = '" . $geom_type . "'";
+				. "geometry_type LIKE '%" . $geom_type . "%'";
 	
 	$dbconn =& new DBConn();
 	$dbconn->connect();
@@ -309,8 +309,8 @@ function create_physical_table($table_name, $geom_type, $attr_table_id, $fields)
 				. "FROM "
 					. "tng_spatial_data "
 				. "WHERE "
-					. "geometry_type = '" . $geom_type . "'";
-	
+					. "geometry_type LIKE '%" . $geom_type . "%'";
+					
 	$dbconn =& new DBConn();
 	$dbconn->connect();
 	$result = pg_query($dbconn->conn, $sql_str);
@@ -372,7 +372,7 @@ function create_view($view_name, $schema_name, $geom_type, $fields){
 			. "FROM "
 				. "tng_spatial_data "
 			. "WHERE "
-				. "geometry_type = '" . $geom_type . "'";
+				. "geometry_type LIKE '%" . $geom_type . "%'";
 	
 	$dbconn =& new DBConn();
 	$dbconn->connect();
