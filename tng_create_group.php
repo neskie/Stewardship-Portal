@@ -27,7 +27,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="style-new.css" rel="stylesheet" type="text/css" />
 <title>Add Group</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_create_group.js"> </script>
@@ -40,61 +40,45 @@ if($_SESSION['obj_login']->is_admin() == "false")
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr">
-
-<div id="container">
-  <div id="header">
-    <?php include_once('top_div.html'); ?>
-  </div>
-  <!-- end #header -->
-  
-  <div id="sidebar1">
-    <?php include_once('tng_links_post_login.php');?>
-  </div>  
-  <!-- end #sidebar1 -->
-  
-  <div id="sidebar2">
-    <?php include_once('links_sidebar2.html');?>
-       
-  </div>
-  <!-- end #sidebar2 -->
-  <div id="mainContent">
-	<form id="create_group" 
-		name="create_group" 
-		method="post" 
-		enctype="multipart/form-data">
-		<h1 class="pageName"> Add Group </h1>
-			<p class="bodyText"> 
-				
-			</p>
-			<p class="bodyText"> 
-				Type in a name for the group you wish to create.
-				<br/>
-				Click the "Create Group" button to create the Group."
-			</p>
-			<p class="bodyText">
-			<label style="width:100px;"> Group Name: </label>
-			<input type="text"
-					name="gname" 
-					id="gname"
-					size="45"/> 
-			</p>
-			<input type="button"
-				value="Create Group"
-				onClick="javascript: ajax_check_gname()"/>
+<body>
+	<div id="header">
+   	<?php include_once('top_div.html'); ?>
+	</div>
+	<div id="container">
+   	<div id="content" class="column">
+			<form id="create_group" 
+				name="create_group" 
+				method="post" 
+				enctype="multipart/form-data">
+				<h1 class="pageName"> Add Group </h1>
+				<p> 
+				</p>
+				<p> 
+					Type in a name for the group you wish to create.
+					<br/>
+					Click the "Create Group" button to create the Group.
+				</p>
+				<p>
+				<label style="width:100px;"> Group Name: </label>
+				<input type="text"
+						name="gname" 
+						id="gname"
+						size="45"/> 
+				</p>
+				<input type="button"
+					value="Create Group"
+					onClick="javascript: ajax_check_gname()"/>
 			</form>
 		</div>
-		
-		<!-- end #mainContent -->
-		<!-- This clearing element should immediately follow 
-	    the #mainContent div in order to force the 
-	    #container div to contain all child floats -->
-	   <br class="clearfloat" />
-	   <div id="footer">
-	    <p>Footer</p>
-	   </div>
-	  <!-- end #footer -->
-	  </div>
-	<!-- end #container -->
+		<div id="left" class="column">
+    		<?php include_once('tng_links_post_login.php');?>
+		</div>  
+		<div id="right" class="column">
+ 			<?php include_once('links_sidebar2.html');?>
+		</div>
+	</div> <!-- end container -->
+	<div id="footer">
+		<?php include_once('links_footer.html');?></div>
+	 </div>
 </body>
 </html>

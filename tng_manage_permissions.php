@@ -28,7 +28,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="style-new.css" rel="stylesheet" type="text/css" />
 <title>Manage Permissions</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_manage_permissions.js"> </script>
@@ -43,37 +43,26 @@ if($_SESSION['obj_login']->is_admin() == "false")
 </head>
 <!-- onLoad display all users. this is done by sending
 	a blank string to the ajax_search_uname function.-->
-<body class="thrColHybHdr" onLoad="ajax_search_uname('');">
+<body onLoad="ajax_search_uname('');">
+	<div id="header">
+   	<?php include_once('top_div.html'); ?>
+	</div>
+	<div id="container">
 
-<div id="container">
-  <div id="header">
-    <?php include_once('top_div.html'); ?>
-  </div>
-  <!-- end #header -->
-  
-  <div id="sidebar1">
-    <?php include_once('tng_links_post_login.php');?>
-  </div>  
-  <!-- end #sidebar1 -->
-  
-  <div id="sidebar2">
-     <?php include_once('links_sidebar2.html');?>
-  </div>
-  <!-- end #sidebar2 -->
-  <div id="mainContent">
+  <div id="content" class="column">
 	<form id="tng_select_layers" 
 		name="tng_select_layers" 
 		method="post" 
 		enctype="multipart/form-data">
 		<h1 class="pageName"> Manage Permissions </h1>
-			<p class="bodyText"> To begin, click on a user name and select
+			<p> To begin, click on a user name and select
 				the object that you wish to grant or revoke
 				permissions to.
 			</p>
-			<p class="bodyText"> To search list of users by name, enter the 
+			<p > To search list of users by name, enter the 
 				username in the field below.
 			</p>
-			<p class="bodyText">
+			<p >
 			<label style="width:100px;" for="uname"> Name: </label>
 			<input type="text"
 					name="uname" 
@@ -81,7 +70,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 					size="45"
 					onKeyUp="javascript: ajax_search_uname(this.value);"/> 
 			</p>
-			<p class="bodyText">
+			<p >
 			<label style="width:100px;" for="user_list"> User List: </label>
 			<select id="user_list" 
 					name="user_list" 
@@ -92,7 +81,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 			</select>
 			</p>
 		
-			<p class="bodyText">
+			<p >
 			<label style="width:100px;"> Object: </label>
 			<select id="manageable_objects" name="manageable_objects"
 					style="width:250px;" onChange="javascript: ajax_populate_object();">
@@ -103,18 +92,18 @@ if($_SESSION['obj_login']->is_admin() == "false")
 			</select>
 			</p>
 		
-			<p class="bodyText">
+			<p >
 				<label style="width:100px;"> Disallowed Objects: </label>
 				<select id="obj_list_disallowed" name="obj_list_disallowed" style="width:250px;" size="5">
 						<!-- this will be auto populated by javascript/ajax -->
 				</select>
 			</p>
-			<p class="bodyText">
+			<p >
 				<label style="width:100px;"> Toggle: </label> 
 				<img src="images/down_arrow.gif" onClick="javascript: ajax_toggle_permission('grant')"/>
 				<img src="images/up_arrow.gif" onClick="javascript: ajax_toggle_permission('revoke')"/>
 			</p>
-			<p class="bodyText">	
+			<p >	
 				<label style="width:100px" for="obj_list_allowed"> Allowed Objects: </label>
 				<select id="obj_list_allowed" name="obj_list_allowed" style="width:250px;" size="5">
 						<!-- this will be auto populated by javascript/ajax -->
@@ -124,17 +113,15 @@ if($_SESSION['obj_login']->is_admin() == "false")
 			<br/>
 			</form>
 		</div>
-		
-		<!-- end #mainContent -->
-		<!-- This clearing element should immediately follow 
-	    the #mainContent div in order to force the 
-	    #container div to contain all child floats -->
-	   <br class="clearfloat" />
-	   <div id="footer">
-	    <?php include_once('links_footer.html');?></div>
-	   </div>
-	  <!-- end #footer -->
-	  </div>
-	<!-- end #container -->
+		<div id="left" class="column">
+   		<?php include_once('tng_links_post_login.php');?>
+  		</div>  
+  		<div id="right" class="column">
+   		<?php include_once('links_sidebar2.html');?>
+  		</div>
+  	 </div> <!-- end container -->
+	 <div id="footer">
+	 	<?php include_once('links_footer.html');?></div>
+	 </div>
 </body>
 </html>

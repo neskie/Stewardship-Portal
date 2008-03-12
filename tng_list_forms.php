@@ -21,7 +21,7 @@ include_once('tng_list_forms_code.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="style-new.css" rel="stylesheet" type="text/css" />
 <title>Fill A Form</title>
 <script language="javascript">
 
@@ -40,25 +40,12 @@ function submit_form(action_value){
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr">
-	<div id="container">
-		<div id="header">
-	    	<?php include_once('top_div.html'); ?>
-	  	</div>
-		<!-- end #header -->
-		
-		<div id="sidebar1">
-	    	<?php include_once('tng_links_post_login.php');?>
-		</div>  
-		<!-- end #sidebar1 -->
-		
-		<div id="sidebar2">
-		    <?php include_once('links_sidebar2.html');?>
-</div>
-		<!-- end #sidebar2 -->
-		
-		<div id="mainContent">
-		    <h1 class="pageName"> Fill A Form </h1>
+
+<body>
+	<div id="header"><?php include_once('top_div.html'); ?></div>
+	<div id="container">	
+		<div id="content" class="column">
+			<h1 class="pageName"> Fill A Form </h1>
 			<form id="tng_list_forms" method="POST" action="tng_list_forms.php">
 				<p class="bodyText">
 					In this section, you can select a Form to be filled for
@@ -83,17 +70,16 @@ function submit_form(action_value){
 				<input type="button" value="Display Form" onClick="javascript:submit_form('fill_form');"/>
 				<input type="hidden" id="form_action" name="form_action"/>
 			</form>
+		</div>			
+		<div id="left" class="column">
+     		 <?php include_once('tng_links_post_login.php');?>
+     	</div>
+     	<div id="right" class="column">
+			 <?php include_once('links_sidebar2.html');?>
 		</div>
-		<!-- end #mainContent -->
-		
-		<!-- This clearing element should immediately follow 
-		   the #mainContent div in order to force the 
-		   #container div to contain all child floats -->
-		<br class="clearfloat" />
-		<div id="footer">
-			<?php include_once('links_footer.html');?></div>
-		<!-- end #footer -->
 	</div>
-	<!-- end #container -->
+	<div id="footer">
+		<?php include_once('links_footer.html');?>
+	</div>
 </body>
 </html>

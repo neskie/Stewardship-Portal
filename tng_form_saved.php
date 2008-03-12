@@ -20,7 +20,7 @@ include_once('tng_check_session.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="style-new.css" type="text/css" />
 <title>Form Saved</title>
 <script src="prototype.js"> </script>
 <script type="text/javascript">
@@ -58,42 +58,34 @@ include_once('tng_check_session.php');
 <![endif]-->
 </head>
 
-<body class="thrColHybHdr" onLoad="init()">
+<body onLoad="init()">
+	<div id="header">
+   	<?php include_once('top_div.html'); ?>
+  	</div>
+	<div id="container">
 
-<div id="container">
-  <div id="header">
-    <?php include_once('top_div.html'); ?>
-  </div>
-  <!-- end #header -->
-  
-  <div id="sidebar1">
-    <?php include_once('tng_links_post_login.php');?>
-  </div>  
-  <!-- end #sidebar1 -->
-  
-  <div id="sidebar2">
-	<?php include_once('links_sidebar2.html');?>      
-  </div>
-  <div id="mainContent">
-    <h1 class="pageName"> Form Saved Successfully </h1>
-    <p class="bodyText">
-    	The form that you filled out was saved successfully.
-    </p>
-	<p class="bodyText">
-		Any files listed below failed to load into the Portal. If the
-		list contains a shapefile, please make sure it matches a valid
-		schema in the Portal.
-		<ul id="failed_list">
-			<!-- automatically populated -->
-		</ul>
-	</p>
-  </div>
-	<!-- end #mainContent -->
-	<!-- This clearing element should immediately follow 
-    the #mainContent div in order to force the 
-    #container div to contain all child floats -->
-   <br class="clearfloat" />
-   <div id="footer">
+  <div id="content" class="column">
+	   <h1 class="pageName"> Form Saved Successfully </h1>
+	   <p class="bodyText">
+	   	The form that you filled out was saved successfully.
+	   </p>
+		<p class="bodyText">
+			Any files listed below failed to load into the Portal. If the
+			list contains a shapefile, please make sure it matches a valid
+			schema in the Portal.
+			<ul id="failed_list">
+				<!-- automatically populated -->
+			</ul>
+		</p>
+	  </div>
+	  <div id="left" class="column">
+	  		<?php include_once('tng_links_post_login.php');?>
+	  </div>  
+	  <div id="right" class="column">
+	  		<?php include_once('links_sidebar2.html');?>      
+	  </div>
+	</div> <!-- end container -->  
+  <div id="footer">
     <?php include_once('links_footer.html');?></div>
    </div>
   <!-- end #footer -->

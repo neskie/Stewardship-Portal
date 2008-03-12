@@ -23,16 +23,16 @@
 
 	<!-- field template -->
 	<xsl:template match="field">
-		<p>
-			<label>
-				<xsl:attribute name="class">
-					<xsl:value-of select="field_label_css_class"/>
-				</xsl:attribute>
-				<xsl:value-of select="field_label"/>			
-			</label>
-
+		<p>			
 			<xsl:choose>
 				<xsl:when test="field_type = 'text'">
+					<label>
+						<xsl:attribute name="class">
+							<xsl:value-of select="field_label_css_class"/>
+						</xsl:attribute>
+					<xsl:value-of select="field_label"/>			
+					</label>
+					<br/>
 					<textarea>
 						<xsl:attribute name="name">
 							<xsl:value-of select='concat("fieldid_", field_id)'/>
@@ -69,8 +69,22 @@
 							</xsl:attribute>
 						</xsl:if>
 					</input>
+					<xsl:value-of select="field_label"/>		
+					<!-- <label>
+						<xsl:attribute name="class">
+							<xsl:value-of select="field_label_css_class"/>
+						</xsl:attribute>
+						<xsl:value-of select="field_label"/>			
+					</label> -->
+					<br/>
 				</xsl:when>
 				<xsl:otherwise>
+					<label>
+					<xsl:attribute name="class">
+							<xsl:value-of select="field_label_css_class"/>
+						</xsl:attribute>
+					<xsl:value-of select="field_label"/>
+					</label>
 					<br/>
 				</xsl:otherwise>
 			</xsl:choose>

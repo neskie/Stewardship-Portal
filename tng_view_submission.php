@@ -23,7 +23,7 @@ include_once('tng_check_session.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="style-new.css" rel="stylesheet" type="text/css" />
 <title>View Submission Details</title>
 <script src="prototype.js"></script>
 <script src="tng_ajax_utils.js"> </script>
@@ -50,24 +50,12 @@ var sub_id = -1;
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr" onLoad="ajax_refresh_lists();ajax_populate_status_list();">
-
-<div id="container">
+<body onLoad="ajax_refresh_lists();ajax_populate_status_list();">
   <div id="header">
     <?php include_once('top_div.html'); ?>
   </div>
-  <!-- end #header -->
-  
-  <div id="sidebar1">
-    <?php include_once('tng_links_post_login.php');?>
-  </div>  
-  <!-- end #sidebar1 -->
-  
-  <div id="sidebar2">
-    <?php include_once('links_sidebar2.html');?>
-  </div>
-  <!-- end #sidebar2 -->
-  <div id="mainContent">
+  <div id="container">
+  <div id="content" class="column">
 	<h1 class="pageName"> View Submission </h1>
 	<p class="bodyText">
 		This page displays the details of a
@@ -83,7 +71,7 @@ var sub_id = -1;
 	
 	<p class="bodyText"> <b> Submission Details </b> </p>
 	<br/>
-	<p class="bodyText">
+	<p >
 		<label style="width:100px" > <b> ID </b> </label>
 		<input type="text"
 				id="sub_id"
@@ -202,16 +190,15 @@ var sub_id = -1;
 		<br/>
 	</p>		
   </div>
-	<!-- end #mainContent -->
-	<!-- This clearing element should immediately follow 
-    the #mainContent div in order to force the 
-    #container div to contain all child floats -->
-   <br class="clearfloat" />
-   <div id="footer">
-   <?php include_once('links_footer.html');?></div>
-   </div>
-  <!-- end #footer -->
+	<div id="left" class="column">
+    <?php include_once('tng_links_post_login.php');?>
   </div>
-<!-- end #container -->
+  <div id="right" class="column">
+    <?php include_once('links_sidebar2.html');?>
+  </div>
+  <div id="footer">
+  	<?php include_once('links_footer.html');?></div>
+  </div>
+</div>
 </body>
 </html>

@@ -1,0 +1,193 @@
+/* 
+author:	alim karim
+name:		style-new.css
+
+*/
+body {
+ 	font:0.8em Verdana,Arial, Helvetica, sans-serif;
+	/*margin-left: 25em;
+  	margin-right: 25em; */
+  	padding: 0;
+	margin: 1.5em auto;
+  	width: 55em;
+}
+
+/* 3 column layout section */
+div#container {
+  /* padding-left: 165px;   /* LC width */
+  /* padding-right: 220px;  /* RC width */
+  padding-left: 13.5em;
+  padding-right: 14.5em;
+}
+
+div#container .column {
+  position: relative;
+  float: left;
+}
+
+#content {
+ 	width: 100%;
+ 	/*border: groove;
+	border-width:thin;*/
+	padding: 1em 1em 1em 1em;
+	min-height: 60em;
+	background-color: #F8F8F8;
+}
+
+#left{
+	/* width: 165px;*/
+	width: 13em;
+	margin-left: -100%;
+	/*right: 182px; */ 
+	right: 15.5em;
+}
+
+#right{
+	/*width: 200px;*/
+	width: 15em;
+	/*margin-right: -220px; /* same as padding-right for container div */
+	margin-right: -15em;	
+	/*border: groove;
+	border-width:thin; */
+	padding-top: 1em;
+	min-height: 56em;
+	background-color: #E0E0E0;
+}
+/* end 3 column layout */
+/* make the left hand menu pretty */ 
+#nav td {
+	border-bottom: 1px solid #EBEBEB;
+}
+	
+#nav a {
+	color: #FFFFFF;
+	line-height:16px;
+	letter-spacing:.1em;
+	text-decoration: none;
+	display:block;
+	/*padding:8px 6px 10px 20px;*/
+}
+	
+#nav a:hover {
+	background: #EBEBEB;
+	color:#CC0000;
+}
+/* end left menu */
+/*general html elements */
+label{
+	float: left;
+}
+
+h1{
+	font: 1.1 Verdana,Arial, Helvetica, sans-serif;
+}
+
+p{
+	/*margin:0 10px 10px*/
+	margin: 0 0 0.5em 0;
+}
+
+td{
+	padding: 2px;
+	/*border:1px solid #DCDCDC; */
+}
+
+a{
+	display:block;
+	color: #981793;
+	padding:10px
+}
+
+select, input, textarea{
+	font-size: 11px;
+	font-style: normal;
+	background-color: #FFFFFF;
+	border: groove;
+	border-width:thin;
+}
+/* h1 classes */
+h1.pageName{
+	font: 18px Verdana, Arial, Helvetica, sans-serif;
+	color: #000000;
+	line-height:26px;
+	letter-spacing:.21em;
+	/*margin-left: 10px;*/
+}
+
+h1.subHeader {
+	font:bold 11px Arial, Helvetica, sans-serif;
+	color: #CC0000;
+	line-height:22px;
+	letter-spacing:.2em;
+}
+/* end h1 classes */	
+/* page header/footer */
+div#header h1{
+	height:80px;
+	line-height:80px;
+	margin:0;
+	padding-left:10px;
+	background: #EEE;
+	color: #79B30B
+}
+
+div#footer{
+	background: #333;
+	color: #FFF;
+	clear:left;
+	width:100%;
+}
+
+div#footer p{margin:0;padding:5px 10px}
+/* end page header/footer */
+
+div#map{width: 100%; height: 500px; border: 1px solid black;}
+
+/* dynamic form classes */
+.form_text_area, .txt_area_file_description{
+	border: groove;
+	border-width:thin;
+	/* width: 345px; */
+	width: 80%;
+	/*margin-top: 5px;
+	margin-bottom: 5px;*/
+	margin-left: 0px;
+	margin-right: 0px;
+	height: 25px;
+}
+
+.lbl_regular, .lbl_checkbox{
+	width: 80%;
+	float: left;
+}
+
+.lbl_checkbox{
+	font-style: italic;
+}
+
+.lbl_header{
+	font-size: 12px;
+	font-weight: bold;
+	margin-left: 5px;
+	/*margin-bottom: 15px;*/
+	width: 80%;
+	float:left;
+}
+/* end dynamic form classes*/
+
+.th_search {
+	border:1px solid #DCDCDC;
+	background-color: #D5EDB3;
+	text-align: center;
+}
+
+.td_search, .td_search_center {
+	padding: 5px;
+	border:1px solid #DCDCDC;
+	text-align: left;
+}	
+
+.td_search_center {
+	text-align: left;
+}
+

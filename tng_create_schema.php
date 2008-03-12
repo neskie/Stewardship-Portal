@@ -27,7 +27,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="style-new.css" rel="stylesheet" type="text/css" />
 <title>Create Spatial Schema</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_create_schema.js"> </script>
@@ -40,96 +40,83 @@ if($_SESSION['obj_login']->is_admin() == "false")
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr">
-
-<div id="container">
+<body>
   <div id="header">
     <?php include_once('top_div.html'); ?>
   </div>
-  <!-- end #header -->
-  
-  <div id="sidebar1">
-    <?php include_once('tng_links_post_login.php');?>
-  </div>  
-  <!-- end #sidebar1 -->
-  
-  <div id="sidebar2">
-     <?php include_once('links_sidebar2.html');?>
-  </div>
-  <!-- end #sidebar2 -->
-  <div id="mainContent">
-	<form id="tng_create_schema" 
-			name="tng_create_schema" 
-			method="post" 
-			enctype="multipart/form-data">
-		<h1 class="pageName"> Create Spatial Schema </h1>
-		<ul class="bodyText">
-			<li> 
-				Enter a name for the schema you wish to 
-				create.
-			</li>
+  <div id="container">
+  <div id="content" class="column">
+		<form id="tng_create_schema" 
+				name="tng_create_schema" 
+				method="post" 
+				enctype="multipart/form-data">
+			<h1 class="pageName"> Create Spatial Schema </h1>
+			<ul class="bodyText">
+				<li> 
+					Enter a name for the schema you wish to 
+					create.
+				</li>
+				<br/>
+				<li> 
+					Select the type of geometry that this schema
+					will be associated with.
+				</li>
+				<br/>
+				<li> 
+					Add attributes to the schema representing the attributes
+					that are expected for this schema. Note that
+					each attribute should have a name and a data type.
+				</li>
+				<br/>
+				<li> 
+					Click on Create Schema to create the schema
+				</li>
+				
+			</ul>
+			<hr/>
 			<br/>
-			<li> 
-				Select the type of geometry that this schema
-				will be associated with.
-			</li>
+			<p class="bodyText">
+				<label style="width:105px"> <b> Schema Name: </b></label>
+				<input type="text" id="schema_name" name="schema_name" size="45"/>
+				<br/>
+				<label style="width:105px"> <b> Geometry Type: </b></label>
+				<select id="geom_type" class="input" style="width:250px">
+					<option id="point" value="point"> Point </option>
+					<option id="line" value="line"> Line </option>
+					<option id="polygon" value="polygon"> Polygon </option>
+				</select>
+			</p>
+			<p class="bodyText">
+				<b> Attributes: </b>
+				<br/>
+				<div id="fields" >
+					<!--style="border:1px solid black; width=650px;padding:5px"-->
+					<hr/>
+					<!-- automatically populated-->
+				</div>
+				<br/>
+				<input type="button"
+						value="Add Attribute"
+						onClick="javascript: add_field()"/>
+			</p>
 			<br/>
-			<li> 
-				Add attributes to the schema representing the attributes
-				that are expected for this schema. Note that
-				each attribute should have a name and a data type.
-			</li>
-			<br/>
-			<li> 
-				Click on Create Schema to create the schema
-			</li>
-			
-		</ul>
-		<hr/>
-		<br/>
-		<p class="bodyText">
-			<label style="width:105px"> <b> Schema Name: </b></label>
-			<input type="text" id="schema_name" name="schema_name" size="45"/>
-			<br/>
-			<label style="width:105px"> <b> Geometry Type: </b></label>
-			<select id="geom_type" class="input" style="width:250px">
-				<option id="point" value="point"> Point </option>
-				<option id="line" value="line"> Line </option>
-				<option id="polygon" value="polygon"> Polygon </option>
-			</select>
-		</p>
-		<p class="bodyText">
-			<b> Attributes: </b>
-			<br/>
-			<div id="fields" >
-				<!--style="border:1px solid black; width=650px;padding:5px"-->
-				<hr/>
-				<!-- automatically populated-->
-			</div>
 			<br/>
 			<input type="button"
-					value="Add Attribute"
-					onClick="javascript: add_field()"/>
-		</p>
-		<br/>
-		<br/>
-		<input type="button"
-				class="button"
-				value="Create Schema"
-				onClick="javascript: ajax_check_schema_name()"/>
-		<br/>
-	</form>
-	</div>
-	<!-- end #mainContent -->
-	<!-- This clearing element should immediately follow 
-    the #mainContent div in order to force the 
-    #container div to contain all child floats -->
-   <br class="clearfloat" />
-   <div id="footer">
-    <?php include_once('links_footer.html');?></div>
+					class="button"
+					value="Create Schema"
+					onClick="javascript: ajax_check_schema_name()"/>
+			<br/>
+		</form>
+		</div>
+		<div id="left" class="column">
+	    <?php include_once('tng_links_post_login.php');?>
+	  	</div>  
+	 	<div id="right" class="column">
+	     <?php include_once('links_sidebar2.html');?>
+	  	</div>
+ 	</div> <!-- end container -->
+	<div id="footer">
+   	<?php include_once('links_footer.html');?></div>
    </div>
-  <!-- end #footer -->
-  </div>
-<!-- end #container -->	
 </body>
 </html>

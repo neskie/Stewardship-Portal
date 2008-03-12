@@ -20,7 +20,7 @@ include_once('tng_check_session.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="style-new.css" type="text/css" />
 <title>Form Not Saved</title>
 
 <!--[if IE]>
@@ -33,41 +33,26 @@ include_once('tng_check_session.php');
 <![endif]-->
 </head>
 
-<body class="thrColHybHdr">
-
-<div id="container">
+<body>
   <div id="header">
     <?php include_once('top_div.html'); ?>
   </div>
-  <!-- end #header -->
-  
-  <div id="sidebar1">
-    <?php include_once('tng_links_post_login.php');?>
-  </div>  
-  <!-- end #sidebar1 -->
-  
-  <div id="sidebar2">
-     <?php include_once('links_sidebar2.html');?>
-  </div>
-  <!-- end #sidebar2 -->
-  <div id="mainContent">
-    <h1 class="pageName"> Error </h1>
-    <p class="bodyText">
-    	The form that you filled out could not be saved successfully.
-    </p>
-
-          
+  <div id="container">
+	<div id="content" class="column">
+		<h1 class="pageName"> Error </h1>
+    	<p class="bodyText">
+    		The form that you filled out could not be saved successfully.
+    	</p>  
    </div>
-	<!-- end #mainContent -->
-	<!-- This clearing element should immediately follow 
-    the #mainContent div in order to force the 
-    #container div to contain all child floats -->
-   <br class="clearfloat" />
+	<div id="left" class="column">
+   	<?php include_once('tng_links_post_login.php');?>
+  	</div>  
+  	<div id="right" class="column">
+     <?php include_once('links_sidebar2.html');?>
+  	</div>
+  </div> <!-- end  container --> 
    <div id="footer">
     <?php include_once('links_footer.html');?></div>
    </div>
-  <!-- end #footer -->
-  </div>
-<!-- end #container -->
-</body>
+  </body>
 </html>

@@ -24,7 +24,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="style-new.css" rel="stylesheet" type="text/css" />
 <title> User Management</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_add_edit_user.js"> </script>
@@ -39,91 +39,91 @@ if($_SESSION['obj_login']->is_admin() == "false")
 <![endif]-->
 </head>
 <!-- issue call to get all users when the page loads -->
-<body class="thrColHybHdr" onLoad="ajax_get_users();">
-
-<div id="container">
-  <div id="header">
-    <?php include_once('top_div.html'); ?>
-  </div>
-  <!-- end #header -->
-  
-  <div id="sidebar1">
-    <?php include_once('tng_links_post_login.php');?>
-  </div>  
-  <!-- end #sidebar1 -->
-  
-  <div id="sidebar2">
-    <?php include_once('links_sidebar2.html');?>
-  </div>
-  <!-- end #sidebar2 -->
-
-  <div id="mainContent">
-	<form id="tng_add_edit_users" 
-			name="tng_add_edit_users" 
-			method="post" 
-			enctype="multipart/form-data">
-		<h1 class="pageName"> User Management </h1>
-		<p class="bodyText">To add a user to the system, complete all the fields, toggle the Active button “ON”, and click the "Add User" button. 
-		</p>
-            <p class="bodyText">No email message is automatically sent to the user’s email address, so the administrator needs to contact the user and let him/her know what password has been assigned.  A user cannot change his/her password without contacting the administrator. </p> 
-		<p class="bodyText"> To reset the password for an existing user, edit an email address or other user information, select the user from the list below and click the “Edit User” button.  Enter the new information in the appropriate field(s), and click the "Save" button to save changes.  Note that their password is not displayed, and leaving that field blank will not over-write the existing password, so emails etc can be updated without affecting that user’s ability to log on.  </p>
-		
-            <p class="bodyText">
-			<label style="width:100px" for="uname"> User Name: </label>
-			<input type="text" id="uname" name="uname" size="45"/>
-			<br/>
-			<label style="width:100px" for="password"> Password: </label>
-			<input type="password" id="password" name="password" size="45"/>
-			<br/>
-			<br/>
-			<label style="width:100px"> First Name: </label>
-			<input type="text" id="fname" name="fname" size="45"/>
-			<br/>
-			<label style="width:100px"> Last Name: </label>
-			<input type="text" id="lname" name="lname" size="45"/>
-			<br/>
-			<label style="width:100px"> Email Address: </label>
-			<input type="text" id="email" name="email" size="45"/>
-			<br/>
-			<label style="width:100px"> Active: </label>
-			<input type="checkbox" id="active" name="active"/>
-		</p>
-		<input type="button" 
-				class="button" 
-				id="button1" 
-				value="Add User" 
-				onClick="javascript: ajax_add_edit_user();"/>
-		<br/>
-		<br/>
-		<p class="bodyText">	
-			<label style="width:100px"> Users: </label>
-			<select id="user_list" name="user_list" style="width:250px;" size="5">
-					<!-- this will be auto populated by javascript/ajax -->
-			</select>
-			<br/>
-			<label style="width:100px"></label>
-			
-			<input type="button" 
-					class="button" 
-					value="Edit User" 
-					onClick="javascript: ajax_update_user(); "/>
-			<br/>
-			
-		</p>
-	</form>
-	</div> 
-	<!-- end #mainContent -->
-	<!-- This clearing element should immediately follow 
-    the #mainContent div in order to force the 
-    #container div to contain all child floats -->
-   <br class="clearfloat" />
-   
-   <div id="footer">
-    <?php include_once('links_footer.html');?></div>
-   </div>
-  <!-- end #footer -->
-
-  </div>
-<!-- end #container -->
+<body onLoad="ajax_get_users();">
+	<div id="header">
+   	<?php include_once('top_div.html'); ?>
+	</div>
+	<div id="container">
+		<div id="content" class="column">
+			<form id="tng_add_edit_users" 
+				name="tng_add_edit_users" 
+				method="post" 
+				enctype="multipart/form-data">
+				<h1 class="pageName"> User Management </h1>
+				<p>
+				To add a user to the system, complete all the fields, 
+				toggle the Active button “ON”, and click the "Add User" button. 
+				</p>
+		      <p>
+			      No email message is automatically sent to the user’s 
+			      email address, so the administrator needs to contact the user 
+			      and let him/her know what password has been assigned.  
+			      A user cannot change his/her password without contacting the administrator. 
+		      </p> 
+				<p> 
+					To reset the password for an existing user, edit an 
+					email address or other user information, select the 
+					user from the list below and click the “Edit User” button.
+					Enter the new information in the appropriate field(s), and 
+					click the "Save" button to save changes.  Note that their 
+					password is not displayed, and leaving that field blank 
+					will not over-write the existing password, so emails etc 
+					can be updated without affecting that user’s ability to log on.  
+				</p>
+				
+		      <p>
+					<label style="width:100px" for="uname"> User Name: </label>
+					<input type="text" id="uname" name="uname" size="45"/>
+					<br/>
+					<label style="width:100px" for="password"> Password: </label>
+					<input type="password" id="password" name="password" size="45"/>
+					<br/>
+					<br/>
+					<label style="width:100px"> First Name: </label>
+					<input type="text" id="fname" name="fname" size="45"/>
+					<br/>
+					<label style="width:100px"> Last Name: </label>
+					<input type="text" id="lname" name="lname" size="45"/>
+					<br/>
+					<label style="width:100px"> Email Address: </label>
+					<input type="text" id="email" name="email" size="45"/>
+					<br/>
+					<label style="width:100px"> Active: </label>
+					<input type="checkbox" id="active" name="active"/>
+				</p>
+				<input type="button" 
+						class="button" 
+						id="button1" 
+						value="Add User" 
+						onClick="javascript: ajax_add_edit_user();"/>
+				<br/>
+				<br/>
+				<p class="bodyText">	
+					<label style="width:100px"> Users: </label>
+					<select id="user_list" name="user_list" style="width:250px;" size="5">
+							<!-- this will be auto populated by javascript/ajax -->
+					</select>
+					<br/>
+					<label style="width:100px"></label>
+					
+					<input type="button" 
+							class="button" 
+							value="Edit User" 
+							onClick="javascript: ajax_update_user(); "/>
+					<br/>
+					
+				</p>
+			</form>
+		</div>
+		<div id="left" class="column">
+   		<?php include_once('tng_links_post_login.php');?>
+  		</div>  
+  		<div id="right" class="column">
+   		<?php include_once('links_sidebar2.html');?>
+  		</div>
+  	</div> <!-- end container --> 
+ 	<div id="footer">
+ 		<?php include_once('links_footer.html');?></div>
+ 	</div>
 </body>
 </html>

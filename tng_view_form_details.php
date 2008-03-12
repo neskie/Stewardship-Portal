@@ -24,7 +24,7 @@ include_once('tng_check_session.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="style-new.css" rel="stylesheet" type="text/css" />
 <title>View Form Fields</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_view_form_details.js"> </script>
@@ -46,24 +46,13 @@ include_once('tng_check_session.php');
 <![endif]-->
 </head>
 <!-- onLoad, send request to get the list of forms -->
-<body class="thrColHybHdr" onLoad="ajax_get_forms()">
+<body onLoad="ajax_get_forms()">
+	<div id="header">
+		<?php include_once('top_div.html'); ?>
+	 </div>
+
 	<div id="container">
-	  <div id="header">
-	    <?php include_once('top_div.html'); ?>
-	  </div>
-	  <!-- end #header -->
-
-	  <div id="sidebar1">
-	    <?php include_once('tng_links_post_login.php');?>
-	  </div>  
-	  <!-- end #sidebar1 -->
-
-	  <div id="sidebar2">
-	    <?php include_once('links_sidebar2.html');?>
-	  </div>  
-	  <!-- end #sidebar -->
-
-	  <div id="mainContent">
+	  <div id="content" class="column">
 		<form id="tng_view_form" 
 			name="tng_view_form" 
 			method="post" 
@@ -71,7 +60,7 @@ include_once('tng_check_session.php');
 			<h1 class="pageName"> View Form Fields </h1>
 			<p class="bodyText">
 				Please note that the changes made here are instant. 
-Select the form you wish to view from the 
+				Select the form you wish to view from the 
 				list below.
 			</p>
 			<p class="bodyText">
@@ -101,19 +90,15 @@ Select the form you wish to view from the
 			</p>
 		</form>
 		</div>
-		<!-- end #mainContent -->
-		<!-- This clearing element should immediately follow 
-	    the #mainContent div in order to force the 
-	    #container div to contain all child floats -->
-	   <br class="clearfloat" />
-	  
- <div id="footer">
-	    <?php include_once('links_footer.html');?>
-	  </div>  
-	  <!-- end #footer -->
-
-
+		<div id="left" class="column">
+	    <?php include_once('tng_links_post_login.php');?>
 	  </div>
-	<!-- end #container -->
+	  <div id="right" class="column">
+	    <?php include_once('links_sidebar2.html');?>
+	  </div> 
+	 </div>
+	 <div id="footer">
+	    <?php include_once('links_footer.html');?>
+	 </div>  
 </body>
 </html>

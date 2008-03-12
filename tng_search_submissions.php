@@ -23,7 +23,7 @@ include_once('tng_check_session.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="style-new.css" rel="stylesheet" type="text/css" />
 <title>Search Submisssions</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_search_submissions.js"> </script>
@@ -36,24 +36,12 @@ include_once('tng_check_session.php');
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr" onLoad="ajax_populate_lists()">
-		<div id="container">
-		  <div id="header">
-		    <?php include_once('top_div.html'); ?>
-		  </div>
-		  <!-- end #header -->
-
-		  <div id="sidebar1">
-		    <?php include_once('tng_links_post_login.php');?>
-		  </div>  
-		  <!-- end #sidebar1 -->
-
-		  <div id="sidebar2">
-		     <?php include_once('links_sidebar2.html');?>
-		 </div>
-		 <!-- end #sidebar2 -->
-		 
-		<div id="mainContent">
+<body onLoad="ajax_populate_lists()">
+	<div id="header">
+	   <?php include_once('top_div.html'); ?>
+	</div>
+	<div id="container">
+		<div id="content" class="column">
 			<h1 class="pageName"> Search Submissions </h1>
 				
 			<form id="tng_search_submissions" 
@@ -214,18 +202,16 @@ include_once('tng_check_session.php');
 				</div>
 				<!-- end search results div -->
 			</form>
-			
 		</div>
-		<!-- end #mainContent -->
-		<!-- This clearing element should immediately follow 
-	    the #mainContent div in order to force the 
-	    #container div to contain all child floats -->
-	   <br class="clearfloat" />
-	   <div id="footer">
-	    <?php include_once('links_footer.html');?></div>
-	   </div>
-	  <!-- end #footer -->
-	  </div>
-	<!-- end #container -->
+		<div id="left" class="column">
+			<?php include_once('tng_links_post_login.php');?>
+	  </div>  
+	  <div id="right" class="column">
+	  		<?php include_once('links_sidebar2.html');?>
+	 </div>
+	</div> <!-- end container -->
+	<div id="footer">
+		<?php include_once('links_footer.html');?></div>
+	 </div>
 </body>
 </html>

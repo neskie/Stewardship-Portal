@@ -20,7 +20,7 @@ include_once('tng_check_session.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="style-new.css" type="text/css" />
 <title>Stewardship Portal Main Page</title>
 
 <!--[if IE]>
@@ -33,68 +33,70 @@ include_once('tng_check_session.php');
 <![endif]-->
 </head>
 
-<body class="thrColHybHdr">
-
-<div id="container">
-  <div id="header">
-    <?php include_once('top_div.html');?>
-  </div>
-  <!-- end #header -->
+<body>
+		<div id="header"><?php include_once('top_div.html'); ?></div>
+		<div id="container">
+			<div id="content" class="column">
+				<h1 class="pageName"> Welcome to The Stewardship Portal </h1>
+    			<p>
+    			You have successfully logged in to The Stewardship Portal. The list
+				below outlines the functions that are accessible from the menu on the left.
+    			</p>
+					<ul>
+      			<li> <h1 class="subHeader"> Find Submissions </h1></li>
+      				<p> This function allows you to search through the Submissions 
+        					in the Portal. Use this function to identify the appropriate 
+        					submission to which you should add an attachment/addendum. 
+        					Note that you will not see submissions from other users unless 
+        					you the appropriate have permissions. 
+      				</p>
+      			<li><h1 class="subHeader"> Fill A Form </h1> </li>
+      				<p> Information is submitted to the Stewardship Portal by filling in a form. 
+      					<br/>
+        					For example, to initiate a Forestry Referral, 
+        					click on <b>Fill A Form</b> and select the <b>Forestry Referral</b> 
+        					Form from the list. 
+        				</p>
+      			<li> <h1 class="subHeader"> Map Layers </h1> </li>
+      				<p> To view the spatial layers that you are permitted to 
+        					see, click on the <b>Map Layers</b> link. <br/>
+        					You will be able to search through the list of layers by name and select 
+        					which layers you would like to see in the Map Viewer, and then you can 
+        					launch the Map Viewer from here. 
+        				</p>
+      			<li> <h1 class="subHeader"> View Available Schemas </h1></li>
+	      			<p> The Stewardship Portal requires that all shapefiles submitted 
+	      				meet specific formatting requirements, known as schemas, 
+	      				which have already been established. If you are having trouble 
+	      				uploading shapefiles to the portal, please view the schema 
+	      				requirements for the data-type you are trying to upload.
+	      			</p>
+      			<li> <h1 class="subHeader"> View Form Fields </h1> </li>
+      				<p> Click on <b>View Form Fields</b> to see all the fields on each form. 
+	      				It is a good idea to ensure you have all the relevant information ready to 
+	      				enter into the portal so you don't make an incomplete submission.
+      				</p>
+					<li> <h1 class="subHeader"> Document Downloads </h1> </li>
+      				<p> Download shapefile templates and blank forms from the 
+	      				<b>Document Downloads</b> page. A user ID is not required for 
+	      				access to this page.
+      				</p>
+   				<li> <h1 class="subHeader"> Logout </h1></li>
+      				<p> Please ensure you end your Stewardship Portal Session by logging out.</p>
+					</ul>
   
-  <div id="sidebar1">
-    <?php include_once('tng_links_post_login.php');?>
-  </div>  
-  <!-- end #sidebar1 -->
-  
-  <div id="sidebar2">
-     <?php include_once('links_sidebar2.html');?>
-  </div>
-  <!-- end #sidebar2 -->
-  <div id="mainContent">
-    <h1 class="pageName"> Welcome to The Stewardship Portal </h1>
-    <p class="bodyText">
-    	You have successfully logged in to The Stewardship Portal. The list
-		below outlines the functions that are accessible from the menu on the left.
-    </p>
-
-	<p class="bodyText">
-		
-    <ul>
-      <li class="subHeader"> Find Submissions </li>
-      <p class="bodyText"> This function allows you to search through the Submissions 
-        in the Portal. Use this function if to identify the appropriate submission in which you should add an attachment/addendum to. Note that you will not see 
-        submissions from other users unless you the appropriate have permissions. 
-      </p>
-      <li class="subHeader"> Fill A Form </li>
-      <p class="bodyText"> Select a Form to be filled for submitting various types 
-        of data. <br/>
-        For example, to initiate a Forestry Referral, click on "View Forms" and 
-        select the Referral Form from the list. </p>
-      <li class="subHeader"> Map Layers </li>
-      <p class="bodyText"> To view the spatial layers that you are permitted to 
-        see, click on the "Map Layers" link. <br/>
-        You will be able to search through the list of layers by name and select 
-        which layers you would like to see in the Map Viewer, and you can launch the Map Viewer from here. </p>
-      <li class="subHeader"> View Available Schemas </li>
-      <p class="bodyText"> Allows you to see what schemas are available and which 
-        forms are associated with which schema(s). </p>
-      <li class="subHeader"> View Form Fields</li>
-      <p class="bodyText"> Go to this page to see what information is collected for each form type. </p>
-    </ul>
-     </p>
-          
-   </div>
-	<!-- end #mainContent -->
-	<!-- This clearing element should immediately follow 
-    the #mainContent div in order to force the 
-    #container div to contain all child floats -->
-   <br class="clearfloat" />
-
-  <div id="footer">
-    <?php include_once('links_footer.html');?>
-  </div>  
-  <!-- end #footer -->   
-
-<!-- end #container -->
+			</div>
+			<div id="left" class="column"> 
+     		 <?php include_once('tng_links_post_login.php');?>
+     		</div>
+						
+			<div id="right" class="column"> 
+			 <?php include_once('links_sidebar2.html');?>
+			</div>
+		</div> <!-- end container -->
+		<div id="footer">
+			<?php include_once('links_footer.html');?>
+		</div>
+	     
 </body>
 </html>

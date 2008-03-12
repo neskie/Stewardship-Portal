@@ -27,7 +27,7 @@ if($_SESSION['obj_login']->is_admin() == "false")
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="style-new.css" rel="stylesheet" type="text/css" />
 <title>Create Form</title>
 <script src="tng_ajax_utils.js"> </script>
 <script src="tng_create_form.js"> </script>
@@ -40,90 +40,77 @@ if($_SESSION['obj_login']->is_admin() == "false")
 </style>
 <![endif]-->
 </head>
-<body class="thrColHybHdr">
-
-<div id="container">
+<body>
   <div id="header">
     <?php include_once('top_div.html'); ?>
   </div>
-  <!-- end #header -->
-  
-  <div id="sidebar1">
-    <?php include_once('tng_links_post_login.php');?>
-  </div>  
-  <!-- end #sidebar1 -->
-  
-  <div id="sidebar2">
-    <?php include_once('links_sidebar2.html');?>    
-  </div>
-  <!-- end #sidebar2 -->
-  <div id="mainContent">
-	<form id="tng_create_form" 
-			name="tng_create_form" 
-			method="post" 
-			enctype="multipart/form-data">
-		<h1 class="pageName">Create Form </h1>
-		<ul class="bodyText">
-			<li> 
-				Enter a name for the Form you wish to 
-				create.
-			</li>
+  <div id="container">
+	<div id="content" class="column">
+		<form id="tng_create_form" 
+				name="tng_create_form" 
+				method="post" 
+				enctype="multipart/form-data">
+			<h1 class="pageName">Create Form </h1>
+			<ul class="bodyText">
+				<li> 
+					Enter a name for the Form you wish to 
+					create.
+				</li>
+				<br/>
+				<li> 
+					Add Field objects to the Form representing the 
+					fields that the Form will contain. Note that
+					each Field should have a Name,  a Data Type and a Rank.
+					<br>
+					The Rank determines where in the page the Field will
+					be displayed when a user is filling out the Form. 
+					The lower the rank, the closer to the top
+					the Field will be displayed.
+				</li>
+				<br/>
+				<li> 
+					Click on Create Form to create the Form.
+				</li>
+				
+			</ul>
+			<hr/>
 			<br/>
-			<li> 
-				Add Field objects to the Form representing the 
-				fields that the Form will contain. Note that
-				each Field should have a Name,  a Data Type and a Rank.
-				<br>
-				The Rank determines where in the page the Field will
-				be displayed when a user is filling out the Form. 
-				The lower the rank, the closer to the top
-				the Field will be displayed.
-			</li>
+			<p class="bodyText">
+				<label style="width:105px"> <b> Form Name: </b></label>
+				<input type="text" id="form_name" name="form_name" size="45"/>
+				<br/>
+			</p>
+			<p class="bodyText">
+				<b> Attributes: </b>
+				<br/>
+				<div id="fields" >
+					<!--style="border:1px solid black; width=650px;padding:5px"-->
+					<hr/>
+					<!-- automatically populated-->
+				</div>
+				<br/>
+				<input type="button"
+						value="Add Field"
+						onClick="javascript: add_field()"/>
+			</p>
 			<br/>
-			<li> 
-				Click on Create Form to create the Form.
-			</li>
-			
-		</ul>
-		<hr/>
-		<br/>
-		<p class="bodyText">
-			<label style="width:105px"> <b> Form Name: </b></label>
-			<input type="text" id="form_name" name="form_name" size="45"/>
-			<br/>
-		</p>
-		<p class="bodyText">
-			<b> Attributes: </b>
-			<br/>
-			<div id="fields" >
-				<!--style="border:1px solid black; width=650px;padding:5px"-->
-				<hr/>
-				<!-- automatically populated-->
-			</div>
 			<br/>
 			<input type="button"
-					value="Add Field"
-					onClick="javascript: add_field()"/>
-		</p>
-		<br/>
-		<br/>
-		<input type="button"
-				class="button"
-				value="Create Form"
-				onClick="javascript: ajax_check_form_name()"/>
-		<br/>
-		<br/>
-	</form>
+					class="button"
+					value="Create Form"
+					onClick="javascript: ajax_check_form_name()"/>
+			<br/>
+			<br/>
+		</form>
 	</div>
-	<!-- end #mainContent -->
-	<!-- This clearing element should immediately follow 
-    the #mainContent div in order to force the 
-    #container div to contain all child floats -->
-   <br class="clearfloat" />
+	<div id="left" class="column">
+    	<?php include_once('tng_links_post_login.php');?>
+  	</div>  
+  	<div id="right" class="column">
+  	  <?php include_once('links_sidebar2.html');?>    
+  	</div>
    <div id="footer">
     <?php include_once('links_footer.html');?></div>
-  <!-- end #footer -->
-  </div>
-<!-- end #container -->	
+  	</div>
 </body>
 </html>

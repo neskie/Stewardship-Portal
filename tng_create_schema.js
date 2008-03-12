@@ -33,7 +33,7 @@ function add_field(){
 	var field_name = document.createElement('input');
 	par.appendChild(field_name);
 	field_name.setAttribute('type', 'text');
-	field_name.setAttribute('size', '45');
+	field_name.setAttribute('size', '25');
 	
 	par.appendChild(document.createElement('br'));
 	par.appendChild(document.createElement('br'));

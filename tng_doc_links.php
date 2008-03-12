@@ -20,7 +20,7 @@ session_start();
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="style-new.css" type="text/css" />
 <title>Document Downloads</title>
 
 <!--[if IE]>
@@ -33,15 +33,38 @@ session_start();
 <![endif]-->
 </head>
 
-<body class="thrColHybHdr">
-
-<div id="container">
-  <div id="header">
-    <?php include_once('top_div.html'); ?>
-  </div>
-  <!-- end #header -->
-  
-  <div id="sidebar1">
+<body>
+	<div id="header">
+   	<?php include_once('top_div.html'); ?>
+ 	</div>
+	<div id="container">
+ 	  <!-- end #sidebar3 -->
+ 		<div id="content" class="column">
+	    <h1 class="pageName"> Document Downloads </h1>
+	    <p class="bodyText">
+	    	The documents below are available for download.
+	    </p>
+	    <p>
+			<ol>
+			      <li class="bodyText">
+					<p><a href="PortalUserLoginFields.doc"> Portal Access </a></p>
+	                        <p>A user account is needed to log into the Stewardship Portal. Click on the link above, download and complete the word document then email it to the <a href="mailto:tsdgis@tsilhqotin.ca ">Portal 
+	                      Administrator</a> to receive access to the portal.</p>
+				</li>
+	                  <li class="bodyText">
+					<p><a href="portal_docs/forestry_block-specific_information_document.doc"> Forestry Referral Block Info </a></p>
+	                        <p>Please complete and attach this to your main forestry referral submission.</p>
+				</li>
+	                  <li class="bodyText">
+					<p><a href="TSDTNGPhotographFieldSheet_revised.doc"> Photograph GPS Field Sheet </a></p>
+	                        <p>Print this form and take it to the field to document GPS Waypoints and photo numbers. </p>
+				</li>
+	
+	
+			</ol>
+		</p>
+ 	</div>
+	<div id="left" class="column">
     <?php
 		
  		if(isset($_SESSION['obj_login']))
@@ -49,49 +72,13 @@ session_start();
 		else
 			include_once('links_no_login.html');
 	?>
-  </div>  
-  <!-- end #sidebar1 -->
-  
-  <div id="sidebar3">
-	<?php include_once('links_sidebar_alternate.html');?>      
+  	</div> 
+  	<div id="right" class="column">
+		<?php include_once('links_sidebar_alternate.html');?>      
+  	</div>
+ </div> <!-- end container--> 
+  <div id="footer">
+		<?php include_once('links_footer.html');?></div>
   </div>
-  <!-- end #sidebar3 -->
-
-  <div id="mainContent">
-    <h1 class="pageName"> Document Downloads </h1>
-    <p class="bodyText">
-    	The documents below are available for download.
-    </p>
-	<p class="bodyText">
-		<ol>
-		      <li class="bodyText">
-				<p><a href="PortalUserLoginFields.doc"> Portal Access </a></p>
-                        <p>A user account is needed to log into the Stewardship Portal. Click on the link above, download and complete the word document then email it to the <a href="mailto:tsdgis@tsilhqotin.ca ">Portal 
-                      Administrator</a> to receive access to the portal.</p>
-			</li>
-                  <li class="bodyText">
-				<p><a href="portal_docs/forestry_block-specific_information_document.doc"> Forestry Referral Block Info </a></p>
-                        <p>Please complete and attach this to your main forestry referral submission.</p>
-			</li>
-                  <li class="bodyText">
-				<p><a href="TSDTNGPhotographFieldSheet_revised.doc"> Photograph GPS Field Sheet </a></p>
-                        <p>Print this form and take it to the field to document GPS Waypoints and photo numbers. </p>
-			</li>
-
-
-		</ol>
-	</p>
-  </div>
-	<!-- end #mainContent -->
-	<!-- This clearing element should immediately follow 
-    the #mainContent div in order to force the 
-    #container div to contain all child floats -->
-   <br class="clearfloat" />
-   <div id="footer">
-    <?php include_once('links_footer.html');?></div>
-   </div>
-  <!-- end #footer -->
-  </div>
-<!-- end #container -->
 </body>
 </html>
