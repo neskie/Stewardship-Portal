@@ -16,7 +16,7 @@ body {
 div#container {
   /* padding-left: 165px;   /* LC width */
   /* padding-right: 220px;  /* RC width */
-  padding-left: 13.5em;
+  padding-left: 12.5em;
   padding-right: 14.5em;
 }
 
@@ -36,10 +36,10 @@ div#container .column {
 
 #left{
 	/* width: 165px;*/
-	width: 13em;
+	width: 12.5em;
 	margin-left: -100%;
 	/*right: 182px; */ 
-	right: 15.5em;
+	right: 14.5em;
 }
 
 #right{
@@ -132,10 +132,9 @@ div#header h1{
 }
 
 div#footer{
-	background: #333;
-	color: #FFF;
 	clear:left;
 	width:100%;
+	background-color: #E0E0E0;
 }
 
 div#footer p{margin:0;padding:5px 10px}

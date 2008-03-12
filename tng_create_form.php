@@ -109,8 +109,9 @@ if($_SESSION['obj_login']->is_admin() == "false")
   	<div id="right" class="column">
   	  <?php include_once('links_sidebar2.html');?>    
   	</div>
-   <div id="footer">
-    <?php include_once('links_footer.html');?></div>
-  	</div>
+  </div>
+  <div id="footer">
+    <?php include_once('links_footer.html');?>
+  </div>
 </body>
 </html>
