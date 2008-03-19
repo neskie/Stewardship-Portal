@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<table id="nav" border="0" cellspacing="0" cellpadding="0" bgcolor="#5C743D">
+<table id="nav" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td >&nbsp;<br />
 		 &nbsp;<br /></td>

@@ -1,15 +1,15 @@
-/* 
+/*
 author:	alim karim
 name:		style-new.css
 
 */
 body {
- 	font:0.8em Verdana,Arial, Helvetica, sans-serif;
+ 	font:0.65em Verdana,Arial, Helvetica, sans-serif;
 	/*margin-left: 25em;
   	margin-right: 25em; */
   	padding: 0;
 	margin: 1.5em auto;
-  	width: 55em;
+  	width: 80em;
 }
 
 /* 3 column layout section */
@@ -44,7 +44,7 @@ div#container .column {
 
 #right{
 	/*width: 200px;*/
-	width: 15em;
+	width: 12.5em;
 	/*margin-right: -220px; /* same as padding-right for container div */
 	margin-right: -15em;	
 	/*border: groove;
@@ -57,14 +57,17 @@ div#container .column {
 /* make the left hand menu pretty */ 
 #nav td {
 	border-bottom: 1px solid #EBEBEB;
+	background-color: #5C743D;
 }
 	
 #nav a {
+	font-weight: bold;
 	color: #FFFFFF;
 	line-height:16px;
 	letter-spacing:.1em;
 	text-decoration: none;
 	display:block;
+	padding: 0.5em;
 	/*padding:8px 6px 10px 20px;*/
 }
 	
@@ -87,15 +90,10 @@ p{
 	margin: 0 0 0.5em 0;
 }
 
-td{
-	padding: 2px;
-	/*border:1px solid #DCDCDC; */
-}
-
 a{
 	display:block;
 	color: #981793;
-	padding:10px
+	padding:2px;
 }
 
 select, input, textarea{
@@ -107,7 +105,8 @@ select, input, textarea{
 }
 /* h1 classes */
 h1.pageName{
-	font: 18px Verdana, Arial, Helvetica, sans-serif;
+	/*font: 18px Verdana, Arial, Helvetica, sans-serif; */
+	font: bold 1.5em Verdana, Arial, Helvetica, sans-serif;;
 	color: #000000;
 	line-height:26px;
 	letter-spacing:.21em;
@@ -115,9 +114,10 @@ h1.pageName{
 }
 
 h1.subHeader {
-	font:bold 11px Arial, Helvetica, sans-serif;
+	/*font:bold 11px Arial, Helvetica, sans-serif;*/
+	font: bold 1.2em Verdana Arial, Helvetica, sans-serif;
 	color: #CC0000;
-	line-height:22px;
+	/*line-height:22px;*/
 	letter-spacing:.2em;
 }
 /* end h1 classes */	
@@ -174,19 +174,16 @@ div#map{width: 100%; height: 500px; border: 1px solid black;}
 }
 /* end dynamic form classes*/
 
-.th_search {
+#tbl_search_res th{
+	font: bold 0.9em Verdana Arial, Helvetica, sans-serif;
 	border:1px solid #DCDCDC;
 	background-color: #D5EDB3;
 	text-align: center;
 }
 
-.td_search, .td_search_center {
-	padding: 5px;
+#tbl_search_res td{
+	padding: 1px;
 	border:1px solid #DCDCDC;
-	text-align: left;
-}	
-
-.td_search_center {
-	text-align: left;
+	
 }
 

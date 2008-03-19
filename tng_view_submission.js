@@ -443,7 +443,7 @@ function handler_ajax_dislpay_form(){
 ///
 function handler_get_sub_children(){
 	if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-		populate_children(xmlHttp.responseText, 'tbl_sub_children');
+		populate_children(xmlHttp.responseText, 'tbl_search_res');
 	}
 }
 

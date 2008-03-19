@@ -75,28 +75,28 @@ var sub_id = -1;
 		<label style="width:100px" > <b> ID </b> </label>
 		<input type="text"
 				id="sub_id"
-				size="55"
+				size="35"
 				disabled="1"/>
 		<br/>
 
 		<label style="width:100px" > <b> Type </b> </label>
 		<input type="text"
 				id="sub_type"
-				size="55"
+				size="35"
 				disabled="1"/>
 		<br/>
 
 		<label style="width:100px" > <b> Title </b> </label>
 		<input type="text"
 				id="sub_title"
-				size="55"
+				size="35"
 				disabled="1"/>
 		<br/>
 
 		<label style="width:100px" > <b> Name </b> </label>
 		<input type="text"
 				id="sub_name"
-				size="55"/>
+				size="35"/>
 		<input type="button"
 				class="button"
 				value="Update Name"
@@ -114,7 +114,7 @@ var sub_id = -1;
 		<label style="width:100px" > <b> Submitted By </b> </label>
 		<input type="text"
 				id="sub_user"
-				size="55"
+				size="35"
 				disabled="1"/>
 		<br/>
 
@@ -129,7 +129,7 @@ var sub_id = -1;
 		<label style="width:100px" > <b> Date Submitted </b> </label>
 		<input type="text"
 				id="sub_date"
-				size="55"
+				size="35"
 				disabled="1"/>
 		<br/>
 	</p>
@@ -173,7 +173,7 @@ var sub_id = -1;
 		<br/>
 		<div id="search_results">
 			<br/>
-			<table id="tbl_sub_children"
+			<table id="tbl_search_res"
 					style="width: 90%; border-collapse: collapse;">
 				<tr class="th_search">
 					<th> ID </th>

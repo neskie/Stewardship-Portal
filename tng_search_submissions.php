@@ -186,7 +186,7 @@ include_once('tng_check_session.php');
 					style="display:none">
 					<br/>
 					<table id="tbl_search_res"
-							style="width: 90%; border-collapse: collapse;">
+							style="width: 90%; border-collapse: collapse;" width="100%">
 						<tr class="th_search">
 							<th> ID </th>
 							<th> Type </th>

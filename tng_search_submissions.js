@@ -107,7 +107,6 @@ function populate_results(xml, table_id){
 		// remaining cells
 		for(var j = 1; j < 8; j++){
 			cell = row.insertCell(j);
-			cell.setAttribute('class', 'td_search');
 			elt_value = "";
 			if(objects[i].childNodes[j].childNodes.length > 0)
 				elt_value = objects[i].childNodes[j].childNodes[0].nodeValue
