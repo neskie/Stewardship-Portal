@@ -19,23 +19,23 @@ body, p, td, th, ul, a {
 
 /* do not display the right and left menus or the
  header */
-#sidebar1, #sidebar2, #header {
+#left, #right, #header{
 	display: none;
 }
 
 /* resize labels since we have a bit more room to work with */
 .lbl_regular, .lbl_checkbox{
-	width: 35% !important;
+	/*width: 35% !important; */
 }
 
 /* resize text areas */
 .form_text_area, .txt_area_file_description{
 	/* width: 345px; */
-	width: 50% !important;
+	/*width: 50% !important;*/
 }
 
 /* the main div that is to be printed */
-#mainContent {
+#content {
 	width: 100%;
 	/* note the important argument here is necessary */
 	margin: 0 0 0 0 !important;
