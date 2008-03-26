@@ -146,6 +146,9 @@ class Fist_Conf_File_Generator{
 				$layer->set("connection", $this->dbconn->mapserver_conn_str);
 				$this->set_ms_data_string($layer, $this->viewable_layers[$i]);
 				$layer->setProjection($this->viewable_layers[$i]->layer_proj);
+				// added to allow getfeatureinfo requests on
+				// this layer via WMS
+				$layer->setMetaData("WMS_INCLUDE_ITEMS", "all");
 				// generate classes that this
 				// layer contains
 				$n_classes = count($this->viewable_layers[$i]->layer_classes);
