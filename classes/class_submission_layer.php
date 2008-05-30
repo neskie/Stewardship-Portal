@@ -11,7 +11,8 @@ notes:
 ---------------------------------------------------------------*/
 
 include_once('class_dbconn.php');
-include_once('class_submission_layer_class.php');
+// renamed mapserver class file
+include_once('class_ms_class.php');
 
 class Submission_Layer{
 	var $layer_id;
@@ -22,11 +23,13 @@ class Submission_Layer{
 	var $geom_type;
 	var $layer_proj;
 	var $layer_classes;
+	var $layer_ms_classitem; /* name of column which will be used as the mapserver classitem*/
 	var $dbconn;
 	var $ogr_bin; /* path to ogr2ogr executable */
+	
 	//
 	/// constructor
-	/// instantiate a submission file object
+	/// instantiate a submission layer object
 	///
 	function Submission_Layer($layer_id){
 		$this->ogr_bin = "/usr/local/bin/ogr2ogr";
@@ -50,13 +53,19 @@ class Submission_Layer{
 					. "tng_spatial_attribute_table.view_name, "
 					. "tng_spatial_data.pk_col_name, "
 					. "tng_spatial_data.geometry_type, "
-					. "tng_spatial_layer.proj_string "
+					. "tng_spatial_layer.proj_string, "
+					. "tng_spatial_attribute.attr_name "
 				. "FROM "
 					. "tng_spatial_layer "
 					. "INNER JOIN tng_spatial_attribute_table " 
 									. "ON tng_spatial_layer.attr_table_id = tng_spatial_attribute_table.attr_table_id "
 					. "INNER JOIN tng_spatial_data " 
-									."ON tng_spatial_attribute_table.spatial_table_id =  tng_spatial_data.spatial_table_id "
+									. "ON tng_spatial_attribute_table.spatial_table_id =  tng_spatial_data.spatial_table_id "
+					// note last clause is left join
+					// because not all schema may need
+					// CLASSITEMs
+					. "LEFT JOIN tng_spatial_attribute "
+									. "ON tng_spatial_attribute_table.ms_classitem_attr_id = tng_spatial_attribute.attr_id " 
 				. "WHERE "
 					. "tng_spatial_layer.layer_id = " . $this->layer_id;
 		
@@ -77,6 +86,7 @@ class Submission_Layer{
 		$this->geom_pk_col_name = pg_fetch_result($result, 0, 2);
 		$this->geom_type = pg_fetch_result($result, 0, 3);
 		$this->layer_proj= pg_fetch_result($result, 0, 4);
+		$this->layer_ms_classitem = strtolower(pg_fetch_result($result, 0, 'attr_name'));
 		
 		$this->dbconn->disconnect();
 		
@@ -144,40 +154,53 @@ class Submission_Layer{
 	/// get all child mapserver
 	/// classes associated with this
 	/// layer
+	/// ak - 2008.05.23
+	/// the db structure was changed to allow better
+	/// abstraction of mapserver classes and styles.
+	/// now, each schema is associated with a default
+	/// set of classes and each class in turn is
+	/// associated with one or more styles.
+	/// this structure will allow, in the future,
+	/// each layer to have its own definition of 
+	/// classes and styles (and not use default schema
+	/// wide class/styles). of course, this would mean
+	/// adding a table that links layerid <=> classid
+	/// and that table would be checked first to
+	/// load class definitions.
+	/// see http://trac.geoborealis.ca/ticket/23
+	/// for details.
 	///
 	function get_layer_classes(){
+	
+		// get classes associated with the schema 
+		// that this layer is based off of.
 		$sql_str = "SELECT "
-						. "class_id "
-					. "FROM "
-						. "tng_layer_ms_class "
-					. "WHERE "
-						. "layer_id = " . $this->layer_id;
-						
+							. "tng_attr_table_ms_class.ms_class_id "
+						. "FROM "
+							. "tng_spatial_layer "
+							. "INNER JOIN tng_attr_table_ms_class " 
+									. "ON tng_spatial_layer.attr_table_id = tng_attr_table_ms_class.attr_table_id "
+						. "WHERE "
+							. "tng_spatial_layer.layer_id = "  . $this->layer_id;
+							
 		$this->dbconn->connect();
-
 		$result = pg_query($this->dbconn->conn, $sql_str);
-
-		if(!$result){
-			echo "An error occurred while executing the query - " . $sql_str ." - " . pg_last_error($this->dbconn->conn);
-			$this->dbconn->disconnect();
-			return false;
-		}
-
 		// successfuly ran the query
 		// get classes and store them in the
 		// layer_classes array
 		$n_classes = pg_num_rows($result);
 		for($i = 0; $i < $n_classes; $i++){
-			$this->layer_classes[$i] =& new Submission_Layer_Class(pg_fetch_result($result, $i, 0));
+			$this->layer_classes[$i] =& new Mapserver_Class(pg_fetch_result($result, $i, 0));
 			if($this->layer_classes[$i] == NULL){
 				$this->dbconn->disconnect();
 				return false;
 			}
 		}
 		
-		$this->dbconn->disconnect();
+		//$this->dbconn->disconnect();
 
-		return true;				
+		return true;
+		
 	}
 	
 	///

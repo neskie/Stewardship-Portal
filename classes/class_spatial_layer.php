@@ -553,7 +553,10 @@ class SpatialLayer{
 			}else{
 				$layer_id = pg_fetch_result($result, 0, 0);
 				$this->dbconn->disconnect();
-				$symbol = "";
+				/* - no need to create a layer_ms_class
+				for each layer. see 
+				http://trac.geoborealis.ca/ticket/23 for details.
+				$symbol = "hatch_45_forward";
 				$symbol_size = "NULL";
 				// check if this is a point layer.
 				// if so, set the symbol as circle
@@ -611,7 +614,7 @@ class SpatialLayer{
 					$layer_id = -1;
 				}	
 				$this->dbconn->disconnect();
-				
+				*/
 			}
 		}
 		

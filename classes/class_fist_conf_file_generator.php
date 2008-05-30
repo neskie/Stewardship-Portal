@@ -17,6 +17,7 @@ desc:	to generate configuration files needed
 include_once('class_dbconn.php');
 include_once('class_login.php');
 include_once('class_submission_layer.php');
+include_once('domxml-php4-to-php5.php');
 
 dl('php_mapscript.so');
 
@@ -149,21 +150,44 @@ class Fist_Conf_File_Generator{
 				// added to allow getfeatureinfo requests on
 				// this layer via WMS
 				$layer->setMetaData("WMS_INCLUDE_ITEMS", "all");
+				// generate a CLASSITEM directive 
+				if($this->viewable_layers[$i]->layer_ms_classitem != "")
+					$layer->set("classitem", $this->viewable_layers[$i]->layer_ms_classitem);
+
 				// generate classes that this
 				// layer contains
 				$n_classes = count($this->viewable_layers[$i]->layer_classes);
 				for($j = 0; $j < $n_classes; $j++){
-					$class = ms_newClassObj($layer);
-					$class->set("name", $this->viewable_layers[$i]->layer_classes[$j]->class_name);
-					$class->setExpression($this->viewable_layers[$i]->layer_classes[$j]->class_expr);
-					$style = ms_newStyleObj($class);
-					$style->color->setRGB($this->viewable_layers[$i]->layer_classes[$j]->class_color_r,
-											$this->viewable_layers[$i]->layer_classes[$j]->class_color_g,
-											$this->viewable_layers[$i]->layer_classes[$j]->class_color_b);
-					if($this->viewable_layers[$i]->layer_classes[$j]->class_symbol != "")
-						$style->set("symbolname", $this->viewable_layers[$i]->layer_classes[$j]->class_symbol);
-					if($this->viewable_layers[$i]->layer_classes[$j]->class_symbol_size != "")
-						$style->set("size", $this->viewable_layers[$i]->layer_classes[$j]->class_symbol_size);
+					$ms_class_obj = ms_newClassObj($layer);
+					$ms_class_obj->set("name", $this->viewable_layers[$i]->layer_classes[$j]->name);
+					$ms_class_obj->setExpression($this->viewable_layers[$i]->layer_classes[$j]->expression);
+					foreach($this->viewable_layers[$i]->layer_classes[$j]->styles as $style){
+						$ms_style_obj = ms_newStyleObj($ms_class_obj);
+						$ms_style_obj->color->setRGB($style->color_r,
+															$style->color_g,
+															$style->color_b);
+						// set bg color
+						$ms_style_obj->backgroundcolor->setRGB($style->bgcolor_r,
+																		$style->bgcolor_g,
+																		$style->bgcolor_b);
+						// set outline color
+						$ms_style_obj->outlinecolor->setRGB($style->outlinecolor_r,
+																		$style->outlinecolor_g,
+																		$style->outlinecolor_b);
+						if($style->symbol_name != ""){
+							$ms_style_obj->set("symbolname", $style->symbol_name);
+							// check for valid size
+							if($style->symbol_size != "")
+								$ms_style_obj->set("size", $style->symbol_size);
+							// check for valid angle
+							if($style->angle != "")
+								$ms_style_obj->set("angle", $style->angle);
+							// check for valid width
+							if($style->width != "")
+								$ms_style_obj->set("width", $style->width);
+						}
+						
+					}
 				}
 			}
 		}
