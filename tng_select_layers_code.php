@@ -63,7 +63,8 @@ if(isset($_SESSION['obj_login'])){
 			// a new window
 			//$js_str = "window.open('http://142.207.69.203/fist/fistMain.php?site=" .$mapserv_name .  "'); ";
 			// switching to OL based viewer - see #13
-			$js_str = "window.open('http://geoborealis.ca:81/~akarim/openmap-trunk/openmap.php'); ";
+			//$js_str = "window.open('http://geoborealis.ca:81/fist/fistMain.php?site=" .$mapserv_name .  "'); ";
+			$js_str = "window.open('http://geoborealis.ca:81/~akarim/openmap-trunk/openmap-ext.php'); ";
 			echo $js_str;
 		}
 	}
@@ -85,10 +86,7 @@ function &get_conf_file_generator(){
 	// note: this object should be destroyed
 	// once the mapping agent is launched
 	if(!isset($_SESSION['fist_file_gen'])){
-		//$mapfile = "/home/karima/public_html/fist/sites/example_world/mapfiles/example_default.map";
-		//$layerconf_file = "/home/karima/public_html/fist/sites/example_world/config/layer-config.xml.bak";
-		//$mapservconf_file = "/home/karima/public_html/fist/config/map-service-config.xml";
-		$mapfile = "/opt/fist/sites/tng_portal/mapfiles/tng_portal.map";
+		$mapfile = "/home/akarim/public_html/openmap-trunk/openmap.map";
 		$layerconf_file = "/opt/fist/sites/tng_portal/config/layer-config.xml";
 		$mapservconf_file = "/opt/fist/config/map-service-config.xml";
 		global $mapserv_name;
