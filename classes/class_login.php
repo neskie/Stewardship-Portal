@@ -6,6 +6,14 @@ file:	class_login.php
 
 desc:	to validate and store permissions associated with a user
 		login.
+		
+		2008.07.31
+		added create_connection and destroy_connection methods.
+		these methods are called each time a db connection needs
+		to be setup. it removes the need to have dbconn persistently
+		store a connection object, which might be exposed when
+		the login object is stored as a session variable.
+		see http://trac.geoborealis.ca/ticket/28 
 ---------------------------------------------------------------*/
 include_once('class_dbconn.php');
 
@@ -24,13 +32,31 @@ class Login{
 	/// validate login
 	///
 	function Login($uname){
-		$this->dbconn = new DBConn();
-		if($this->dbconn == NULL)
-			die('Could not create connection object - class_login.php:23');
-		// connection successful
 		$this->uname = $uname;	
 	}
 	
+	///
+	/// create_connection()
+	/// connection setup. note that this method
+	/// should be called each time before 'connect'
+	/// is called
+	///
+	function create_connection(){
+		$this->dbconn =& new DBConn();
+		if($this->dbconn == NULL)
+			die('Could not create connection object');
+	}
+	
+	///
+	/// destroy_connection()
+	/// tear down connection by unsetting
+	/// dbconn member
+	///	 
+	function destroy_connection(){
+		//if($this->dbconn != null)
+		//	$this->dbconn->disconnect();
+		unset($this->dbconn);
+	}
 	///
 	/// validate_login()
 	/// check if username exists
@@ -49,15 +75,15 @@ class Login{
 					. "tng_user "
 				. "WHERE " 
 					. "uname ='". $this->uname	. "'";
-				
-		$this->dbconn->connect();
+		$this->create_connection();
+		$this->dbconn->connect();		
 		$result = pg_query($this->dbconn->conn, $sql_str);
 		
 		if(!$result){
 			echo "An error occurred while executing the query"
 				. pg_last_error($this->dbconn->conn) . "\n"
 				. $sql_str;
-			$this->dbconn->disconnect();
+			$this->destroy_connection();
 		}else{ // successfuly ran the query
 			// if no rows are found, then no match exists 
 			// for the provided user name.
@@ -78,6 +104,7 @@ class Login{
 			}
 		}
 		$this->dbconn->disconnect();
+		$this->destroy_connection();
 		return $validate;
 	}
 	
@@ -114,6 +141,7 @@ class Login{
 					. "WHERE "
 						. "tng_group_users.uid = "  . $this->uid . " ";
 
+		$this->create_connection();	
 		$this->dbconn->connect();
 		$result = pg_query($this->dbconn->conn, $sql_str);
 		if(!$result){
@@ -121,6 +149,7 @@ class Login{
 				. pg_last_error($this->dbconn->conn) . "\n"
 				. $sql_str;
 			$this->dbconn->disconnect();
+			$this->destroy_connection();
 		}else{ // successfuly ran the query
 			$n_groups = pg_num_rows($result);
 			for($i = 0; $i < $n_groups; $i++){
@@ -130,6 +159,7 @@ class Login{
 				}
 			}
 			$this->dbconn->disconnect();
+			$this->destroy_connection();
 		}
 		return $is_tng;
 	}

@@ -13,6 +13,17 @@ desc:	to generate configuration files needed
 			in
 			- generate the layer config xml file
 			- generate the mapservice-config xml file
+
+notes:
+		2008.07.31
+		since this is one of the classes whose instances
+		may be stored as session variables, we need to make
+		sure that the dbconn member does not persistently
+		point to a connection object - thus revealing
+		connection strings.
+		create_connection and destroy connection are 
+		introduced to accomplish this.
+		see http://trac.geoborealis.ca/ticket/28 for details
 ---------------------------------------------------------------*/
 include_once('class_dbconn.php');
 include_once('class_login.php');
@@ -44,10 +55,6 @@ class Fist_Conf_File_Generator{
 									$default_mapservconf_file,
 									$mapservice_name, 
 									$dest_dir){
-		$this->dbconn =& new DBConn();
-		if($this->dbconn == NULL)
-			die('Could not create connection object - class_login.php:23');
-		// connection successful
 		$this->viewable_layers = array();
 		$this->login = $login;
 		$this->dest_dir = $dest_dir;
@@ -60,6 +67,29 @@ class Fist_Conf_File_Generator{
 		$this->output_mapfile = $dest_dir . $rnd_prefix . "_" . basename($default_map_file);
 		$this->output_layerconf = $dest_dir . $rnd_prefix . "_layer-config.xml";
 		$this->output_mapservconf = $dest_dir . $rnd_prefix . "_map-service-config.xml";
+	}
+	
+	///
+	/// create_connection()
+	/// connection setup. note that this method
+	/// should be called each time before 'connect'
+	/// is called
+	///
+	function create_connection(){
+		$this->dbconn =& new DBConn();
+		if($this->dbconn == NULL)
+			die('Could not create connection object');
+	}
+	
+	///
+	/// destroy_connection()
+	/// tear down connection by unsetting
+	/// dbconn member
+	///	 
+	function destroy_connection(){
+		//if($this->dbconn != null)
+		//	$this->dbconn->disconnect();
+		unset($this->dbconn);
 	}
 	
 	///
@@ -86,6 +116,7 @@ class Fist_Conf_File_Generator{
 					. "WHERE "
 						. "tng_layer_permission.uid = " . $this->uid;
 		*/
+		$this->create_connection();
 		$this->dbconn->connect();
 
 		$result = pg_query($this->dbconn->conn, $sql_str);
@@ -93,6 +124,7 @@ class Fist_Conf_File_Generator{
 		if(!$result){
 			echo "An error occurred while executing the query - " . $sql_str ." - " . pg_last_error($this->dbconn->conn);
 			$this->dbconn->disconnect();
+			$this->destroy_connection();
 			return false;
 		}
 		
@@ -103,6 +135,7 @@ class Fist_Conf_File_Generator{
 			if($this->viewable_layers[$i] == NULL){
 				echo "could not create layer object";
 				$this->dbconn->disconnect();
+				$this->destroy_connection();
 				return false;
 			}
 			
@@ -111,6 +144,7 @@ class Fist_Conf_File_Generator{
 			if(!$this->viewable_layers[$i]->get_layer_classes()){
 					echo "could get layer classes";
 					$this->dbconn->disconnect();
+					$this->destroy_connection();
 					return false;
 			}
 		}
