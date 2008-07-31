@@ -85,9 +85,9 @@ function &get_conf_file_generator(){
 	// note: this object should be destroyed
 	// once the mapping agent is launched
 	if(!isset($_SESSION['fist_file_gen'])){
-		$mapfile = $_SESSION['app_config']->mapfile_path; //"/home/akarim/public_html/openmap-trunk/openmap.map";
-		$layerconf_file = $_SESSION['app_config']->layer_config_path; //"/opt/fist/sites/tng_portal/config/layer-config.xml";
-		$mapservconf_file = $_SESSION['app_config']->mapservice_config_path; //"/opt/fist/config/map-service-config.xml";
+		$mapfile = $_SESSION['app_config']->mapfile_path;
+		$layerconf_file = $_SESSION['app_config']->layer_config_path;
+		$mapservconf_file = $_SESSION['app_config']->mapservice_config_path;
 		$mapserv_name =  $_SESSION['app_config']->mapservice_name;
 		$output_dir = $_SESSION['app_config']->output_dir;
 		$fist_file_gen =& new Fist_Conf_File_Generator($_SESSION['obj_login'], 
