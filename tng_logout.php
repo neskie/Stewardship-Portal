@@ -14,5 +14,6 @@ desc:	webpage to log a user out of the TNG portal
 session_start();
 $_SESSION['obj_login'] = NULL;
 unset($_SESSION['obj_login']);
+unset($_SESSION['app_config']);
 echo "<META HTTP-EQUIV='Refresh' Content='0; URL=index.php'>";  
 ?>

@@ -8,6 +8,7 @@ desc:	contains the php code behind the tng_login.php page
 ---------------------------------------------------------------*/
 // includes
 include('classes/class_login.php');
+include('classes/class_app_config.php');
 session_start();
 ///
 /// main method
@@ -22,10 +23,12 @@ if(isset($_POST['uname']) && isset($_POST['passwd'])){
 			// set $this->permission here (func call)
 			// set session variable
 			unset($_SESSION['obj_login']);
+			unset($_SESSION['app_config']);
 			$_SESSION['obj_login'] = $login;
+			$_SESSION['app_config'] = new App_Config();
 			// go to list forms page
 			//header("Location: tng_list_forms.php");
-				echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_login_successful.php'>";  
+			echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_login_successful.php'>";  
 	}
 }
 ?>
