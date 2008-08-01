@@ -107,6 +107,21 @@ function &get_conf_file_generator(){
 	
 	return $_SESSION['fist_file_gen'];
 }
+
+
+///
+/// toggle_display_flag()
+///
+function toggle_display_flag(&$viewable_layers, $layer_id, $display){
+	$n_layers = count($viewable_layers);
+	for($i = 0; $i < $n_layers; $i++){
+		if($viewable_layers[$i]->layer_id == $layer_id){
+			$viewable_layers[$i]->set_display($display);
+			break;
+		}
+	}
+}
+
 ///
 /// generate_layer_xml()
 /// generate xml representation of
