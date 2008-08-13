@@ -94,7 +94,7 @@ class SpatialLayer{
 		// now loop through all the attribute tables,
 		// get a schema for each one and validate the
 		// layer.
-		$n_tables = count($attr_table_ids);
+		$n_tables = count($attr_table_ids);		
 		for($k = 0; $k < $n_tables; $k++){
 			$schema_match = true;
 			$this->attr_table_id = $attr_table_ids[$k];
@@ -222,7 +222,7 @@ class SpatialLayer{
 				. "WHERE "
 		     		. "tng_form_submission.form_submission_id  = " . $form_submission_id . " "
 					. "AND "
-					. "tng_spatial_data.geometry_type LIKE '%" . $geom_type . "%'";
+					. "POSITION(tng_spatial_data.geometry_type IN '" . $geom_type . "') > 0 ";
 					// note: if geom_type is "multilinestring", then doing a straight
 					// comparison (without the LIKE clause) will return no
 					// results, because tng_spatial_data.geometry_type
@@ -283,7 +283,7 @@ class SpatialLayer{
 					. "WHERE "
 						. "tng_form_submission.form_submission_id = " . $form_submission_id . " "
 						. "AND "
-						. "tng_spatial_data.geometry_type LIKE '%" . $geom_type . "%'";
+						. "POSITION(tng_spatial_data.geometry_type IN '" . $geom_type . "') > 0 ";
 		
 		$this->dbconn->connect();
 		
