@@ -202,7 +202,16 @@ function collect_form_data(&$form){
 			// along with the field_id.
 			// surround single quotes with '' so that they are
 			// escaped properly.
-			$form->set_field_value($field_id, str_replace("'", "''", $_POST[$post_variables[$i]]));
+			// 2008.08.21 - ak
+			// note that a backslash is added before a
+			// single quote as well. we need to get rid 
+			// of this.
+			// see http://trac.geoborealis.ca/ticket/33
+			// for details
+			$form->set_field_value($field_id, 
+									str_replace(Array("'", "\\"), 
+												Array("''", ""), 
+												$_POST[$post_variables[$i]]));
 		}
 	}
 	// now that all the post variables are dealt

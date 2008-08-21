@@ -179,6 +179,18 @@ class Form{
 	/// <form>
 	///
 	function generate_xml(){
+		// added this to properly escape ampersand.
+		//'&' is a reserved character in XML. if it
+		// is not escaped, the XML parser will throw
+		// an error.
+		// see http://trac.geoborealis.ca/ticket/33
+		// for details
+		$special_chars = Array("&", "<", ">", "'");
+		$escaped_chars = Array("&amp;",
+								"&lt;",
+								"&gt;",
+								"&apos;");
+
 		$xml_txt = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
 				 . "<form>\n"
 				 . "<form_id> " 		. $this->id . " </form_id>\n"
@@ -196,7 +208,8 @@ class Form{
 						. "<field_label_css_class>"	. $this->fields[$i]->label_css_class	. "</field_label_css_class>"
 						. "<field_css_class>" 		. $this->fields[$i]->css_class 			. "</field_css_class>"
 						. "<field_searchable>" 		. $this->fields[$i]->searchable			. "</field_searchable>"
-						. "<field_value>" 			. $this->fields[$i]->value				. "</field_value>"
+						. "<field_value>" 			. str_replace($special_chars, $escaped_chars, $this->fields[$i]->value)				
+							. "</field_value>"
 						. "</field>\n";
 		}
 		
@@ -498,7 +511,6 @@ class Form{
 							. $field->id . ", "
 							. "'" . $field->value . "' "
 						. ");";
-						
 		$result = pg_query($this->dbconn->conn, $sql_str);
 		
 		if(!$result){
