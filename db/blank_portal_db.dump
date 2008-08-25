@@ -4932,6 +4932,26 @@ CREATE TABLE geometry_columns (
 ALTER TABLE public.geometry_columns OWNER TO tng_admin;
 
 --
+-- Name: portal_config_variables; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE portal_config_variables (
+    id serial NOT NULL,
+    var_name character varying NOT NULL,
+    var_value character varying
+);
+
+
+ALTER TABLE public.portal_config_variables OWNER TO postgres;
+
+--
+-- Name: portal_config_variables_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('portal_config_variables', 'id'), 16, true);
+
+
+--
 -- Name: spatial_ref_sys; Type: TABLE; Schema: public; Owner: tng_admin; Tablespace: 
 --
 
@@ -5675,6 +5695,22 @@ COPY geometry_columns (f_table_catalog, f_table_schema, f_table_name, f_geometry
 	public	tng_spatial_polygon	the_geom	2	-1	MULTIPOLYGON	165238216	4	\N
 	public	events_small_poly	the_geom	2	-1	MULTIPOLYGON	165240198	4	\N
 	public	eaunits	the_geom	2	-1	MULTIPOLYGON	166242162	18	\N
+\.
+
+
+--
+-- Data for Name: portal_config_variables; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY portal_config_variables (id, var_name, var_value) FROM stdin;
+9	upload_path	tng_uploads
+10	mapfile_path	/raid/websites/openmap-trunk/openmap.map
+11	layer_config_path	/opt/fist/sites/tng_portal/config/layer-config.xml
+12	mapservice_config_path	/opt/fist/config/map-service-config.xml
+13	mapservice_name	TNG-Stewardship-Portal
+14	map_agent	openmap
+15	map_agent_launch_url	http://tngportal.ca/mapping/
+16	output_dir	/tmp/
 \.
 
 
@@ -9041,7 +9077,7 @@ COPY tng_submission_status (status_id, status_desc) FROM stdin;
 --
 
 COPY tng_user (uid, uname, passwd, fname, lname, email, active) FROM stdin;
-2	tng	98e1f311bb4350ed8fd6ba2560a9712f	admin	admin		t
+2	admin	98e1f311bb4350ed8fd6ba2560a9712f	admin	admin		t
 \.
 
 
@@ -9064,6 +9100,16 @@ ALTER TABLE ONLY tng_submission_permission
 
 
 ALTER INDEX public.pk_perm_id OWNER TO tng_admin;
+
+--
+-- Name: pk_portal_config_variables; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY portal_config_variables
+    ADD CONSTRAINT pk_portal_config_variables PRIMARY KEY (id);
+
+
+ALTER INDEX public.pk_portal_config_variables OWNER TO postgres;
 
 --
 -- Name: pk_tng_attr_table_ms_class; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
@@ -9621,6 +9667,28 @@ REVOKE ALL ON TABLE geometry_columns FROM tng_admin;
 GRANT ALL ON TABLE geometry_columns TO tng_admin;
 GRANT SELECT ON TABLE geometry_columns TO tng_readonly;
 GRANT INSERT,SELECT,UPDATE ON TABLE geometry_columns TO tng_readwrite;
+
+
+--
+-- Name: portal_config_variables; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE portal_config_variables FROM PUBLIC;
+REVOKE ALL ON TABLE portal_config_variables FROM postgres;
+GRANT ALL ON TABLE portal_config_variables TO postgres;
+GRANT SELECT ON TABLE portal_config_variables TO tng_readonly;
+GRANT INSERT,SELECT,UPDATE ON TABLE portal_config_variables TO tng_readwrite;
+GRANT ALL ON TABLE portal_config_variables TO tng_admin;
+
+
+--
+-- Name: portal_config_variables_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+REVOKE ALL ON TABLE portal_config_variables_id_seq FROM PUBLIC;
+REVOKE ALL ON TABLE portal_config_variables_id_seq FROM postgres;
+GRANT ALL ON TABLE portal_config_variables_id_seq TO postgres;
+GRANT INSERT,UPDATE ON TABLE portal_config_variables_id_seq TO tng_readwrite;
 
 
 --
