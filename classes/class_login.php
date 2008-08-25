@@ -121,7 +121,7 @@ class Login{
 	/// necessary to return a string and not a boolean
 	///
 	function is_admin(){
-		if($this->uname == "tng")
+		if($this->uname == "admin")
 			return "true";
 		else
 			return "false";
