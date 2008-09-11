@@ -75,7 +75,7 @@ if(isset($_SESSION['obj_login'])){
 			break;
 			// update name of submission
 			case "update_sub_name":
-				update_sub_name($_POST['sub_id'], str_replace("'", "''", $_POST['sub_name']));
+				update_sub_name($_POST['sub_id'], escape_special_chars($_POST['sub_name']));
 				// nothing echoed back. see method.
 			break;
 			// update name of submission
@@ -97,6 +97,19 @@ if(isset($_SESSION['obj_login'])){
 		}
 	}
 }
+
+///
+/// escape_special_chars()
+/// prepare a string for an sql statement by 
+/// escaping single quotes, backslashes, etc.
+///
+function escape_special_chars($str){
+	$search = array("'", "\\");
+	$replace = array("''", "");
+
+	return str_replace($search, $replace, $str);
+}
+
 ///
 /// get_sub_asignees()
 /// get the list of users

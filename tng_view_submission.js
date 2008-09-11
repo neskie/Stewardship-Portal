@@ -275,9 +275,6 @@ function ajax_dislpay_form(){
 ///
 function ajax_update_name(){
 	var new_name = document.getElementById('sub_name').value;
-	if(!check_special_chars(new_name)){
-		alert('The name cannot contain special characters');
-	}
 	if(new_name != ""){
 		create_http_request();
 		var post_params = "ajax_action=update_sub_name&sub_id=" + sub_id + "&sub_name=" + new_name;
