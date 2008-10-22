@@ -2,12 +2,19 @@
 /*---------------------------------------------------------------
 author:	alim karim
 date:	April 24, 2007
-file:	tng_manage_permissions.php
+file:	tng_assign_sub_perm.php
 
 desc:	webpage to give the user an interface to 
- 		manage permissions for various objects such
-		as layers, forms, etc.
+ 		allow/disallow other users and groups from viewing
+		this submission.
 		
+		the administrator can use this page on existing
+		submissions to grant/revoke viewing privileges
+
+		2008.10.21
+		changed layout of user list to use an EXT tree
+		control. see trac ticket #36 for details.
+			
 ---------------------------------------------------------------*/
 header('Pragma: no-cache'); 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
@@ -25,10 +32,16 @@ include_once('tng_check_session.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link href="style-new.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="ext-2.2/resources/css/ext-all.css" />
 <title>Assign Submission Permissions</title>
-<script src="prototype.js"> </script>
-<script src="tng_assign_sub_perm.js"> </script>
+
+<script type="text/javascript" src="ext-2.2/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="ext-2.2/ext-all.js"></script>
+<script type="text/javascript" src="tng_assign_sub_perm-ext.js"></script>
 <script type="text/javascript">
+	var is_new_sub;
+	var sub_id = -1;
+	var uid = -1;
 <?php
 	// make sure requests for this page are
 	// only coming from valid referrer pages that
@@ -52,6 +65,10 @@ include_once('tng_check_session.php');
 	echo "uid = " . $_SESSION['obj_login']->uid . ";";
 ?>
 </script>
+
+<script type="text/javascript">
+	Ext.onReady(assign_perm.app.init, assign_perm.app);
+</script>
 <!--[if IE]>
 <style type="text/css"> 
 /* place css fixes for all versions of IE in this conditional comment */
@@ -61,7 +78,7 @@ include_once('tng_check_session.php');
 </style>
 <![endif]-->
 </head>
-<body onLoad="populate_user_group_list($('user_group_list'));">
+<body>
 	<div id="header">
 			<?php include_once('top_div.html'); ?>
 	</div>	
@@ -76,11 +93,11 @@ include_once('tng_check_session.php');
 					that you would like to allow to see this submission.
 				</p>
 				<br/>
-				<ul  id="user_group_list" style="list-style-type: none;">
-					<!-- populated by ajax -->
-				</ul>
+				<div id="user_tree">
+				</div>
 				<br/>
-				<input type="button" class="button" onClick="submit_users($('user_checklist_form'))" value="Submit"/>
+				<!-- <input type="button" class="button" onClick="submit_users($('user_checklist_form'))" value="Submit"/> -->
+				<input type="button" class="button" onClick="assign_perm.app.submitUserList()" value="Submit"/>
 			</form>
 		</div>
 		<div id="left" class="column">

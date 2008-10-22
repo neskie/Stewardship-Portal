@@ -71,7 +71,9 @@ function get_groups($sub_id){
 		$groups[$i] = array(
 							"gid" => pg_fetch_result($result, $i, 'gid'),
 							"gname" => pg_fetch_result($result, $i, 'gname'),
-							"users" => get_group_users(pg_fetch_result($result, $i, 'gid'), $sub_id)
+							//"users" => get_group_users(pg_fetch_result($result, $i, 'gid'), $sub_id),
+							"children" => get_group_users(pg_fetch_result($result, $i, 'gid'), $sub_id)
+
 							);
 	}
 	
@@ -118,7 +120,8 @@ function get_group_users($gid, $sub_id){
 		$users[$i] = array(
 							"uid" => pg_fetch_result($result, $i, 'uid'),
 							"uname" => pg_fetch_result($result, $i, 'uname'),
-							"selected" => (pg_fetch_result($result, $i, 'selected') == "t") ? true:false,
+							"checked" => (pg_fetch_result($result, $i, 'selected') == "t") ? true:false,
+							"leaf" => true
 							);
 	}
 	$dbconn->disconnect();
