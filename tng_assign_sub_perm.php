@@ -37,7 +37,7 @@ include_once('tng_check_session.php');
 
 <script type="text/javascript" src="ext-2.2/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="ext-2.2/ext-all.js"></script>
-<script type="text/javascript" src="tng_assign_sub_perm-ext.js"></script>
+<script type="text/javascript" src="tng_assign_sub_perm.js"></script>
 <script type="text/javascript">
 	var is_new_sub;
 	var sub_id = -1;
