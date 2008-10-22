@@ -9,9 +9,15 @@ desc:	code behind submission rendering page.
 		objects. for each submission, it gets the
 		form object, the files and the spatial
 		layers associated with the submission
+
+notes:
+		2008.10.22
+		added ogr2ogr argument to submission layer constructor
+		call. the value is read from app_config session variable
 ---------------------------------------------------------------*/
 include_once('classes/class_form.php');
 include_once('classes/class_login.php');
+include_once('classes/class_app_config.php');
 include_once('classes/class_submission.php');
 
 session_start();
@@ -64,7 +70,8 @@ if(!isset($_POST['elt_selected'])){ // first time form is being loaded
 	// its own file and layer objects
 	$n_submissions = pg_num_rows($result);
 	for($i = 0; $i < $n_submissions; $i++){
-		$submissions[$i] = new Submission(pg_fetch_result($result, $i, 0));
+		$submissions[$i] = new Submission(pg_fetch_result($result, $i, 0), 
+										$_SESSION['app_config']->ogr2ogr_path);
 		if($submissions[$i] == NULL){
 			echo "could not create submission object";
 			return false;

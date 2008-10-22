@@ -24,6 +24,12 @@ notes:
 		create_connection and destroy connection are 
 		introduced to accomplish this.
 		see http://trac.geoborealis.ca/ticket/28 for details
+
+		2008.10.22
+		added ogr2ogr path as an argument to the Submission_Layer
+		constructor. the path is read from the app_config session
+		variable. see trac ticket #29 for details.
+
 ---------------------------------------------------------------*/
 include_once('class_dbconn.php');
 include_once('class_login.php');
@@ -131,7 +137,8 @@ class Fist_Conf_File_Generator{
 		$n_layers = pg_num_rows($result);
 		
 		for($i = 0; $i < $n_layers; $i++){
-			$this->viewable_layers[$i] =& new Submission_Layer(pg_fetch_result($result, $i, 0));
+			$this->viewable_layers[$i] =& new Submission_Layer(pg_fetch_result($result, $i, 0),
+															$_SESSION['app_config']->ogr2ogr_path);
 			if($this->viewable_layers[$i] == NULL){
 				echo "could not create layer object";
 				$this->dbconn->disconnect();

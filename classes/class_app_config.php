@@ -7,6 +7,9 @@ file:		class_app_config.php
 desc:		class to read and store application config
 			variables from db.
 notes:	
+		2008.10.22
+		added new variable - ogr2ogr_path to hold path to
+		ogr2ogr. see #29 for details.
 ---------------------------------------------------------------*/
 include_once('class_dbconn.php');
 
@@ -20,6 +23,7 @@ class App_Config{
 	var $map_agent;
 	var $map_agent_launch_url;
 	var $output_dir;
+	var $ogr2ogr_path;
 
 	///
 	/// constructor
@@ -73,6 +77,7 @@ class App_Config{
 		$this->map_agent = $vars["map_agent"];
 		$this->map_agent_launch_url = $vars["map_agent_launch_url"];
 		$this->output_dir = $vars["output_dir"];
+		$this->ogr2ogr_path = $vars["ogr2ogr_path"];
 		return true;
 	}
 }

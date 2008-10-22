@@ -6,9 +6,16 @@ file:	tng_download_sub_file.php
 
 desc:	code to download a file or a layer associated
 		with a submission.
+
+notes:
+		2008.10.22
+		added ogr2ogr path as a  variable to submission layer
+		constructor. see #29 for details.
+
 ---------------------------------------------------------------*/
 include_once('classes/class_login.php');
 include_once('classes/class_dbconn.php');
+include_once('classes/class_app_config.php');
 include_once('classes/class_submission_file.php');
 include_once('classes/class_submission_layer.php');
 // check session before anything
@@ -29,7 +36,8 @@ if(isset($_GET['type'])){
 		break;
 		
 		case "layer":
-			$sub_layer =& new Submission_Layer($obj_id);
+			$sub_layer =& new Submission_Layer($obj_id,
+											$_SESSION['app_config']->ogr2ogr_path);
 			if($sub_layer == NULL){
 				echo "could not create layer file object";
 				return;

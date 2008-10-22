@@ -7,7 +7,10 @@ file:	class_submission_layer.php
 desc:	abstraction of a spatial layer
 		uploaded with a submission
 
-notes:	
+notes:
+		2008.10.22
+		added ogr path as an argument to the class constructor,
+		rather than being hard coded in this file.
 ---------------------------------------------------------------*/
 
 include_once('class_dbconn.php');
@@ -31,8 +34,8 @@ class Submission_Layer{
 	/// constructor
 	/// instantiate a submission layer object
 	///
-	function Submission_Layer($layer_id){
-		$this->ogr_bin = "/usr/local/bin/ogr2ogr";
+	function Submission_Layer($layer_id, $ogr2ogr_path){
+		$this->ogr_bin = $ogr2ogr_path;
 		$this->layer_id = $layer_id;
 		$this->display = "false";
 		$this->layer_classes = array();
