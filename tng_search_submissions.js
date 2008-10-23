@@ -267,7 +267,9 @@ function ajax_detailed_search(){
 	// check which options are included
 	// and append them to the where clause
 	if(include_name && sub_name != "")
-		where_clause += "AND sub_name LIKE '%" + sub_name + "%' ";
+		// changed string to use JS escape function for percent sign.
+		// see #37 for details
+		where_clause += "AND sub_name LIKE '" + escape('%') + sub_name + escape('%') + "' ";
 	if(include_type && type_id != -1){
 		where_clause += "AND sub_type_id = " + type_id + " ";
 	}
@@ -282,8 +284,15 @@ function ajax_detailed_search(){
 	}
 	if(include_spec_field && spec_field_id != null){
 		var spec_field_value = escape_quotes(document.getElementById('spec_field_value').value);
+		// 2008.10.23
+		// mary pointed out that the specific field
+		// search was not working properly. this was
+		// due to the percent sign not being escaped
+		// properly. we use the JS escape function
+		// to accomplish this.
+		// see trac ticket #37 for details.
 		where_clause += "AND field_id = " + spec_field_id + " "
-					+ "AND field_value LIKE '%" + spec_field_value + "%' "
+					+ "AND field_value LIKE '" + escape('%') + spec_field_value + escape('%') + "' ";
 	}
 	
 	create_http_request();
