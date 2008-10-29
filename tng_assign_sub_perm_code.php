@@ -6,6 +6,11 @@ file:	tng_assign_sub_perm_code.php
 
 desc:	backend script to allow users to select
 		which additional users can see a submission
+
+notes:
+		2008.10.29
+		Added ORDER BY clause in get_groups to fetch 
+		groups in alphabetical order.
 ---------------------------------------------------------------*/
 include_once('classes/class_login.php');
 include_once('classes/class_dbconn.php');
@@ -57,7 +62,8 @@ function get_groups($sub_id){
 					. "gid, "
 					. "gname "
 				. "FROM "
-					. "tng_group ";
+					. "tng_group "
+				. "ORDER BY gname";
 					
 	$dbconn->connect();
 	$result = pg_query($dbconn->conn, $sql_str);
