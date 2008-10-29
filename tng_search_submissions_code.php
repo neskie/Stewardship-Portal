@@ -5,6 +5,13 @@ date:	June 21, 2007
 file:	tng_search_submissions_code.php
 
 desc:	code behind submission search page.
+
+notes:
+		2008.10.29
+		Changed function that returns specific searchable
+		fields on a form to query for the field label as
+		the text attribute, rather than the field name.
+		see #38 for details
 ---------------------------------------------------------------*/
 include_once('classes/class_login.php');
 include_once('classes/class_dbconn.php');
@@ -265,7 +272,7 @@ function &get_searchable_fields($form_id){
 	$fields = array();
 	$sql_str = "SELECT "
 					. "field_id, "
-					. "field_name "
+					. "field_label "
 				. "FROM "
 					. "tng_form_field "
 				. "WHERE "
@@ -287,7 +294,7 @@ function &get_searchable_fields($form_id){
 	// where the field name is the name and
 	// the field id is the value
 	for($i = 0; $i < $n_fields; $i++){
-			$fields[pg_fetch_result($result, $i, 'field_name')] = 
+			$fields[pg_fetch_result($result, $i, 'field_label')] = 
 							pg_fetch_result($result, $i, 'field_id');
 	}
 	return $fields;				
