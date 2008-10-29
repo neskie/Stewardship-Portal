@@ -1,3 +1,13 @@
+/*
+ * notes:
+ * 	2008.10.29
+ * 	added toString method to arguments that check for a group
+ * 	name (isDefaultOnGroup, isAdminGroup, etc) so that the group
+ * 	name is converted properly to a string. this problem was being
+ * 	caused by groups having names such as: 1_TNG, which aren't
+ * 	parsed right off the bat as strings.
+ *
+ */
 Ext.namespace('assign_perm');
 
 Ext.BLANK_IMAGE_URL = 'ext-2.2/resources/images/default/s.gif'
@@ -10,8 +20,8 @@ assign_perm.app = function (){
 	var isNewSubmission = true;
 	var backendURL = "tng_assign_sub_perm_code.php";
 	var treeDivID = "user_tree";
-	var adminGroups = ["tng"];
-	var defaultOnGroups = ["tng", "BCGovernment"] ;
+	var adminGroups = ["1_TNG"];
+	var defaultOnGroups = ["1_TNG", "BCGovernment"] ;
 	// list to hold user ids that are turned on in the tree
 	var checkedUIDList = new Array();
 	var treePanel;
@@ -67,7 +77,7 @@ assign_perm.app = function (){
 	/// in the defaultOnGroup array
 	///
 	var isDefaultOnGroup = function(groupName){
-		if(defaultOnGroups.indexOf(groupName) < 0)
+		if(defaultOnGroups.indexOf(groupName.toString()) < 0)
 			return false;
 		else
 			return true;
@@ -79,7 +89,7 @@ assign_perm.app = function (){
 	/// the adminGroup list
 	///
 	var isAdminGroup = function(groupName){
-		if(adminGroups.indexOf(groupName) < 0)
+		if(adminGroups.indexOf(groupName.toString()) < 0)
 			return false;
 		else
 			return true;
