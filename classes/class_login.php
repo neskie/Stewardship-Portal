@@ -153,7 +153,7 @@ class Login{
 		}else{ // successfuly ran the query
 			$n_groups = pg_num_rows($result);
 			for($i = 0; $i < $n_groups; $i++){
-				if(pg_fetch_result($result, $i, 'gname') == "tng"){
+				if(pg_fetch_result($result, $i, 'gname') == "1_TNG"){
 					$is_tng = true;
 					break;
 				}
