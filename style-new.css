@@ -91,7 +91,7 @@ p{
 }
 
 a{
-	display:block;
+	/*display:block; */
 	color: #981793;
 	padding:2px;
 }

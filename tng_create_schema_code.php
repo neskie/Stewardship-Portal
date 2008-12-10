@@ -172,7 +172,8 @@ function create_schema($schema_name, $geom_type, $n_fields, $post_vars){
 	if(($attr_table_id = create_schema_record($schema_name, $view_name, $geom_type, $fields)) != -1
 		&& create_physical_table($schema_name, $geom_type, $attr_table_id, $fields)
 		&& create_view($view_name, $schema_name, $geom_type, $fields)
-		&& grant_permissions($schema_name, $view_name))
+		&& grant_permissions($schema_name, $view_name)
+		&& associate_default_mapserv_class($attr_table_id, $geom_type))
 			$result = true;
 	return $result;
 }
@@ -452,6 +453,79 @@ function grant_permissions($table_name, $view_name){
 		$dbconn->disconnect();
 		return false;
 	}
+	return true;
+}
+
+///
+/// associate_default_mapserv_class()
+/// based on the type of schema this is, add an entry
+/// in tng_attr_table_ms_class so that this schema is
+/// associated with a default class.
+/// note that if the schema is not affiliated with any
+/// classes, then the data loaded using this schema will
+/// not be able to be displayed in the mapping agent
+///
+function associate_default_mapserv_class($attr_table_id, $geom_type){
+	// construct query based on geom_type to
+	// find out ID for the default class for 
+	// that geometry type
+	$sql_str = "SELECT "
+					. "id "
+				. "FROM "
+					. "tng_mapserver_class "
+				. "WHERE "
+					. "tng_mapserver_class.name = ";
+	
+	switch($geom_type){
+		case "polygon":
+			$sql_str = $sql_str . "'polygon default' ";
+		break;
+		case "line":
+			$sql_str = $sql_str . "'line default' ";
+		break;
+		case "point":
+			$sql_str = $sql_str . "'point default' ";
+		break;
+	}
+
+	// query to obtain the class id
+	$dbconn =& new DBConn();
+	$dbconn->connect();
+	$result = pg_query($dbconn->conn, $sql_str);
+
+	if(!$result){
+		echo "An error occurred while executing the query " . pg_last_error($dbconn->conn);
+		$dbconn->disconnect();
+		return false;
+	}
+	
+	$class_id = pg_fetch_result($result, 0, 'id');
+	$dbconn->disconnect();
+
+	// insert attr_table_id and class id
+	// into tng_attr_table_ms_class.
+	$sql_str = "INSERT INTO " 
+					. "tng_attr_table_ms_class "
+					. "( "
+						. "attr_table_id, "
+						. "ms_class_id"
+					. ") "
+					. "VALUES "
+					. "("
+						. $attr_table_id . ", "
+						. $class_id
+					. ") ";
+	$dbconn->connect();
+	$result = pg_query($dbconn->conn, $sql_str);
+
+	if(!$result){
+		echo "An error occurred while executing the query " . pg_last_error($dbconn->conn);
+		$dbconn->disconnect();
+		return false;
+	}
+	
+	$dbconn->disconnect();
+
 	return true;
 }
 
