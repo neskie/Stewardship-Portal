@@ -438,7 +438,9 @@ function grant_permissions($table_name, $view_name){
 	global $schema_creator_conn_str;
 	$sql_str = "GRANT SELECT ON " . $table_name . ", " . $view_name . " "
 				. "TO tng_readwrite, tng_readonly; "
-				. "GRANT INSERT ON " . $table_name . " "
+				. "GRANT SELECT ON " . $table_name . "_id_seq "
+				. "TO tng_readonly; "
+ 				. "GRANT INSERT ON " . $table_name . " "
 				. "TO tng_readwrite; "
 				. "GRANT SELECT, UPDATE ON " . $table_name . "_id_seq "
 				. "TO tng_readwrite; "
