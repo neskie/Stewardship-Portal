@@ -281,7 +281,11 @@ class Form{
 	/// which stores the list of files (spatial or
 	/// otherwise) which could not be loaded.
 	///
-	function save_form($uid, $pid, &$failed_files){
+	/// 2009.04.12
+	/// added fourth argument to hold list of files
+	/// that were uploaded successfully.
+	///
+	function save_form($uid, $pid, &$failed_files, &$successful_files){
 		$form_submission_id = -1;
 		$this->sub_pid = $pid;
 		// note that we do not perform a validation
@@ -348,7 +352,7 @@ class Form{
 		}	
 		$this->dbconn->disconnect();
 		$this->update_title($form_submission_id, $uid);
-		$this->save_files($form_submission_id, $failed_files);
+		$this->save_files($form_submission_id, $failed_files, $successful_files);
 		
 		return $form_submission_id;	
 	}
@@ -544,7 +548,11 @@ class Form{
 	/// names of the files that fail to load. this is information
 	/// needs to be passed on to the user.
 	///
-	function save_files($form_submission_id, &$failed_files){
+	///	2009.04.12
+	/// added fourth argument to hold list of files uploaded
+	/// successfully.
+	///
+	function save_files($form_submission_id, &$failed_files, &$successful_files){
 		$upload_path = "tng_uploads/";
 		$length = count($this->files);
 		
@@ -600,8 +608,10 @@ class Form{
 					array_push($failed_files, $this->files[$i][1]);
 					echo "the file " . $this->files[$i][1] . " could not be uploaded.<br>";
 				}
-				else
+				else{
 					$this->create_file_record($form_submission_id, $this->files[$i][1], $upload_path . $upload_name);
+					array_push($successful_files, $this->files[$i][1]);
+				}
 			}
 		}
 	}

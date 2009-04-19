@@ -185,6 +185,31 @@ function change_sub_perm(sub_id){
 }
 
 ///
+/// change_sub_notify_list
+/// go to the page which allows the administrator to modify the
+/// submission's notification list
+///
+function change_sub_notify_list(sub_id){
+	// issue ajax request to set the session
+	// variable which is checked on the
+	// assign_sub_perm page. once the
+	// request completes, redirect to the
+	// assign_sub_perm page		
+	new Ajax.Request(target_url, 
+					{
+  					method:'post',
+  					contentType: "application/x-www-form-urlencoded",
+  					parameters: {ajax_action: 'set_change_notification_session'},
+  					requestHeaders: {Accept: 'text/html'}, 
+					onSuccess: function(transport){
+    								window.location = "tng_sub_notify_list.php?sub_id=" + sub_id;
+ 								},
+  					onFailure: function (transport) { alert ("an error occurred."); }			
+					});
+
+}
+
+///
 /// ajax_refresh_lists()
 /// send call to clear all lists
 /// stored in session variable

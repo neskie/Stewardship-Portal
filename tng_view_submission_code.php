@@ -94,6 +94,12 @@ if(isset($_SESSION['obj_login'])){
 				$_SESSION['assign_sub_perm_referrer'] = "tng_view_submission.php";
 				// nothing echoed back.
 			break;
+			// set session variable before redirecting
+			// to assign_sub_permission
+			case "set_change_notification_session":
+				$_SESSION['change_notification_referrer'] = "tng_view_submission.php";
+				// nothing echoed back.
+			break;
 		}
 	}
 }

@@ -1,0 +1,28 @@
+Thank you %s for your submission to the TNG Portal.
+
+The ID for this Submission is %s.
+
+To identify who has been assigned to your file, enter %s on the 
+Find Submissions page at www.tngportal.ca. Then contact the
+person directly at 250-392-3918.
+
+The following files could not be loaded into the Portal.
+For any shapefiles, please ensure they match a valid schema.
+
+-------------------------------------------------------------------- 
+%s
+--------------------------------------------------------------------
+
+The following files were loaded successfully into the Portal:
+ 
+-------------------------------------------------------------------- 
+%s
+--------------------------------------------------------------------
+
+This email is for notification purposes only, please to not respond 
+to it.
+
+Thank you.
+
+The Tsilhqotin Stewardship Department.
+

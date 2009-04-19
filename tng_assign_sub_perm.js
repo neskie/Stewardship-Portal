@@ -392,7 +392,7 @@ assign_perm.app = function (){
 					if(/error/.test(transport.responseText))
 						alert(transport.responseText);
 					else
-						window.location = "tng_form_saved.php";
+						window.location = "tng_sub_notify_list.php?sub_id=" + submissionID;
 				},
 				failure: function(transport){
 					alert("An error occurred");

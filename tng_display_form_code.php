@@ -141,6 +141,7 @@ if(isset($_POST['ajax_action'])){ // receiving an AJAX request
 		// try to save the form
 		$parent_sub_id = -1;
 		$failed_files = array();
+		$successful_files = array();
 		// note that only an isset test 
 		// is not enough. the user may type
 		// something and then erase the value,
@@ -148,12 +149,14 @@ if(isset($_POST['ajax_action'])){ // receiving an AJAX request
 		// being submitted.
 		if(isset($_POST['parent_submission']) && $_POST['parent_submission'] != "")
 			$parent_sub_id = $_POST['parent_submission'];
-		if(($sub_id = $form->save_form($login->uid, $parent_sub_id, $failed_files)) != -1 ){
+		if(($sub_id = $form->save_form($login->uid, $parent_sub_id, $failed_files, $successful_files)) != -1 ){
 			//header("Location: tng_form_saved.html");
-			send_confirmation_email($sub_id, $parent_sub_id, $login, $failed_files);
+			//send_confirmation_email($sub_id, $parent_sub_id, $login, $failed_files);
 			// set session variable to hold failed files. these
 			// are reported on tng_form_saved.php.
 			$_SESSION['failed_files'] = $failed_files;
+			// set session variable to hold succesful files
+			$_SESSION['successful_files'] = $successful_files;
 			//echo "<META HTTP-EQUIV='Refresh' Content='0; URL=tng_form_saved.php'>";
 			// set session variable
 			// so that the target page is 

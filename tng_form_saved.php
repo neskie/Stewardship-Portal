@@ -6,6 +6,10 @@ file:	tng_login_successful.php
 
 desc:	webpage that will be displayed upon
 		successful login
+
+notes:	2009.04.19
+		Added list of successful files to be displayed on 
+		this page.
 ---------------------------------------------------------------*/
 header('Pragma: no-cache'); 
 header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
@@ -22,32 +26,48 @@ include_once('tng_check_session.php');
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="style-new.css" type="text/css" />
 <title>Form Saved</title>
-<script src="prototype.js"> </script>
+<link rel="stylesheet" type="text/css" href="ext-2.2/resources/css/ext-all.css" />
+<script type="text/javascript" src="ext-2.2/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="ext-2.2/ext-all-debug.js"></script>
 <script type="text/javascript">
 	var failed_files = new Array();
+	var successful_files = new Array();
 	<?php
 		// small snippet to set populate local array with 
 		// any files that failed to load into the portal.
-		foreach($_SESSION['failed_files'] as $file)
-			echo "failed_files.push('" . $file . "');\n";
-		
-		unset($_SESSION['failed_files']);	
+		if(isset($_SESSION['failed_files'])){
+			foreach($_SESSION['failed_files'] as $file)
+				echo "failed_files.push('" . $file . "');\n";
+			unset($_SESSION['failed_files']);		
+		}
+		// do the same for successful files
+		if(isset($_SESSION['successful_files'])){
+			foreach($_SESSION['successful_files'] as $file)
+				echo "successful_files.push('" . $file . "');\n";
+			unset($_SESSION['successful_files']);
+		}
 	?>
 	
 	///
 	/// init()
-	/// populate html failed file list
+	/// populate html failed and successful file list
 	/// from array
 	///
 	function init(){
-		for(var i = 0; i < failed_files.length; i++){
-			var li = new Element('li', {class: "bodyText"});
-			li.update(failed_files[i]);
-			$('failed_list').insert(li);
-		}
+		var domHelper = Ext.DomHelper;
+		for(var i = 0; i < successful_files.length; i++)
+			domHelper.append('successful_list', {tag: 'li', html: successful_files[i]});
+		
+		for(var i = 0; i < failed_files.length; i++)
+			domHelper.append('failed_list', {tag: 'li', html: successful_files[i]});
+		
 	}
 	
 </script>
+<script type="text/javascript">
+	Ext.onReady(init, this);
+</script>
+
 <!--[if IE]>
 <style type="text/css"> 
 /* place css fixes for all versions of IE in this conditional comment */
@@ -58,7 +78,7 @@ include_once('tng_check_session.php');
 <![endif]-->
 </head>
 
-<body onLoad="init()">
+<body>
 	<div id="header">
    	<?php include_once('top_div.html'); ?>
   	</div>
@@ -70,12 +90,37 @@ include_once('tng_check_session.php');
 	   	The form that you filled out was saved successfully.
 	   </p>
 		<p class="bodyText">
-			Any files listed below failed to load into the Portal. If the
-			list contains a shapefile, please make sure it matches a valid
-			schema in the Portal.
+			The following files were uploaded successfully into the Portal:
+			<br/>
+			<hr/>
+			<ul id="successful_list">
+				<!-- automatically populated -->
+			</ul>
+			<hr/>
+		</p>
+		<br/>
+		<p>
+			The following files were <b>NOT</b> uploaded into the Portal.  
+			If the list contains a shapefile, please make sure that shapefile 
+			matches a valid schema in the Portal.
+			<br/>
+			<br/>
+			You will be sent an email shortly that identifies the successfully uploaded 
+			and failed files, and identifies the Submission ID.  Please print or 
+			otherwise save the forthcoming email for your records.  That email will also be 
+			sent to recipients on the previous page’s notification list. 
+ 			<br/>
+			<br/>
+			Your next step is to review the information you submitted and, if this is a 
+			new referral, please create a Name for this submission.  Refer to the manual 
+			for step-by-step instructions.  (Find Submissions -> View Form Data and 
+			Find Submissions -> Update Name). 
+			<br/>
+			<hr/>
 			<ul id="failed_list">
 				<!-- automatically populated -->
 			</ul>
+			<hr/>
 		</p>
 	  </div>
 	  <div id="left" class="column">

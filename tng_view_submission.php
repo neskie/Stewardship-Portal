@@ -169,6 +169,17 @@ var sub_id = -1;
 	</p>
 	<hr/>
 	<p class="bodyText">
+		<?php
+			// if the administrator is logged
+			// in, allow them access to 
+			// sub_notiy_list page
+			if($_SESSION['obj_login']->is_admin() == "true")
+				echo "<a href='#form' onClick='change_sub_notify_list(sub_id)'> Change Notification List </a>";
+		?>
+	</p>
+
+	<hr/>
+	<p class="bodyText">
 		<b> Amendments </b>
 		<br/>
 		<div id="search_results">
