@@ -59,7 +59,7 @@ include_once('tng_check_session.php');
 			domHelper.append('successful_list', {tag: 'li', html: successful_files[i]});
 		
 		for(var i = 0; i < failed_files.length; i++)
-			domHelper.append('failed_list', {tag: 'li', html: successful_files[i]});
+			domHelper.append('failed_list', {tag: 'li', html: failed_files[i]});
 		
 	}
 	
