@@ -23,6 +23,10 @@ notes:	each element of the 'files' array contains two
 		submission id is passed it, the values will be null,
 		which is what we want anyway.
 		
+		2009.05.07
+		Added code to add succssfull shapefile upload to the
+		successful files list.
+		See #47 for details.		
 ---------------------------------------------------------------*/
 include_once('class_field.php');
 include_once('class_dbconn.php');
@@ -591,6 +595,8 @@ class Form{
 								echo "the shape file " 
 									. basename($this->files[$i][1]) 
 									. " could not be loaded";
+							}else{ // successfully uploaded the shapefile
+								array_push($successful_files, $this->files[$i][1]);
 							}	
 						}else{
 							array_push($failed_files, $this->files[$i][1]);
