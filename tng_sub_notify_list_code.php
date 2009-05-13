@@ -344,14 +344,14 @@ function sendNotificationEmail($subID, $pid){
 	$failed_files = "";
 	if(isset($_SESSION['failed_files'])){
 		foreach($_SESSION['failed_files'] as $failed_file)		
-			$failed_files = "- " . $failed_file . "\n";
+			$failed_files .= "- " . $failed_file . "\n";
 	}
 
 	// print list of successful files to be appended to the message
 	$successful_files = "";
 	if(isset($_SESSION['successful_files'])){
 		foreach($_SESSION['successful_files'] as $successful_file)		
-			$successful_files = "- " . $successful_file . "\n";
+			$successful_files .= "- " . $successful_file . "\n";
 	}
 	// messageTemplate is formatted to be fed into sprintf. it 
 	// requires the following arguments:
