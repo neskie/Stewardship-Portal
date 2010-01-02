@@ -35,6 +35,14 @@ if(isset($_GET['ajax_req'])){
 			$groups = get_groups($_GET['submission_id']);
 			echo  json_encode($groups);
 		break;
+		// ------------------- CLUDGE -------------------
+		case "check_community_name_checked":
+			$result = check_community_name_checked($_GET['submission_id'], $_GET['community_name']);
+			$resultTuple = array("communityName" => $_GET['community_name'], "isChecked" => $result);
+			echo json_encode($resultTuple);
+		break;
+		// ------------------- CLUDGE -------------------
+		
 	}
 }else if(isset($_POST['ajax_req'])){
 	switch($_POST['ajax_req']){
@@ -85,6 +93,48 @@ function get_groups($sub_id){
 	
 	return $groups;
 }
+
+/// ---------------------------- CLUDGE ------------------------
+///
+///	check_community_name_checked
+///	Check to see if a field containing community_name was
+/// submitted in this submission.
+/// 
+function check_community_name_checked($sub_id, $community_name){
+	$dbconn =& new DBConn();
+	$isChecked = false;
+	$sql_str = "SELECT "
+					. "form_submission_id "
+				. "FROM "
+					. "tng_field_submission "
+					. "INNER JOIN tng_form_field ON tng_field_submission.field_id = tng_form_field.field_id "
+				. "WHERE "
+					. "tng_field_submission.form_submission_id = " . $sub_id . " "
+					. "AND "
+					. "tng_form_field.field_name LIKE '%" . $community_name . "%' ";
+
+	$dbconn->connect();
+	$result = pg_query($dbconn->conn, $sql_str);
+	if(!$result){
+		echo "An error occurred while executing the query - " 
+			. $sql_str ." - " 
+			. pg_last_error($dbconn->conn);
+		$dbconn->disconnect();
+		return NULL;
+	}
+	
+	$n_results = pg_num_rows($result);
+	$dbconn->disconnect();
+	
+	if($n_results > 0)
+		$isChecked = true;
+
+	return $isChecked;
+
+	//return $isChecked ? "isChecked" : "notChecked";
+}
+
+/// ---------------------------- CLUDGE ------------------------
 
 ///
 /// get_group_users()

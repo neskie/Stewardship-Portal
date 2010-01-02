@@ -222,7 +222,77 @@ assign_perm.app = function (){
 				traverseTreeCollectCheckedUsers(children[nodeIndex]);
 		}
 	};
+	// ------------------ cludge --------------------------------------------
+	///
+	/// cludge_checkCommunityGroups
+	/// Given the static list of Community group 
+	/// names, check if any of these have been checked
+	/// off i.e. check the field_submissions for this
+	/// submission in the back end to determine if a field
+	/// containing a community name was checked in the form.
+	///
+	var cludge_checkCommunityGroups = function(groupList){
+		var communityNames = ["Alexandria", 
+							"Alexis Creek", 
+							"Anaham", 
+							"Nemiah", 
+							"Stone", 
+							"Toosey"];
 
+		// iterate through communities
+		for (var commIndex = 0; commIndex < communityNames.length; commIndex++){
+		// query to see if field was checked
+			Ext.Ajax.request({
+				url: backendURL,
+				method: 'GET',
+				scope: this,
+				params: { 
+					ajax_req: 'check_community_name_checked',
+					submission_id: submissionID,
+					community_name: communityNames[commIndex]
+				},
+				success: function(transport){
+					if(/error/.test(transport.responseText))
+						alert(transport.responseText);
+					else {
+						// The response is a tuple of the form:
+						// {community: Alexandria, isChecked: true}
+						// we need the community because this fuction
+						// is called from a scope in which communityNames[commIndex]
+						// is not accessible.
+						var response = Ext.util.JSON.decode(transport.responseText);
+						// if the field was checked,
+						if(response.isChecked){
+							// get the list of groups
+							var treeRoot = treePanel.root;
+							var groupList = treeRoot.childNodes;
+							// iterate through group list and find the group
+							// by name
+							for(groupIndex = 0; groupIndex < groupList.length; groupIndex++){
+								// get the group name
+								var groupName = groupList[groupIndex].attributes.gname;
+								// compare group name to the community field that 
+								// was checked.
+								if(groupName.toString() == response.communityName){
+									// turn all members of the group on
+									checkTreeNode(groupList[groupIndex], true);
+									disableTreeNode(groupList[groupIndex]);
+									// call the disableTreeNode function for each
+									// child (user) as well.
+									groupList[groupIndex].eachChild(disableTreeNode);
+								}
+							}
+						}
+					}
+				},
+				failure: function(transport){
+					alert("An error occurred");
+				}
+			});
+		}
+	};
+	// ------------------ cludge --------------------------------------------
+	
 	// ------------------ event handlers ------------------------------------
 	///
 	/// checkChangeEventHandler
@@ -282,6 +352,13 @@ assign_perm.app = function (){
 			// turn on the group that the user belongs to
 			// rootNode.childNodes is the array of groups
 			checkUsersGroup(rootNode.childNodes);
+			// ------------- CLUDGE ---------------------
+			// 2010.01.02 - akarim
+			// Turn on groups that represent Communities that
+			// have been 'checked' in the Form from which this
+			// Submission was made.
+			cludge_checkCommunityGroups();
+			// ------------- CLUDGE ---------------------
 		}else{
 			// for old submissions, there probably will be some
 			// permissions set up. go through the tree and if a
