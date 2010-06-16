@@ -1,10 +1,19 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr > 
     <td align="center" height="50"> 
-		102-383 Oliver Street | Williams Lake, 
-      BC | V2G 1M4 | Phone:250.392.3918<br />
-      Copyright 2007 | Tsilhqot'in National Government | 
-        <a href="mailto:tsdgis@tsilhqotin.ca">Email Portal Administrator</a>
+<?php $footer = $config["footer"] ;  
+$output = $footer["address"]." | ";
+$output .= $footer["city"].", ";
+$output .= $footer["prov"]." | ";
+$output .= $footer["postalcode"]." | ";
+$output .= $footer["phone"]."<br/>\n";
+
+print $output;
+$output = $footer["copyright"]." | ";
+$output .= $footer["organization"]." | ";
+$output .= "<a href=\"mailto:".$config["mail"]["admin"]."\">Portal Administrator</a>";
+print $output;
+?>
     </td>
   </tr>
 

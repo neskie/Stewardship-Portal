@@ -1,0 +1,15 @@
+<Files config.php>
+order allow,deny
+deny from all
+</Files>
+
+<Files config.ini>
+order allow,deny
+deny from all
+</Files>
+
+# to protect the .htaccess file itself:
+<Files .htaccess>
+order deny,allow
+deny from all
+</Files>

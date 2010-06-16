@@ -7,6 +7,7 @@
 <script type="text/javascript" src="js/script.js"></script>
 </head>
 
+<?php include_once('classes/config.php'); ?>
 <body>
 	<div id="header"><?php include_once('top_div.html'); ?></div>
 	<div id="container">	
