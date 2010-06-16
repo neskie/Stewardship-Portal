@@ -1,0 +1,17 @@
+*** Installation ***
+
+1. Create a database in Postgres.
+
+2. Create the following users in Postgres:
+
+   * tng_readonly
+   * tng_readwrite
+   * tng_schema_creator
+   * tng_admin
+
+3. Run the following scripts in the db directory:
+
+    i. tbl_tng_submission_permission.sql
+    ii. rblank_portal_db.dump
+
+4. Install dependincies.
