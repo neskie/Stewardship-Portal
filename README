@@ -1,0 +1,14 @@
+This is the Portal built originally built by Geobrealis (trac.geobrealis.ca).
+
+Dependencies
+
+ * php-ogr - http://dl.maptools.org/dl/php_ogr/php_ogr-1.1.1.tar.gz
+ * ext-2.2 > - http://www.extjs.com/
+   Ext 3.2 is in the source code repository, and the location will now live in js/ext for now.
+ * MapServer
+
+Documentation
+
+ * http://dl.maptools.org/dl/php_ogr/php_ogr_documentation.html
+ * http://www.paolocorti.net/2008/01/10/installing-mapserver-in-ubuntu/
+
