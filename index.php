@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="style-new.css" type="text/css" />
 <title>Stewardship Portal</title>
-
+<script type="text/javascript" src="js/script.js"></script>
 </head>
 
 <body>
